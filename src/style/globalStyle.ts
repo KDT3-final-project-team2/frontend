@@ -35,7 +35,6 @@ const GlobalStyles = createGlobalStyle`
     justify-content: center;
   };
   input {
-    display: flex;
     outline: none;
     &::placeholder {
       color: rgba(0, 0, 0, 0.2);
