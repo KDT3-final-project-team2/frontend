@@ -4,6 +4,5 @@ interface IApplicantSignUpData {
   lastName: string;
   firstName: string;
   birth: string;
-  gender: string;
   phoneNumber: string;
 }
