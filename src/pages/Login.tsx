@@ -1,37 +1,24 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { loginSchema } from './../utils/validationSchema';
 import { setCookie } from './../utils/cookie';
 import AlertModal from '../components/common/AlertModal';
 
-interface loginForm {
-  id: string;
-  pw: string;
-}
-
 const Login = () => {
   const navigate = useNavigate();
-  const schema = yup.object().shape({
-    id: yup
-      .string()
-      .required('아이디를 입력해주세요.')
-      .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/, '이메일 형식에 맞지 않습니다.'),
-    pw: yup
-      .string()
-      .required('비밀번호를 입력해주세요')
-      .min(8, '비밀번호는 8자리 이상 입력해주세요.')
-      .max(15, '비밀번호는 15자리 이하로 입력해주세요.')
-      .matches(/^[a-zA-Z0-9]{8,15}$/, '영문, 숫자를 모두 포함해야 합니다.'),
-  });
+  const [user, setUser] = useState<string>('지원자');
+  const [active, setActive] = useState([true, false]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm<loginForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
     mode: 'onChange',
   });
 
@@ -55,6 +42,20 @@ const Login = () => {
     }
   };
 
+  const handleApplicant = () => {
+    setActive([true, false]);
+    setUser('지원자');
+    resetField('id');
+    resetField('pw');
+  };
+
+  const handleCompany = () => {
+    setActive([false, true]);
+    setUser('기업');
+    resetField('id');
+    resetField('pw');
+  };
+
   return (
     <Container>
       <h1>로그인</h1>
@@ -64,6 +65,14 @@ const Login = () => {
           loginSubmit(data.id, data.pw);
         })}
       >
+        <UserType>
+          <span className={active[0] ? 'active' : ''} onClick={handleApplicant}>
+            지원자
+          </span>
+          <span className={active[1] ? 'active' : ''} onClick={handleCompany}>
+            기업
+          </span>
+        </UserType>
         <input type='text' id='id' placeholder='아이디' {...register('id')} />
         {errors?.id ? <Error>{errors.id?.message}</Error> : null}
         <input type='password' id='pw' placeholder='비밀번호' {...register('pw')} />
@@ -71,7 +80,11 @@ const Login = () => {
         <button type='submit'>로그인</button>
       </form>
       <Content>
-        <span onClick={() => navigate('/findpassword')}>회원가입</span>
+        {user === '지원자' ? (
+          <span onClick={() => navigate('/applicant/signup')}>회원가입</span>
+        ) : (
+          <span onClick={() => navigate('/company/signup')}>회원가입</span>
+        )}
       </Content>
     </Container>
   );
@@ -106,6 +119,24 @@ const Container = styled.div`
       font-size: 16px;
       font-weight: bold;
       border-radius: 5px;
+    }
+  }
+`;
+
+const UserType = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+  span {
+    width: 50%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-light-gray);
+    cursor: pointer;
+    &.active {
+      background: var(--color-primary);
+      color: #fff;
     }
   }
 `;

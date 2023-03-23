@@ -19,3 +19,8 @@ interface ICompanySignUpData {
   address: string;
   'address-detail': string;
 }
+
+interface loginForm {
+  id: string;
+  pw: string;
+}
