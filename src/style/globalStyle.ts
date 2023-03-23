@@ -6,9 +6,14 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
 
   :root {
-    --color-primary: #218de6;
-    --color-inactive: #7abbf0;
-    --color-point: #0ec9bd;
+    --color-primary-100: #4357AC;
+    --color-primary-050: #8294CD;
+    --color-primary-020: #B3C2E7;
+    --color-primary-010: #B3C2E7;
+    --color-inactive: #E2EFFF;
+    --color-yellow: #FFC847;
+    --color-red: #E95656;
+    --color-blue: #5A98E1;
     --color-back: #223f53;
     --color-light-gray: #F5F5F5;
   }

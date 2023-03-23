@@ -12,12 +12,11 @@ function App() {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route element={<Layout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-        </Route>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/applicant/signup' element={<ApplicantSignUp />} />
         <Route path='/company/signup' element={<CompanySignUp />} />
+        <Route element={<Layout />}></Route>
       </Routes>
     </BrowserRouter>
   );
