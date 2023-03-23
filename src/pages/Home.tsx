@@ -65,5 +65,5 @@ const Btn = styled.button`
   font-size: 18px;
   font-weight: 700;
   border-radius: 28px;
-  margin: 20px 0;
+  margin: 20px 0 25px;
 `;
