@@ -4,6 +4,8 @@ import Layout from './components/layouts';
 import GlobalStyle from './style/globalStyle';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ApplicantSignUp from './pages/ApplicantSignUp';
+import CompanySignUp from './pages/CompanySignUp';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
         </Route>
+        <Route path='/applicant/signup' element={<ApplicantSignUp />} />
+        <Route path='/company/signup' element={<CompanySignUp />} />
       </Routes>
     </BrowserRouter>
   );
