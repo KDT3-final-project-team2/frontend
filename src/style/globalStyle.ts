@@ -44,6 +44,16 @@ const GlobalStyles = createGlobalStyle`
     color: white;
     background-color: var(--color-point);
   }
+  .react-confirm-alert-overlay {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .react-confirm-alert {
+    background: #fff;
+    width: 30vw;
+    max-width: 350px;
+    min-width: 250px;
+    box-sizing: border-box;
+  }
 `;
 
 export default GlobalStyles;
