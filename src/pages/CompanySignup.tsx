@@ -140,14 +140,14 @@ const Form = styled.form`
 `;
 const Error = styled.div`
   font-size: 10px;
-  color: var(--color-point);
+  color: var(--color-red);
 `;
 
 const SubmitBtn = styled.button`
   height: 40px;
   width: 100px;
   padding: 5px;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-100);
   border-radius: 5px;
   color: var(--color-light-gray);
 `;
