@@ -19,8 +19,8 @@ const SearchAddress = ({ onClose, setValue }: ISearchAddressProps) => {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
-    setValue('zoneCode', zoneCode);
-    setValue('address', fullAddress);
+    setValue('zoneCode', zoneCode, { shouldValidate: true });
+    setValue('address', fullAddress, { shouldValidate: true });
   };
 
   return <DaumPostcode style={{ width: '500px', height: '450px' }} onComplete={handleComplete} autoClose />;
