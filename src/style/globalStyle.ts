@@ -21,6 +21,9 @@ const GlobalStyles = createGlobalStyle`
     font-family: "LineSeedKR", sans-serif;
     font-size: 14px;
   }
+  div, button{
+    box-sizing: border-box
+  }
   h1 {
     font-size: 32px;
     font-weight: bold;

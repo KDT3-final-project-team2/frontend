@@ -1,17 +1,19 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import LeftBar from './LeftBar';
 import RightBar from './RightBar';
 
 const Layout = () => {
+  const isSignUpPage = useLocation().pathname.includes('signup');
+
   return (
     <div style={{ position: 'relative' }}>
       <LeftBar />
       <MainSection>
         <Outlet />
       </MainSection>
-      <RightBar />
+      {!isSignUpPage ? <RightBar>{}</RightBar> : null}
     </div>
   );
 };

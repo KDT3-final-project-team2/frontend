@@ -15,11 +15,12 @@ function App() {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/applicant/signup' element={<ApplicantSignUp />} />
-        <Route path='/company/signup' element={<CompanySignUp />} />
+        <Route path='/' element={<Home />}>
+          <Route path='/login' element={<Login />} />
+        </Route>
         <Route element={<Layout />}>
+          <Route path='/company/signup' element={<CompanySignUp />} />
+          <Route path='/applicant/signup' element={<ApplicantSignUp />} />
           <Route path='/company' element={<CompanyMain />} />
           <Route path='/applicant' element={<ApplicantMain />} />
           <Route path='/admin' element={<AdminMain />} /> // admin관련 페이지들은 루트 경로 보호예정
