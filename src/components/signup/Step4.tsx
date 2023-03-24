@@ -12,7 +12,7 @@ const Step4 = ({ onClickNext, onClickBack, member }: IStepProps) => {
         <StepCheck checkStep={[false, false, false, true]} />
         <div style={{ fontSize: '30px' }}>가입성공!</div>
         <Link to='/login'>
-          <button>로그인페이지로 이동</button>
+          <LoginPageBtn>{member} 회원 로그인 </LoginPageBtn>
         </Link>
       </MainContainer>
     </>
@@ -21,6 +21,18 @@ const Step4 = ({ onClickNext, onClickBack, member }: IStepProps) => {
 
 const MainContainer = styled.div`
   width: 1000px;
+  margin: auto;
+`;
+
+const LoginPageBtn = styled.button`
+  width: 180px;
+  height: 40px;
+  padding: 8px 20px;
+  background: var(--color-primary-020);
+  border-radius: 20px;
+  font-size: 18px;
+  color: var(--color-primary-100);
+  font-weight: 700;
   margin: auto;
 `;
 

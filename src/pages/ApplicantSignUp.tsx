@@ -1,7 +1,6 @@
-import axios from 'axios';
-import Step1 from '../components/signup/Step1';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Step1 from '../components/signup/Step1';
 import Step2 from './../components/signup/Step2';
 import Step3 from './../components/signup/Step3';
 import Step4 from './../components/signup/Step4';

@@ -4,6 +4,7 @@ import SignUpPaginationButton from './SignUpPaginationButton';
 import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
 import ApplicantSignUpForm from './ApplicantSignUpForm';
+import CompanySignUpForm from './CompanySignUpForm';
 
 const Step2 = ({ onClickNext, onClickBack, member }: IStepProps) => {
   return (
@@ -11,7 +12,7 @@ const Step2 = ({ onClickNext, onClickBack, member }: IStepProps) => {
       <SignUpTitle member={member} />
       <MainContainer>
         <StepCheck checkStep={[false, true, false, false]} />
-        {member === '개인' ? <ApplicantSignUpForm /> : <div style={{ fontSize: '30px' }}>기업회원가입</div>}
+        {member === '개인' ? <ApplicantSignUpForm /> : <CompanySignUpForm />}
         <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} />
       </MainContainer>
     </>
