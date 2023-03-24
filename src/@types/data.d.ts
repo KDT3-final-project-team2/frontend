@@ -25,3 +25,23 @@ interface loginForm {
   id: string;
   pw: string;
 }
+
+type AlertType = {
+  message: string;
+  action?: any;
+};
+
+type ConfirmType = {
+  message: string;
+  action?: any;
+};
+
+interface UserInfoState {
+  email?: string;
+  companyName?: string;
+  businessNumber?: string;
+  name?: string;
+  birth?: string;
+  call?: string;
+  address?: string;
+}
