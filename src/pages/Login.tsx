@@ -120,7 +120,7 @@ const Container = styled.div`
       margin-top: 10px;
       height: 45px;
       box-sizing: border-box;
-      background-color: var(--color-primary);
+      background-color: var(--color-primary-100);
       color: #fff;
       font-size: 16px;
       font-weight: bold;
@@ -141,7 +141,7 @@ const UserType = styled.div`
     background: var(--color-light-gray);
     cursor: pointer;
     &.active {
-      background: var(--color-primary);
+      background: var(--color-primary-100);
       color: #fff;
     }
   }

@@ -48,7 +48,7 @@ const Alert = styled.div`
   button {
     width: 100%;
     height: 55px;
-    background: var(--color-primary);
+    background: var(--color-primary-100);
     color: #fff;
     font-weight: bold;
   }

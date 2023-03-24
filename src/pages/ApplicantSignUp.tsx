@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './../utils/validationSchema';
+import { applicantSignUpSchema } from './../utils/validationSchema';
 import axios from 'axios';
 
 const ApplicantSignUp = () => {
   const { register, handleSubmit, formState } = useForm<IApplicantSignUpData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(applicantSignUpSchema),
     mode: 'onChange',
   });
 
@@ -33,6 +33,10 @@ const ApplicantSignUp = () => {
       <label htmlFor='password'>비밀번호</label>
       <input id='password' type='password' {...register('password')} />
       <p style={{ margin: '10px 0', color: 'red' }}>{formState.errors.password?.message}</p>
+
+      <label htmlFor='confirmPassword'>비밀번호 확인</label>
+      <input type='password' id='confirmPassword' {...register('confirmPassword')} />
+      <p style={{ margin: '10px 0', color: 'red' }}>{formState.errors.confirmPassword?.message}</p>
 
       <label htmlFor='name'>이름</label>
       <div style={{ display: 'flex', gap: '5px' }}>

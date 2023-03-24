@@ -48,7 +48,7 @@ const Button = styled.div`
   button {
     width: 50%;
     height: 55px;
-    background: var(--color-primary);
+    background: var(--color-primary-100);
     color: #fff;
     font-weight: bold;
     :first-child {

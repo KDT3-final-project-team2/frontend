@@ -1,25 +1,32 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from './Header';
-import Nav from './Nav';
-import Sidebar from './Sidebar';
+import LeftBar from './LeftBar';
+import RightBar from './RightBar';
 
 const Layout = () => {
   return (
-    <>
-      <Header />
-      <Nav />
-      <Sidebar />
+    <div style={{ position: 'relative' }}>
+      <LeftBar />
       <MainSection>
         <Outlet />
       </MainSection>
-    </>
+      <RightBar />
+    </div>
   );
 };
 
 export default Layout;
 
 const MainSection = styled.main`
-  margin-top: 100px;
+  min-height: 100vh;
+  border-top-left-radius: 50px;
+  margin-left: 280px;
+  overflow: hidden;
+  background-color: white;
+  padding-left: 50px;
+  box-sizing: border-box;
+  @media (max-width: 1000px) {
+    margin-left: 0;
+  }
 `;
