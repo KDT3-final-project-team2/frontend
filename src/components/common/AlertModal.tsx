@@ -2,11 +2,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import styled from 'styled-components';
 
-type AlertType = {
-  message: string;
-  action?: any;
-};
-
 const AlertModal = ({ message, action }: AlertType) => {
   confirmAlert({
     customUI: ({ onClose }) => {
