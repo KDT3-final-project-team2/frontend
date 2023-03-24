@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const RightBar = () => {
-  return <RightBarComponent>RightBar</RightBarComponent>;
+const RightBar = ({ children }: { children: ReactNode }) => {
+  return <RightBarComponent>{children}</RightBarComponent>;
 };
 
 export default RightBar;
