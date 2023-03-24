@@ -63,3 +63,16 @@ export const companySignUpSchema = yup.object().shape({
     .max(5, '주소찾기 버튼을 통해 주소를 입력해 주세요.'),
   address: yup.string().required('주소는 필수 입력입니다.'),
 });
+
+export const loginSchema = yup.object().shape({
+  id: yup
+    .string()
+    .required('아이디는 필수 입력입니다.')
+    .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/, '이메일 형식에 맞지 않습니다.'),
+  pw: yup
+    .string()
+    .required('비밀번호는 필수 입력입니다.')
+    .min(8, '비밀번호는 최소 8자리 이상 입력해 주세요.')
+    .max(15, '비밀번호는 최대 15자리로 입력해 주세요.')
+    .matches(/^[a-zA-Z0-9]{8,15}$/, '영문자, 숫자를 조합하여 입력해주세요.'),
+});
