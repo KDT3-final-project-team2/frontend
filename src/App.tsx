@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
 import Layout from './components/layouts';
 import GlobalStyle from './style/globalStyle';
 import Home from './pages/Home';
@@ -9,11 +8,13 @@ import CompanySignUp from './pages/CompanySignUp';
 import CompanyMain from './pages/CompanyMain';
 import ApplicantMain from './pages/ApplicantMain';
 import AdminMain from './pages/AdminMain';
+import Loading from './components/common/Loading';
 
 function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
+      <Loading />
       <Routes>
         <Route path='/' element={<Home />}>
           <Route path='/login' element={<Login />} />

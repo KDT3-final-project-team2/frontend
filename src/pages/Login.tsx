@@ -6,9 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from './../utils/validationSchema';
 import { setCookie } from './../utils/cookie';
 import AlertModal from '../components/common/AlertModal';
+import { useAppDispatch } from '../hooks/useDispatchHooks';
+import { showLoading, hideLoading } from '../store/loadingSlice';
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [user, setUser] = useState<string>('지원자');
   const [active, setActive] = useState([true, false]);
 
@@ -26,6 +29,7 @@ const Login = () => {
     console.log(id, pw);
     //const res = await requestLogin(id, pw);
     try {
+      dispatch(showLoading());
       //AlertModal({
       //  message: '아이디 또는 비밀번호가 일치하지 않습니다.',
       //});
@@ -39,6 +43,8 @@ const Login = () => {
       AlertModal({
         message: '에러가 발생했습니다. 다시 시도해주세요.',
       });
+    } finally {
+      dispatch(hideLoading());
     }
   };
 
