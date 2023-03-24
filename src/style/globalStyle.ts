@@ -15,13 +15,13 @@ const GlobalStyles = createGlobalStyle`
     --color-red: #E95656;
     --color-blue: #5A98E1;
     --color-back: #223f53;
-    --color-light-gray: #F5F5F5;
+    --color-light-gray: #F5F5F5; 
   }
   body {
     font-family: "LineSeedKR", sans-serif;
     font-size: 14px;
   }
-  div, button{
+  div, section, button{
     box-sizing: border-box
   }
   h1 {
