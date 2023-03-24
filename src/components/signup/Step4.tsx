@@ -1,26 +1,27 @@
 import { IStepProps } from '../../@types/props';
 import styled from 'styled-components';
-import SignUpPaginationButton from './SignUpPaginationButton';
-import StepCheck from './StepCheck';
+import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
+import { Link } from 'react-router-dom';
 
 const Step4 = ({ onClickNext, onClickBack, member }: IStepProps) => {
   return (
     <>
       <SignUpTitle member={member} />
       <MainContainer>
-        <StepCheck />
+        <StepCheck checkStep={[false, false, false, true]} />
         <div style={{ fontSize: '30px' }}>가입성공!</div>
-        <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} />
+        <Link to='/login'>
+          <button>로그인페이지로 이동</button>
+        </Link>
       </MainContainer>
     </>
   );
 };
 
 const MainContainer = styled.div`
-  width: 500px;
+  width: 1000px;
   margin: auto;
-  text-align: center;
 `;
 
 export default Step4;

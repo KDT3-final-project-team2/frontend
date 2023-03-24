@@ -8,3 +8,17 @@ export interface IStepProps {
   onClickBack?: () => void;
   member?: string;
 }
+
+export interface IStepCheckTitle {
+  title: string;
+  line: boolean;
+  checkStep: boolean;
+}
+
+export interface IStepCheckProps {
+  checkStep: boolean[];
+}
+
+export interface IStepCheckColorProps {
+  checkStep: boolean;
+}

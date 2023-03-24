@@ -9,6 +9,7 @@ const Title = styled.h1`
   font-size: 34px;
   margin-left: 132px;
   margin-top: 104px;
+  margin-bottom: 20px;
 `;
 
 export default SignUpTitle;

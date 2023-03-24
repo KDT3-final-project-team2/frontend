@@ -1,7 +1,7 @@
 import { IStepProps } from '../../@types/props';
 import styled from 'styled-components';
 import SignUpPaginationButton from './SignUpPaginationButton';
-import StepCheck from './StepCheck';
+import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
 
 const Step1 = ({ onClickNext, onClickBack, member }: IStepProps) => {
@@ -9,7 +9,7 @@ const Step1 = ({ onClickNext, onClickBack, member }: IStepProps) => {
     <>
       <SignUpTitle member={member} />
       <MainContainer>
-        <StepCheck />
+        <StepCheck checkStep={[true, false, false, false]} />
         <div style={{ fontSize: '30px' }}>이용약관동의</div>
         <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} />
       </MainContainer>
@@ -18,9 +18,8 @@ const Step1 = ({ onClickNext, onClickBack, member }: IStepProps) => {
 };
 
 const MainContainer = styled.div`
-  width: 500px;
+  width: 1000px;
   margin: auto;
-  text-align: center;
 `;
 
 export default Step1;

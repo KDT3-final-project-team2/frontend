@@ -1,16 +1,17 @@
 import { IStepProps } from '../../@types/props';
 import styled from 'styled-components';
 import SignUpPaginationButton from './SignUpPaginationButton';
-import StepCheck from './StepCheck';
+import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
+import ApplicantSignUpForm from './ApplicantSignUpForm';
 
 const Step2 = ({ onClickNext, onClickBack, member }: IStepProps) => {
   return (
     <>
       <SignUpTitle member={member} />
       <MainContainer>
-        <StepCheck />
-        <div style={{ fontSize: '30px' }}>회원가입</div>
+        <StepCheck checkStep={[false, true, false, false]} />
+        {member === '개인' ? <ApplicantSignUpForm /> : <div style={{ fontSize: '30px' }}>기업회원가입</div>}
         <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} />
       </MainContainer>
     </>
@@ -18,9 +19,8 @@ const Step2 = ({ onClickNext, onClickBack, member }: IStepProps) => {
 };
 
 const MainContainer = styled.div`
-  width: 500px;
+  width: 1000px;
   margin: auto;
-  text-align: center;
 `;
 
 export default Step2;
