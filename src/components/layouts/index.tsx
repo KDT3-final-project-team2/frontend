@@ -32,9 +32,9 @@ const MainSection = styled.main`
   background-color: white;
   padding-left: 50px;
   box-sizing: border-box;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   z-index: 10;
   @media (max-width: 1000px) {
     left: 0;
