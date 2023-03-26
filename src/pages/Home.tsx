@@ -8,18 +8,18 @@ const Home = () => {
 
   return (
     <HomeComponent isLoginPage={isLoginPage}>
-      <div>
+      {/* <div>
         임시링크 : <Link to='/company'>병원 메인 대시보드 / </Link>
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
-      </div>
+      </div> */}
       <div style={{ display: 'flex', gap: '35px' }}>
         <img src='./src/assets/logo.svg' alt='로고' width='200' />
         <h1 style={{ fontSize: '71px', fontWeight: '700' }}>
           medi <br /> match
         </h1>
       </div>
-      <strong style={{ fontSize: '50px', fontWeight: '700' }}>병원 채용 진행을 한눈에!</strong>
+      <strong style={{ fontSize: '50px', fontWeight: '700', marginTop: '10px' }}>병원 채용 진행을 한눈에!</strong>
       <div
         style={{
           fontWeight: '400',

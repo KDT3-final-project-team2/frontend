@@ -10,7 +10,7 @@ const Layout = () => {
   const isSignUpPage = path.includes('signup');
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', height: '100%' }}>
       <LeftBar isSignUpPage={isSignUpPage} />
       <MainSection isSignUpPage={isSignUpPage}>
         <Outlet />

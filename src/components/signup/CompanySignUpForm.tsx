@@ -1,12 +1,32 @@
 import styled from 'styled-components';
-import SearchAddress from '../SearchAddress';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { companySignUpSchema } from '../../utils/validationSchema';
+import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 
 const CompanySignUpForm = () => {
-  const [openPostcode, setOpenPostcode] = useState(false);
+  const CURRENT_URL = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+  const open = useDaumPostcodePopup(CURRENT_URL);
+
+  const handleComplete = (data: Address) => {
+    let zoneCode = data.zonecode;
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setValue('zoneCode', zoneCode, { shouldValidate: true });
+    setValue('address', fullAddress, { shouldValidate: true });
+  };
 
   const { register, handleSubmit, formState, setValue } = useForm<ICompanySignUpData>({
     resolver: yupResolver(companySignUpSchema),
@@ -69,7 +89,7 @@ const CompanySignUpForm = () => {
           <label htmlFor='address'>주소</label>
           <input type='string' id='zoneCode' placeholder='우편번호' {...register('zoneCode')} />
           <Error>{formState.errors.zoneCode?.message?.toString()}</Error>
-          <button onClick={() => setOpenPostcode(true)}>주소 찾기</button>
+          <button onClick={() => open({ onComplete: handleComplete })}>주소 찾기</button>
 
           <input type='text' id='address' placeholder='주소를 입력해 주세요.' {...register('address')} />
           <Error>{formState.errors.address?.message?.toString()}</Error>
@@ -85,12 +105,6 @@ const CompanySignUpForm = () => {
           가입하기
         </SubmitBtn>
       </Form>
-
-      {openPostcode && (
-        <ModalWrapper onClick={() => setOpenPostcode(false)}>
-          <SearchAddress onClose={() => setOpenPostcode(false)} setValue={setValue} />
-        </ModalWrapper>
-      )}
     </Wrapper>
   );
 };
