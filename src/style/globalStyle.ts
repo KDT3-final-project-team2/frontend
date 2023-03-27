@@ -9,19 +9,19 @@ const GlobalStyles = createGlobalStyle`
     --color-primary-100: #4357AC;
     --color-primary-050: #8294CD;
     --color-primary-020: #B3C2E7;
-    --color-primary-010: #B3C2E7;
+    --color-primary-010: #E2EFFF;
     --color-inactive: #E2EFFF;
     --color-yellow: #FFC847;
     --color-red: #E95656;
     --color-blue: #5A98E1;
     --color-back: #223f53;
-    --color-light-gray: #F5F5F5;
+    --color-light-gray: #F5F5F5; 
   }
   body {
     font-family: "LineSeedKR", sans-serif;
     font-size: 14px;
   }
-  div, button{
+  div, section, button{
     box-sizing: border-box
   }
   h1 {
