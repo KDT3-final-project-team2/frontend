@@ -2,24 +2,25 @@ import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import RightBar from '../components/layouts/RightBar';
+import logo from '../assets/logo.svg';
 
 const Home = () => {
   const isLoginPage = useLocation().pathname === '/login';
 
   return (
     <HomeComponent isLoginPage={isLoginPage}>
-      <div>
+      <div style={{ position: 'fixed', left: 0 }}>
         임시링크 : <Link to='/company'>병원 메인 대시보드 / </Link>
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
       </div>
-      <div style={{ display: 'flex', gap: '35px' }}>
-        <img src='./src/assets/logo.svg' alt='로고' width='200' />
-        <h1 style={{ fontSize: '71px', fontWeight: '700' }}>
+      <div style={{ display: 'flex', gap: '11px', marginBottom: '40px' }}>
+        <img src={logo} alt='로고' width='87' />
+        <h1 style={{ fontSize: '32px', fontWeight: '700' }}>
           medi <br /> match
         </h1>
       </div>
-      <strong style={{ fontSize: '50px', fontWeight: '700', marginTop: '10px' }}>병원 채용 진행을 한눈에!</strong>
+      <strong style={{ fontSize: '50px', fontWeight: '700', marginBottom: '15px' }}>병원 채용 진행을 한눈에!</strong>
       <div
         style={{
           fontWeight: '400',
@@ -77,7 +78,7 @@ const HomeComponent = styled.div`
 const Btn = styled.button`
   padding: 8px 50px;
   border-radius: 5px;
-  background-color: var(--color-primary-020);
+  background-color: var(--color-yellow);
   color: var(--color-primary-100);
   font-size: 18px;
   font-weight: 700;
