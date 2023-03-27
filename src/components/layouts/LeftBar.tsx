@@ -48,11 +48,11 @@ const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
 export default LeftBar;
 
 const LeftBarComponent = styled.section`
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
+  height: 100%;
   width: 330px;
-  height: 100vh;
   background-color: var(--color-primary-100);
   color: #f2f9fe;
   font-size: 20px;

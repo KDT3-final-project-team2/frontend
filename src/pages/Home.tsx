@@ -19,7 +19,7 @@ const Home = () => {
           medi <br /> match
         </h1>
       </div>
-      <strong style={{ fontSize: '50px', fontWeight: '700' }}>병원 채용 진행을 한눈에!</strong>
+      <strong style={{ fontSize: '50px', fontWeight: '700', marginTop: '10px' }}>병원 채용 진행을 한눈에!</strong>
       <div
         style={{
           fontWeight: '400',

@@ -10,7 +10,7 @@ const Layout = () => {
   const isSignUpPage = path.includes('signup');
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', height: '100%' }}>
       <LeftBar isSignUpPage={isSignUpPage} />
       <MainSection isSignUpPage={isSignUpPage}>
         <Outlet />
@@ -30,7 +30,7 @@ const MainSection = styled.main`
   border-top-left-radius: 50px;
   overflow: hidden;
   background-color: white;
-  padding-left: 50px;
+  /* padding-left: 50px; */
   box-sizing: border-box;
   /* display: flex;
   justify-content: center;
