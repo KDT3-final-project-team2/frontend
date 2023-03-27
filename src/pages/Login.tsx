@@ -1,25 +1,24 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginSchema } from './../utils/validationSchema';
-import { setCookie } from './../utils/cookie';
+import { loginSchema } from '../utils/validationSchema';
+import { setCookie } from '../utils/cookie';
 import AlertModal from '../components/common/AlertModal';
 import { useAppDispatch } from '../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../store/loadingSlice';
+import google from '../assets/google.svg';
+import kakao from '../assets/kakao.svg';
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [user, setUser] = useState<string>('지원자');
-  const [active, setActive] = useState([true, false]);
+  const userType = useOutletContext<IuserType>();
+  console.log(userType.userType);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    resetField,
   } = useForm<loginForm>({
     resolver: yupResolver(loginSchema),
     mode: 'onChange',
@@ -48,50 +47,51 @@ const Login = () => {
     }
   };
 
-  const handleApplicant = () => {
-    setActive([true, false]);
-    setUser('지원자');
-    resetField('id');
-    resetField('pw');
-  };
-
-  const handleCompany = () => {
-    setActive([false, true]);
-    setUser('기업');
-    resetField('id');
-    resetField('pw');
-  };
-
   return (
     <Container>
-      <h1>로그인</h1>
+      {userType.userType === '지원자' ? <h3>일반 회원 로그인</h3> : <h3>병원 회원 로그인</h3>}
       <form
         onSubmit={handleSubmit(data => {
           console.log(data);
           loginSubmit(data.id, data.pw);
         })}
       >
-        <UserType>
-          <span className={active[0] ? 'active' : ''} onClick={handleApplicant}>
-            지원자
-          </span>
-          <span className={active[1] ? 'active' : ''} onClick={handleCompany}>
-            기업
-          </span>
-        </UserType>
-        <input type='text' id='id' placeholder='아이디' {...register('id')} />
+        <input type='text' id='id' placeholder='이메일을 입력해주세요.' {...register('id')} />
         {errors?.id ? <Error>{errors.id?.message}</Error> : null}
-        <input type='password' id='pw' placeholder='비밀번호' {...register('pw')} />
+        <input type='password' id='pw' placeholder='비밀번호를 입력해주세요.' {...register('pw')} />
         {errors?.pw ? <Error>{errors.pw?.message}</Error> : null}
-        <button type='submit'>로그인</button>
+        <button type='submit'>로그인하기</button>
+        <SnsBtn>
+          <div
+            onClick={() =>
+              AlertModal({
+                message: '준비중입니다.',
+              })
+            }
+          >
+            <img src={google} width='18px' height='18px' />
+            Google 로그인
+          </div>
+          <div
+            onClick={() =>
+              AlertModal({
+                message: '준비중입니다.',
+              })
+            }
+          >
+            <img src={kakao} width='30px' height='30px' />
+            카카오 로그인
+          </div>
+        </SnsBtn>
+        <p>
+          메디매치가 처음이라면?
+          {userType.userType === '지원자' ? (
+            <Link to='/applicant/signup'>회원가입</Link>
+          ) : (
+            <Link to='/company/signup'>회원가입</Link>
+          )}
+        </p>
       </form>
-      <Content>
-        {user === '지원자' ? (
-          <span onClick={() => navigate('/applicant/signup')}>회원가입</span>
-        ) : (
-          <span onClick={() => navigate('/company/signup')}>회원가입</span>
-        )}
-      </Content>
     </Container>
   );
 };
@@ -101,48 +101,79 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 350px;
+  width: 300px;
   margin: 0 auto;
+  padding-top: 140px;
+  h3 {
+    color: #000;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 45px;
+  }
   form {
     width: 100%;
-    padding: 30px 0px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     input {
-      height: 40px;
-      padding: 5px 10px;
+      height: 50px;
+      padding: 5px 20px;
       box-sizing: border-box;
-      border: 1px solid #ddd;
-      border-radius: 5px;
+      border: 1px solid #000;
+      border-radius: 50px;
+      font-weight: bold;
+      :placeholder {
+        color: #a7a7a7;
+      }
     }
     button {
-      margin-top: 10px;
-      height: 45px;
+      height: 50px;
       box-sizing: border-box;
       background-color: var(--color-primary-100);
       color: #fff;
       font-size: 16px;
       font-weight: bold;
-      border-radius: 5px;
+      border-radius: 50px;
+      position: relative;
+    }
+    p {
+      color: #4b5563;
+      margin: 10px 0 5px;
+      a {
+        color: #4b5563;
+        font-weight: bold;
+        margin-left: 5px;
+      }
     }
   }
 `;
 
-const UserType = styled.div`
+const SnsBtn = styled.div`
   display: flex;
-  margin-bottom: 10px;
-  span {
-    width: 50%;
+  flex-direction: column;
+  gap: 15px;
+  div {
     height: 50px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--color-light-gray);
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #000;
     cursor: pointer;
-    &.active {
-      background: var(--color-primary-100);
-      color: #fff;
+    color: #000;
+    &:last-child {
+      background-color: #ffc847;
+      border: none;
+      color: #000;
+    }
+    img {
+      left: 20px;
+      position: absolute;
     }
   }
 `;
@@ -152,13 +183,6 @@ const Error = styled.span`
   color: #e62135;
   margin-top: 5px;
   padding-left: 3px;
-`;
-
-const Content = styled.div`
-  display: flex;
-  span {
-    cursor: pointer;
-  }
 `;
 
 export default Login;
