@@ -6,13 +6,22 @@ import SignUpTitle from './SignUpTitle';
 import ApplicantSignUpForm from './ApplicantSignUpForm';
 import CompanySignUpForm from './CompanySignUpForm';
 
-const Step2 = ({ onClickNext, onClickBack, member }: IStepProps) => {
+const Step2 = ({ onClickNext, onClickBack, member, register, handleSubmit, formState, setValue }: IStepProps) => {
   return (
     <>
       <SignUpTitle member={member} />
       <MainContainer>
         <StepCheck checkStep={[false, true, false, false]} />
-        {member === '개인' ? <ApplicantSignUpForm /> : <CompanySignUpForm />}
+        {member === '개인' ? (
+          <ApplicantSignUpForm />
+        ) : (
+          <CompanySignUpForm
+            register={register}
+            handleSubmit={handleSubmit}
+            formState={formState}
+            setValue={setValue}
+          />
+        )}
         <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} />
       </MainContainer>
     </>

@@ -4,10 +4,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { companySignUpSchema } from '../../utils/validationSchema';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import { ICompanySignUpFormProps } from '../../@types/props';
+import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
 
-const CompanySignUpForm = () => {
-  const CURRENT_URL = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-  const open = useDaumPostcodePopup(CURRENT_URL);
+const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ICompanySignUpFormProps) => {
+  const open = useDaumPostcodePopup(postcodeScriptUrl);
 
   const handleComplete = (data: Address) => {
     let zoneCode = data.zonecode;
@@ -27,11 +28,6 @@ const CompanySignUpForm = () => {
     setValue('zoneCode', zoneCode, { shouldValidate: true });
     setValue('address', fullAddress, { shouldValidate: true });
   };
-
-  const { register, handleSubmit, formState, setValue } = useForm<ICompanySignUpData>({
-    resolver: yupResolver(companySignUpSchema),
-    mode: 'onChange',
-  });
 
   const onValid = (data: ICompanySignUpData) => {
     const { companyName, representative, companyNum, email, password, confirmPassword, contact, zoneCode } = data;

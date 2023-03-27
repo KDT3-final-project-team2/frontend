@@ -30,7 +30,7 @@ const MainSection = styled.main`
   border-top-left-radius: 50px;
   overflow: hidden;
   background-color: white;
-  padding-left: 50px;
+  /* padding-left: 50px; */
   box-sizing: border-box;
   /* display: flex;
   justify-content: center;
