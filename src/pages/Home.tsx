@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import RightBar from '../components/layouts/RightBar';
-import logo from '../assets/logo.svg';
-import loginImage from '../assets/images/loginImage.png';
+import Logo from '../assets/Logo.svg';
 
 const Home = () => {
   const isLoginPage = useLocation().pathname === '/login';
+  const [userType, setUserType] = useState('');
 
   return (
     <HomeComponent isLoginPage={isLoginPage}>
@@ -15,51 +15,37 @@ const Home = () => {
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
       </div>
-      <div style={{ display: 'flex', gap: '11px', marginBottom: '40px' }}>
-        <img src={logo} alt='로고' width='87' />
-        <h1 style={{ fontSize: '32px', fontWeight: '700' }}>
-          medi <br /> match
-        </h1>
-      </div>
-      {isLoginPage ? <img src={loginImage} alt='로그인 이미지' style={{ marginBottom: '40px' }} /> : null}
-      <strong style={{ fontSize: '50px', fontWeight: '700', marginBottom: '15px' }}>병원 채용 진행을 한눈에!</strong>
-      <div
-        style={{
-          fontWeight: '400',
-          fontSize: '20px',
-          lineHeight: '34px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          marginBottom: '20px',
-        }}
-      >
-        <p>메디매치를 통해 병원 채용 관리자도! 입사지원자도! </p>
-        <p>채용 진행 과정을 한눈에 한번에 확인하세요</p>
-      </div>
-      {!isLoginPage ? (
-        <>
-          <Link to='login' style={{ color: '#4357AC', fontWeight: 700 }}>
-            <Btn>로그인</Btn>
+      {isLoginPage ? <img src={Logo} width='230px' height='65px' /> : <img src={Logo} width='230px' height='160px' />}
+      {isLoginPage ? <img src='src/assets/loginContent.png' /> : null}
+      <strong>병원 채용 진행을 한눈에!</strong>
+      <TextContent isLoginPage={isLoginPage}>
+        <p>
+          메디매치를 통해 병원 채용 관리자도! 입사지원자도! <br />
+          채용 진행 과정을 한눈에 한번에 확인하세요
+        </p>
+      </TextContent>
+      {isLoginPage ? null : (
+        <LoginContent>
+          <Link to='/login'>
+            <Btn onClick={() => setUserType('기업')}>병원 회원 로그인</Btn>
           </Link>
-
-          <p style={{ color: '#C6C6C6', margin: '25px 0 5px' }}>메디매치가 처음이라면?</p>
-          <div style={{ display: 'flex', gap: '30px' }}>
-            <Link to='applicant/signup' style={{ color: 'white' }}>
-              개인 회원가입
-            </Link>
-            |
-            <Link to='company/signup' style={{ color: 'white' }}>
-              병원 회원가입
-            </Link>
-          </div>
-        </>
-      ) : null}
+          <Link to='/login'>
+            <Btn onClick={() => setUserType('지원자')}>개인 회원 로그인</Btn>
+          </Link>
+        </LoginContent>
+      )}
       {isLoginPage ? (
         <RightBar>
-          <Outlet />
+          <Outlet context={{ userType: userType }} />
         </RightBar>
-      ) : null}
+      ) : (
+        <SignUpContent>
+          <div>
+            <p>메디매치가 처음이라면?</p>
+            <Link to='applicant/signup'>개인 회원가입</Link>|<Link to='company/signup'>병원 회원가입</Link>
+          </div>
+        </SignUpContent>
+      )}
     </HomeComponent>
   );
 };
@@ -77,14 +63,65 @@ const HomeComponent = styled.div`
   align-items: center;
   color: var(--color-light-gray);
   padding-right: ${({ isLoginPage }: { isLoginPage: boolean }) => (isLoginPage ? '450px' : '0')};
+  p {
+    text-align: center;
+    line-height: 28px;
+  }
+  strong {
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+`;
+
+const TextContent = styled.div`
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    margin-top: ${({ isLoginPage }: { isLoginPage: boolean }) => (isLoginPage ? '10px' : '0px')};
+    margin-bottom: ${({ isLoginPage }: { isLoginPage: boolean }) => (isLoginPage ? '10px' : '50px')};
+  }
 `;
 
 const Btn = styled.button`
-  padding: 8px 50px;
+  padding: 10px 25px;
   border-radius: 5px;
-  background-color: var(--color-yellow);
+  background-color: #fff;
   color: var(--color-primary-100);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: bold;
   border-radius: 28px;
+  letter-spacing: -0.5px;
+  color: #4357ac;
+`;
+
+const LoginContent = styled.div`
+  display: flex;
+  gap: 25px;
+  a {
+    :first-child {
+      button {
+        background-color: var(--color-yellow);
+      }
+    }
+  }
+`;
+
+const SignUpContent = styled.div`
+  div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    p {
+      color: #c6c6c6;
+    }
+    a {
+      color: #fff;
+    }
+  }
 `;

@@ -54,8 +54,8 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   ::selection {
-    color: white;
-    background-color: var(--color-point);
+    color: #000;
+    background-color: var(--color-yellow);
   }
   .react-confirm-alert-overlay {
     background: rgba(0, 0, 0, 0.3);
