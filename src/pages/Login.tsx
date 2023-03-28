@@ -64,7 +64,7 @@ const Login = () => {
 
   return (
     <Container>
-      <h1>로그인</h1>
+      <h1 style={{ color: 'black', marginTop: '184px' }}>로그인</h1>
       <form
         onSubmit={handleSubmit(data => {
           console.log(data);
@@ -83,7 +83,7 @@ const Login = () => {
         {errors?.id ? <Error>{errors.id?.message}</Error> : null}
         <input type='password' id='pw' placeholder='비밀번호' {...register('pw')} />
         {errors?.pw ? <Error>{errors.pw?.message}</Error> : null}
-        <button type='submit'>로그인</button>
+        <button type='submit'>로그인하기</button>
       </form>
       <Content>
         {user === '지원자' ? (
@@ -110,21 +110,23 @@ const Container = styled.div`
     flex-direction: column;
     gap: 10px;
     input {
-      height: 40px;
-      padding: 5px 10px;
+      width: 357px;
+      height: 50px;
+      /* padding: 5px 10px; */
       box-sizing: border-box;
-      border: 1px solid #ddd;
-      border-radius: 5px;
+      /* border: 1px solid #ddd; */
+      /* border-radius: 5px; */
     }
     button {
       margin-top: 10px;
-      height: 45px;
+      width: 357px;
+      height: 50px;
       box-sizing: border-box;
       background-color: var(--color-primary-100);
       color: #fff;
       font-size: 16px;
       font-weight: bold;
-      border-radius: 5px;
+      border-radius: 30px;
     }
   }
 `;
@@ -135,10 +137,13 @@ const UserType = styled.div`
   span {
     width: 50%;
     height: 50px;
+    border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: var(--color-light-gray);
+    /* border: 1px solid var(--color-primary-100); */
+    color: var(--color-primary-100);
     cursor: pointer;
     &.active {
       background: var(--color-primary-100);
@@ -156,6 +161,7 @@ const Error = styled.span`
 
 const Content = styled.div`
   display: flex;
+  color: var(--color-primary-100);
   span {
     cursor: pointer;
   }

@@ -6,12 +6,12 @@ import SignUpTitle from './SignUpTitle';
 import ApplicantSignUpForm from './ApplicantSignUpForm';
 import CompanySignUpForm from './CompanySignUpForm';
 
-const Step2 = ({ onClickNext, onClickBack, member, register, handleSubmit, formState, setValue }: IStepProps) => {
+const Step2 = ({ onClickNext, onClickBack, member, step, register, handleSubmit, formState, setValue }: IStepProps) => {
   return (
     <>
       <SignUpTitle member={member} />
       <MainContainer>
-        <StepCheck checkStep={[false, true, false, false]} />
+        <StepCheck step={step} />
         {member === '개인' ? (
           <ApplicantSignUpForm />
         ) : (

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Step1 from '../components/signup/Step1';
 import Step2 from './../components/signup/Step2';
 import Step3 from './../components/signup/Step3';
-import Step4 from './../components/signup/Step4';
 
 const ApplicantSignUp = () => {
   const [step, setStep] = useState(1);
@@ -22,13 +21,13 @@ const ApplicantSignUp = () => {
 
   switch (step) {
     case 1:
-      return <Step1 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
+      return <Step1 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' step={step} />;
     case 2:
-      return <Step2 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
+      return <Step2 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' step={step} />;
+    // case 3:
+    // return <Step3 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
     case 3:
-      return <Step3 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
-    case 4:
-      return <Step4 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
+      return <Step3 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' step={step} />;
     default:
       return null;
   }

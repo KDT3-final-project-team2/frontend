@@ -1,33 +1,35 @@
 import styled from 'styled-components';
 import { IStepCheckColorProps, IStepCheckProps, IStepCheckTitle } from './../../@types/props.d';
+import { signupSteps } from '../../constants/signupSteps';
 
-const StepCheck = ({ checkStep }: IStepCheckProps) => {
+const StepCheck = ({ step }: IStepCheckProps) => {
   return (
     <StepCheckBox>
-      <SingleStep title='이용약관동의' line={true} checkStep={checkStep[0]} />
-      <SingleStep title='회원가입 및 인증' line={true} checkStep={checkStep[1]} />
-      <SingleStep title='아이디 비밀번호' line={true} checkStep={checkStep[2]} />
-      <SingleStep title='&nbsp;&nbsp;&nbsp;&nbsp;가입성공!' line={false} checkStep={checkStep[3]} />
+      {signupSteps.map((title, index) => (
+        <SingleStep title={title} step={step} order={index + 1} />
+      ))}
     </StepCheckBox>
   );
 };
 
-const SingleStep = ({ title, line, checkStep }: IStepCheckTitle) => {
+const SingleStep = ({ title, step, order }: IStepCheckTitle) => {
   return (
     <StepContainer>
-      <StepCheckContent checkStep={checkStep}>{title}</StepCheckContent>
-      <StepCheckIcon style={{ display: 'flex' }}>
-        <Circle>
-          {checkStep ? (
+      <StepCheckContent step={step} order={order}>
+        {title}
+      </StepCheckContent>
+      <StepCheckIcon>
+        {order !== 1 ? <Line step={step} order={order} /> : null}
+        <Circle step={step} order={order}>
+          {step === order ? (
             <CheckSvg width='18' height='14' viewBox='0 0 18 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
               <path
                 d='M6.23564 13.0807L0.708008 7.55312L2.64268 5.61845L6.23564 9.21141L15.3562 0.0908203L17.2909 2.02549L6.23564 13.0807Z'
-                fill='#969696'
+                fill='white'
               />
             </CheckSvg>
           ) : null}
         </Circle>
-        {line ? <Line /> : null}
       </StepCheckIcon>
     </StepContainer>
   );
@@ -35,8 +37,8 @@ const SingleStep = ({ title, line, checkStep }: IStepCheckTitle) => {
 
 const StepCheckBox = styled.div`
   display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 20px;
+  margin-bottom: 50px;
   justify-content: center;
 `;
 
@@ -55,15 +57,22 @@ const StepCheckIcon = styled.div`
 `;
 
 const StepCheckContent = styled.p`
-  margin-bottom: 17px;
-  color: ${(props: IStepCheckColorProps) => (props.checkStep ? '#000000' : '#969696')};
+  width: 95px;
+  text-align: center;
+  margin-bottom: 13px;
+  font-size: 17px;
+  font-weight: bold;
+  margin-left: ${({ order }: { order: number }) => (order !== 1 ? '127px' : '23px')};
+  color: ${(props: IStepCheckColorProps) =>
+    props.step === props.order ? '#4357AC' : props.order <= props.step ? '#8294CD' : '#969696'};
 `;
 
 const Circle = styled.div`
   position: relative;
   width: 27.64px;
   height: 27.64px;
-  background: #d9d9d9;
+  background-color: ${(props: IStepCheckColorProps) => (props.order <= props.step ? '#4357AC' : '#d9d9d9')};
+  /* background: #d9d9d9; */
   border-radius: 100%;
   margin: 0 auto;
 `;
@@ -77,7 +86,9 @@ const CheckSvg = styled.svg`
 const Line = styled.div`
   width: 66.33px;
   height: 0px;
-  border: 2.76381px solid #969696;
+  border-width: 2.76381px;
+  border-style: solid;
+  border-color: ${(props: IStepCheckColorProps) => (props.order <= props.step ? '#4357AC' : '#969696')};
 `;
 
 export default StepCheck;

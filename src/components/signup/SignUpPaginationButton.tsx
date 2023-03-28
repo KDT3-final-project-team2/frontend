@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { IStepProps } from '../../@types/props';
+import { IStepsButtonProps } from '../../@types/props';
 
-const SignUpPaginationButton = ({ onClickBack, onClickNext }: IStepProps) => {
+const SignUpPaginationButton = ({ onClickBack, onClickNext }: IStepsButtonProps) => {
   return (
     <ButtonContainer>
       <BackButton onClick={onClickBack}>이전</BackButton>

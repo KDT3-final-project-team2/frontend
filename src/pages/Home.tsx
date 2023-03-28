@@ -3,13 +3,14 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import RightBar from '../components/layouts/RightBar';
 import logo from '../assets/logo.svg';
+import loginImage from '../assets/images/loginImage.png';
 
 const Home = () => {
   const isLoginPage = useLocation().pathname === '/login';
 
   return (
     <HomeComponent isLoginPage={isLoginPage}>
-      <div style={{ position: 'fixed', left: 0 }}>
+      <div style={{ position: 'fixed', left: 0, display: 'flex', flexDirection: 'column' }}>
         임시링크 : <Link to='/company'>병원 메인 대시보드 / </Link>
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
@@ -20,6 +21,7 @@ const Home = () => {
           medi <br /> match
         </h1>
       </div>
+      {isLoginPage ? <img src={loginImage} alt='로그인 이미지' style={{ marginBottom: '40px' }} /> : null}
       <strong style={{ fontSize: '50px', fontWeight: '700', marginBottom: '15px' }}>병원 채용 진행을 한눈에!</strong>
       <div
         style={{
@@ -36,21 +38,23 @@ const Home = () => {
         <p>채용 진행 과정을 한눈에 한번에 확인하세요</p>
       </div>
       {!isLoginPage ? (
-        <Link to='login' style={{ color: '#4357AC', fontWeight: 700 }}>
-          <Btn>로그인</Btn>
-        </Link>
-      ) : null}
+        <>
+          <Link to='login' style={{ color: '#4357AC', fontWeight: 700 }}>
+            <Btn>로그인</Btn>
+          </Link>
 
-      <p style={{ color: '#C6C6C6', margin: '25px 0 5px' }}>메디매치가 처음이라면?</p>
-      <div style={{ display: 'flex', gap: '30px' }}>
-        <Link to='applicant/signup' style={{ color: 'white' }}>
-          개인 회원가입
-        </Link>
-        |
-        <Link to='company/signup' style={{ color: 'white' }}>
-          병원 회원가입
-        </Link>
-      </div>
+          <p style={{ color: '#C6C6C6', margin: '25px 0 5px' }}>메디매치가 처음이라면?</p>
+          <div style={{ display: 'flex', gap: '30px' }}>
+            <Link to='applicant/signup' style={{ color: 'white' }}>
+              개인 회원가입
+            </Link>
+            |
+            <Link to='company/signup' style={{ color: 'white' }}>
+              병원 회원가입
+            </Link>
+          </div>
+        </>
+      ) : null}
       {isLoginPage ? (
         <RightBar>
           <Outlet />
