@@ -52,7 +52,7 @@ const Home = () => {
 
 export default Home;
 
-const HomeComponent = styled.div`
+export const HomeComponent = styled.div`
   width: 100%;
   height: 100vh;
   background-color: var(--color-primary-100);
@@ -74,7 +74,7 @@ const HomeComponent = styled.div`
   }
 `;
 
-const TextContent = styled.div`
+export const TextContent = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;

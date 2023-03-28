@@ -96,7 +96,7 @@ const Login = () => {
   );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +148,7 @@ const Container = styled.div`
   }
 `;
 
-const SnsBtn = styled.div`
+export const SnsBtn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -178,7 +178,7 @@ const SnsBtn = styled.div`
   }
 `;
 
-const Error = styled.span`
+export const Error = styled.span`
   text-align: left;
   color: #e62135;
   margin-top: 5px;
