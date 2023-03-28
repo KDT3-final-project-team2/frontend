@@ -8,10 +8,7 @@ import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
 import { HomeComponent, TextContent } from '../Home';
 import { Container, SnsBtn, Error } from '../Login';
-import google from '../../assets/google.svg';
-import kakao from '../../assets/kakao.svg';
 import RightBar from '../../components/layouts/RightBar';
-import Logo from '../../assets/Logo.svg';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -52,7 +49,7 @@ const Login = () => {
   return (
     <>
       <HomeComponent isLoginPage={isLoginPage}>
-        <img src={Logo} width='230px' height='65px' />
+        <img src='../src/assets/Logo.svg' width='230px' height='65px' />
         <img src='../src/assets/loginContent.png' />
         <strong>병원 채용 진행을 한눈에!</strong>
         <TextContent isLoginPage={isLoginPage}>
@@ -83,7 +80,7 @@ const Login = () => {
                     })
                   }
                 >
-                  <img src={google} width='18px' height='18px' />
+                  <img src='src/assets/google.svg' width='18px' height='18px' />
                   Google 로그인
                 </div>
                 <div
@@ -93,7 +90,7 @@ const Login = () => {
                     })
                   }
                 >
-                  <img src={kakao} width='30px' height='30px' />
+                  <img src='src/assets/kakao.svg' width='30px' height='30px' />
                   카카오 로그인
                 </div>
               </SnsBtn>

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import RightBar from '../components/layouts/RightBar';
-import Logo from '../assets/Logo.svg';
 
 const Home = () => {
   const isLoginPage = useLocation().pathname === '/login';
@@ -15,7 +14,11 @@ const Home = () => {
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
       </div>
-      {isLoginPage ? <img src={Logo} width='230px' height='65px' /> : <img src={Logo} width='230px' height='160px' />}
+      {isLoginPage ? (
+        <img src='src/assets/Logo.svg' width='230px' height='65px' />
+      ) : (
+        <img src='src/assets/Logo.svg' width='230px' height='160px' />
+      )}
       {isLoginPage ? <img src='src/assets/loginContent.png' /> : null}
       <strong>병원 채용 진행을 한눈에!</strong>
       <TextContent isLoginPage={isLoginPage}>

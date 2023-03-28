@@ -7,8 +7,6 @@ import { setCookie } from '../utils/cookie';
 import AlertModal from '../components/common/AlertModal';
 import { useAppDispatch } from '../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../store/loadingSlice';
-import google from '../assets/google.svg';
-import kakao from '../assets/kakao.svg';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -69,7 +67,7 @@ const Login = () => {
               })
             }
           >
-            <img src={google} width='18px' height='18px' />
+            <img src='src/assets/google.svg' width='18px' height='18px' />
             Google 로그인
           </div>
           <div
@@ -79,7 +77,7 @@ const Login = () => {
               })
             }
           >
-            <img src={kakao} width='30px' height='30px' />
+            <img src='src/assets/kakao.svg' width='30px' height='30px' />
             카카오 로그인
           </div>
         </SnsBtn>
