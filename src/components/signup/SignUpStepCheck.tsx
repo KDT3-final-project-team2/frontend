@@ -6,7 +6,7 @@ const StepCheck = ({ step }: IStepCheckProps) => {
   return (
     <StepCheckBox>
       {signupSteps.map((title, index) => (
-        <SingleStep title={title} step={step} order={index + 1} />
+        <SingleStep key={index} title={title} step={step} order={index + 1} />
       ))}
     </StepCheckBox>
   );

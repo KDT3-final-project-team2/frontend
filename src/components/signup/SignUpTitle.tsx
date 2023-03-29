@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { IStepProps } from '../../@types/props';
 
 const SignUpTitle = ({ member }: { member: string }) => {
   return <Title>{member} 회원가입</Title>;
