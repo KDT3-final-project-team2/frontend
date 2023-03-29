@@ -7,14 +7,20 @@ const CompanyJobPosting = () => {
       <RecruitmentNotice>채용 공고</RecruitmentNotice>
       <RecruitmentManagement>공고 등록 관리</RecruitmentManagement>
       <RegistrationButton>등록하기</RegistrationButton>
-      {[1, 2, 3].map(data => (
-        <JobPostingList />
-      ))}
+      <JobPostingList />
+      {/* {[1, 2, 3].map(data => (
+      <JobPostingList />
+      ))} */}
     </>
   );
 };
 
 export default CompanyJobPosting;
+
+const Main = styled.div`
+  /* width: 1496px;
+  height: 554px; */
+`;
 
 const RecruitmentNotice = styled.h1`
   margin-top: 122px;
@@ -43,6 +49,6 @@ const RegistrationButton = styled.button`
   font-size: 18px;
   font-weight: 700;
   margin-left: auto;
-  margin-right: 62px;
+  margin-right: 52px;
   margin-bottom: 26px;
 `;
