@@ -67,7 +67,7 @@ const Login = () => {
               })
             }
           >
-            <img src='src/assets/google.svg' width='18px' height='18px' />
+            <img src='src/assets/logo/google.svg' width='18px' height='18px' />
             Google 로그인
           </div>
           <div
@@ -77,7 +77,7 @@ const Login = () => {
               })
             }
           >
-            <img src='src/assets/kakao.svg' width='30px' height='30px' />
+            <img src='src/assets/logo/kakao.svg' width='30px' height='30px' />
             카카오 로그인
           </div>
         </SnsBtn>

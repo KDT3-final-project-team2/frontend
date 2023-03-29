@@ -11,7 +11,7 @@ const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
   return (
     <LeftBarComponent>
       <div style={{ display: 'flex', gap: '11px', margin: '35px 44px' }}>
-        <img src='../../src/assets/logo.svg' alt='로고' width='140' />
+        <img src='../../src/assets/logo/logo.svg' alt='로고' width='140' />
       </div>
 
       {isSignUpPage ? (
