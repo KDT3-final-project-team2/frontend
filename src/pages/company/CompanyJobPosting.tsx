@@ -1,26 +1,32 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import ModalWindow from '../../components/companyjobposting/ModalWindow';
 import JobPostingList from '../../components/companyjobposting/JobPostingList';
 
 const CompanyJobPosting = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
+
+  const showRegistrationModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <RecruitmentNotice>채용 공고</RecruitmentNotice>
       <RecruitmentManagement>공고 등록 관리</RecruitmentManagement>
-      <RegistrationButton>등록하기</RegistrationButton>
-      <JobPostingList />
-      {/* {[1, 2, 3].map(data => (
-      <JobPostingList />
-      ))} */}
+      <RegistrationButton onClick={showRegistrationModal}>등록하기</RegistrationButton>
+      {[1, 2, 3].map(data => (
+        <JobPostingList key={data} setIsEditModal={setIsEditModal} />
+      ))}
+      {(isModalOpen || isEditModal) && (
+        <ModalWindow setIsModalOpen={setIsModalOpen} setIsEditModal={setIsEditModal} isEditModal={isEditModal} />
+      )}
     </>
   );
 };
 
 export default CompanyJobPosting;
-
-const Main = styled.div`
-  /* width: 1496px;
-  height: 554px; */
-`;
 
 const RecruitmentNotice = styled.h1`
   margin-top: 122px;

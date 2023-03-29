@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { IModalProps } from '../../@types/props';
 import link from '../../assets/icons/link.png';
 import morevertical from '../../assets/icons/more_vertical.png';
 
-const JobPostingList = () => {
+const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClickToggle = () => {
@@ -12,6 +13,10 @@ const JobPostingList = () => {
 
   const onClickClose = () => {
     if (isOpen) setIsOpen(false);
+  };
+
+  const EditModalOpen = () => {
+    setIsEditModal(true);
   };
 
   return (
@@ -25,11 +30,11 @@ const JobPostingList = () => {
             <Vertical src={morevertical} onClick={onClickToggle} />
             {isOpen && (
               <DropDownBox>
-                <Edit>
+                <Edit onClick={EditModalOpen}>
                   <p>수정</p>
                 </Edit>
                 <Delete>
-                  <p>삭제</p>
+                  <p>폐기</p>
                 </Delete>
               </DropDownBox>
             )}
@@ -99,6 +104,7 @@ const DropDownBox = styled.div`
   box-shadow: 2px 2px 10px 2px rgba(67, 87, 172, 0.15);
   border-radius: 10px;
   padding: 16px 0;
+  z-index: 1;
 `;
 
 const Edit = styled.div`

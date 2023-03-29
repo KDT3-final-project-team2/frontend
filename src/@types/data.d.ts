@@ -55,3 +55,13 @@ declare module '*.svg' {
 interface IuserType {
   userType?: string;
 }
+
+interface IPostingInput {
+  title: string;
+  sector: string;
+  experience: string;
+  education: string;
+  maxapplicants: string;
+  duedate: string;
+  file: File | undefined;
+}
