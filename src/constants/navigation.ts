@@ -4,11 +4,18 @@ export const navigations: { [key: string]: { [key: string]: string } } = {
     applicant: '지원자',
     jobposting: '채용공고',
     contract: '계약작성',
+    setting: '설정',
   },
   applicant: {
     home: '메인 홈',
     jobsearching: '병원탐색',
     resume: '이력서',
-    myinfo: '내 정보',
+    setting: '설정',
+  },
+  admin: {
+    home: '메인 홈',
+    member: '회원관리',
+    term: '약관관리',
+    setting: '설정',
   },
 };

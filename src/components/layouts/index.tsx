@@ -8,14 +8,15 @@ import RightBar from './RightBar';
 const Layout = () => {
   const path = useLocation().pathname;
   const isSignUpPage = path.includes('signup');
+  const isAdminLogin = useLocation().pathname === '/admin/login';
 
   return (
     <div style={{ position: 'relative', height: '100%' }}>
-      <LeftBar isSignUpPage={isSignUpPage} />
-      <MainSection isSignUpPage={isSignUpPage}>
+      {isAdminLogin ? null : <LeftBar isSignUpPage={isSignUpPage} />}
+      <MainSection isSignUpPage={isSignUpPage} isAdminLogin={isAdminLogin}>
         <Outlet />
       </MainSection>
-      {!isSignUpPage ? <RightBar>{}</RightBar> : null}
+      {isAdminLogin ? null : !isSignUpPage ? <RightBar>{}</RightBar> : null}
     </div>
   );
 };
@@ -24,10 +25,11 @@ export default Layout;
 
 const MainSection = styled.main`
   position: absolute;
-  left: 280px;
-  right: ${({ isSignUpPage }: { isSignUpPage: boolean }) => (isSignUpPage ? '0' : '450px')};
+  left: ${({ isAdminLogin }: { isAdminLogin: boolean }) => (isAdminLogin ? '0' : '280px')};
+  right: ${({ isSignUpPage, isAdminLogin }: { isSignUpPage: boolean; isAdminLogin: boolean }) =>
+    isSignUpPage ? '0' : isAdminLogin ? '0' : '450px'};
   min-height: 100vh;
-  border-top-left-radius: 50px;
+  border-top-left-radius: ${({ isAdminLogin }: { isAdminLogin: boolean }) => (isAdminLogin ? '0' : '50px')};
   overflow: hidden;
   background-color: white;
   /* padding-left: 50px; */

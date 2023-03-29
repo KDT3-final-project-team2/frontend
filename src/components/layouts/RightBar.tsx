@@ -4,7 +4,12 @@ import styled from 'styled-components';
 
 const RightBar = ({ children }: { children: ReactNode }) => {
   const isLoginPage = useLocation().pathname === '/login';
-  return <RightBarComponent isLoginPage={isLoginPage}>{children}</RightBarComponent>;
+  const isAdminLogin = useLocation().pathname === '/admin/login';
+  return (
+    <RightBarComponent isLoginPage={isLoginPage} isAdminLogin={isAdminLogin}>
+      {children}
+    </RightBarComponent>
+  );
 };
 
 export default RightBar;
@@ -15,8 +20,8 @@ const RightBarComponent = styled.section`
   right: 0;
   width: 450px;
   height: 100vh;
-  background-color: ${({ isLoginPage }: { isLoginPage: boolean }) =>
-    isLoginPage ? '#fff' : 'var(--color-primary-010)'};
+  background-color: ${({ isLoginPage, isAdminLogin }: { isLoginPage: boolean; isAdminLogin: boolean }) =>
+    isLoginPage ? '#fff' : isAdminLogin ? '#fff' : 'var(--color-primary-010)'};
   border-top-left-radius: 50px;
   padding: 40px;
   box-sizing: border-box;
