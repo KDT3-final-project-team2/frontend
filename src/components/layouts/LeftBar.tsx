@@ -65,6 +65,9 @@ const NavigateComponent = styled.div`
     margin-top: 150px;
     display: flex;
     flex-direction: column;
+    p {
+      padding-top: 2px;
+    }
   }
   a {
     display: flex;
