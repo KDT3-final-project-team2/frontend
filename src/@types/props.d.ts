@@ -2,34 +2,55 @@ export interface ISearchAddressProps {
   onClose: () => void;
   setValue: UseFormSetValue<TFieldValues>;
 }
-
-export interface IStepProps {
-  onClickNext?: () => void;
-  onClickBack?: () => void;
-  member?: string;
-  register?: UseFormRegister<TFieldValues>;
-  handleSubmit?: UseFormHandleSubmit<TFieldValues>;
-  formState?: FormState<TFieldValues>;
+export interface IStep1Props extends IStepsButtonProps {
+  member: string;
+  step: number;
+  checkedItems: string[];
+  setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
+}
+export interface IStep2Props extends IStepsButtonProps {
+  member: string;
+  step: number;
+  register: UseFormRegister<TFieldValues>;
+  handleSubmit: UseFormHandleSubmit<TFieldValues>;
+  formState: FormState<TFieldValues>;
   setValue?: UseFormSetValue<TFieldValues>;
+}
+export interface IStep3Props {
+  member: string;
+  step: number;
+}
+export interface IStepsButtonProps {
+  onClickNext: () => void;
+  onClickBack: () => void;
+  step: number;
 }
 
 export interface IStepCheckTitle {
   title: string;
-  line: boolean;
-  checkStep: boolean;
+  step: number;
+  order: number;
 }
 
 export interface IStepCheckProps {
-  checkStep: boolean[];
+  step: number;
 }
 
 export interface IStepCheckColorProps {
-  checkStep: boolean;
+  step: number;
+  order: number;
 }
 
-export interface ICompanySignUpFormProps {
+export interface ISignUpFormProps {
   register: UseFormRegister;
   handleSubmit: UseFormHandleSubmit;
   formState: FormState;
   setValue: UseFormSetValue;
+}
+
+export interface ICheckBoxProps {
+  title: string;
+  checkedItems: string[];
+  setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
+  index: number;
 }

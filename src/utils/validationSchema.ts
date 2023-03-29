@@ -15,19 +15,31 @@ export const applicantSignUpSchema = yup.object({
     .string()
     .required('비밀번호 확인은 필수 입력입니다.')
     .oneOf([yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
-  lastName: yup
-    .string()
-    .required('성은 필수 입력입니다.')
-    .matches(/^[a-zA-Z가-힣]+$/, '영문자, 한글을 입력해주세요.'),
-  firstName: yup
+  name: yup
     .string()
     .required('이름은 필수 입력입니다.')
     .matches(/^[a-zA-Z가-힣]+$/, '영문자, 한글을 입력해주세요.'),
-  birth: yup.string().required('생년월일은 필수 입력입니다.'),
+  birthDate: yup.string().required('생년월일은 필수 입력입니다.'),
   phoneNumber: yup
     .string()
     .required('전화번호는 필수 입력입니다.')
     .matches(/^\d{3}-\d{3,4}-\d{4}$/, '전화번호 형식에 알맞지 않습니다. -를 포함해서 입력하세요'),
+  gender: yup
+    .string()
+    .required('성별을 입력해주세요.')
+    .matches(/[남자|여자]/, '아래 목록에서 선택해 주세요.'),
+  sector: yup
+    .string()
+    .required('직무를 입력해주세요.')
+    .matches(/[의사|간호사]/, '아래 목록에서 선택해 주세요.'),
+  education: yup
+    .string()
+    .required('학력을 입력해주세요.')
+    .matches(/[고졸|전문대졸]/, '아래 목록에서 선택해 주세요.'),
+  workExperience: yup
+    .string()
+    .required('경력을 입력해주세요.')
+    .matches(/[신입|1년차]/, '아래 목록에서 선택해 주세요.'),
 });
 
 export const companySignUpSchema = yup.object().shape({
