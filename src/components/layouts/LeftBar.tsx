@@ -11,10 +11,7 @@ const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
   return (
     <LeftBarComponent>
       <div style={{ display: 'flex', gap: '11px', margin: '35px 44px' }}>
-        <img src='../../src/assets/logo.svg' alt='로고' width='50' />
-        <h1 style={{ fontSize: '22px', fontWeight: '700', color: 'white' }}>
-          medi <br /> match
-        </h1>
+        <img src='../../src/assets/logo.svg' alt='로고' width='140' />
       </div>
 
       {isSignUpPage ? (
@@ -68,6 +65,9 @@ const NavigateComponent = styled.div`
     margin-top: 150px;
     display: flex;
     flex-direction: column;
+    p {
+      padding-top: 2px;
+    }
   }
   a {
     display: flex;

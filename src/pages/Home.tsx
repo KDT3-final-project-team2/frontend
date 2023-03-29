@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import RightBar from '../components/layouts/RightBar';
-import Logo from '../assets/Logo.svg';
 
 const Home = () => {
   const isLoginPage = useLocation().pathname === '/login';
@@ -10,12 +9,16 @@ const Home = () => {
 
   return (
     <HomeComponent isLoginPage={isLoginPage}>
-      <div>
+      <div style={{ position: 'fixed', left: 0, display: 'flex', flexDirection: 'column' }}>
         임시링크 : <Link to='/company'>병원 메인 대시보드 / </Link>
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
       </div>
-      {isLoginPage ? <img src={Logo} width='230px' height='65px' /> : <img src={Logo} width='230px' height='160px' />}
+      {isLoginPage ? (
+        <img src='src/assets/Logo.svg' width='230px' height='65px' />
+      ) : (
+        <img src='src/assets/Logo.svg' width='230px' height='160px' />
+      )}
       {isLoginPage ? <img src='src/assets/loginContent.png' /> : null}
       <strong>병원 채용 진행을 한눈에!</strong>
       <TextContent isLoginPage={isLoginPage}>
@@ -52,7 +55,7 @@ const Home = () => {
 
 export default Home;
 
-const HomeComponent = styled.div`
+export const HomeComponent = styled.div`
   width: 100%;
   height: 100vh;
   background-color: var(--color-primary-100);
@@ -74,7 +77,7 @@ const HomeComponent = styled.div`
   }
 `;
 
-const TextContent = styled.div`
+export const TextContent = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;

@@ -7,7 +7,11 @@ import ApplicantSignUp from './pages/ApplicantSignUp';
 import CompanySignUp from './pages/CompanySignUp';
 import CompanyMain from './pages/company/CompanyMain';
 import ApplicantMain from './pages/applicant/ApplicantMain';
-import AdminMain from './pages/AdminMain';
+import AdminMain from './pages/admin/AdminMain';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminMember from './pages/admin/AdminMember';
+import AdminTerm from './pages/admin/AdminTerm';
+import AdminSetting from './pages/admin/AdminSetting';
 import Loading from './components/common/Loading';
 import CompanyApplicant from './pages/company/CompanyApplicant';
 import CompanyJobPosting from './pages/company/CompanyJobPosting';
@@ -40,7 +44,13 @@ function App() {
             <Route path='resume' element={<ApplicantResume />} />
             <Route path='myinfo' element={<ApplicantMyInfo />} />
           </Route>
-          <Route path='admin' element={<AdminMain />} /> // admin관련 페이지들은 루트 경로 보호예정
+          <Route path='admin'>
+            <Route path='' element={<AdminMain />} /> // admin관련 페이지들은 루트 경로 보호예정
+            <Route path='login' element={<AdminLogin />} />
+            <Route path='member' element={<AdminMember />} />
+            <Route path='term' element={<AdminTerm />} />
+            <Route path='setting' element={<AdminSetting />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

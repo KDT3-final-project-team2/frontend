@@ -3,10 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import Step1 from '../components/signup/Step1';
 import Step2 from './../components/signup/Step2';
 import Step3 from './../components/signup/Step3';
-import Step4 from './../components/signup/Step4';
+import { useForm } from 'react-hook-form';
+import { applicantSignUpSchema } from '../utils/validationSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
+import AlertModal from '../components/common/AlertModal';
 
 const ApplicantSignUp = () => {
   const [step, setStep] = useState(1);
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const { register, handleSubmit, formState, setValue } = useForm<IApplicantSignUpData>({
+    resolver: yupResolver(applicantSignUpSchema),
+    mode: 'onChange',
+  });
+  const onValid = (data: IApplicantSignUpData) => {
+    console.log(data);
+    setStep(prev => prev + 1);
+  };
+
   const navigate = useNavigate();
 
   const onClickBack = () => {
@@ -17,18 +30,42 @@ const ApplicantSignUp = () => {
   };
 
   const onClickNext = () => {
-    setStep(prev => prev + 1);
+    if (step === 1 && checkedItems.length !== 4) {
+      AlertModal({
+        message: '약관에 동의해 주세요.',
+      });
+    } else {
+      setStep(prev => prev + 1);
+    }
   };
 
   switch (step) {
     case 1:
-      return <Step1 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
+      return (
+        <Step1
+          onClickNext={onClickNext}
+          onClickBack={onClickBack}
+          member='개인'
+          step={step}
+          checkedItems={checkedItems}
+          setCheckedItems={setCheckedItems}
+        />
+      );
     case 2:
-      return <Step2 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
+      return (
+        <Step2
+          onClickNext={handleSubmit(onValid)}
+          onClickBack={onClickBack}
+          member='개인'
+          step={step}
+          register={register}
+          handleSubmit={handleSubmit(onValid)}
+          formState={formState}
+          setValue={setValue}
+        />
+      );
     case 3:
-      return <Step3 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
-    case 4:
-      return <Step4 onClickNext={onClickNext} onClickBack={onClickBack} member='개인' />;
+      return <Step3 member='개인' step={step} />;
     default:
       return null;
   }

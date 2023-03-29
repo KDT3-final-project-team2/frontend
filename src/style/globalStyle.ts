@@ -30,11 +30,12 @@ const GlobalStyles = createGlobalStyle`
     font-family: "LineSeedKR", sans-serif;
     font-size: 14px;
   }
+ 
   div, section, button{
     box-sizing: border-box
   }
   h1 {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: bold;
   }
   ul, li {
@@ -53,8 +54,13 @@ const GlobalStyles = createGlobalStyle`
   };
   input {
     outline: none;
+    padding-left: 20px;
+    border-radius: 30px;
+    border : 1px solid black;
     &::placeholder {
       color: rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      font-weight: bold
     }
   }
   ::selection {
