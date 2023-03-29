@@ -11,7 +11,7 @@ import AlertModal from '../components/common/AlertModal';
 const ApplicantSignUp = () => {
   const [step, setStep] = useState(1);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const { register, handleSubmit, formState } = useForm<IApplicantSignUpData>({
+  const { register, handleSubmit, formState, setValue } = useForm<IApplicantSignUpData>({
     resolver: yupResolver(applicantSignUpSchema),
     mode: 'onChange',
   });
@@ -61,6 +61,7 @@ const ApplicantSignUp = () => {
           register={register}
           handleSubmit={handleSubmit(onValid)}
           formState={formState}
+          setValue={setValue}
         />
       );
     case 3:

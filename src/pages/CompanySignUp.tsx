@@ -19,7 +19,7 @@ const CompanySignUp = () => {
 
   const onValid = (data: ICompanySignUpData) => {
     const { companyName, representative, companyNum, email, password, confirmPassword, contact, zoneCode } = data;
-    const address = data.address + ' ' + data['address-detail'];
+    const address = data.zoneCode + ' ' + data.address;
 
     console.log(data, address);
     setStep(prev => prev + 1);

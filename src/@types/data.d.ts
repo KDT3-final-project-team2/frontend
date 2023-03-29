@@ -18,7 +18,6 @@ interface ICompanySignUpData {
   contact: string;
   zoneCode: string;
   address: string;
-  'address-detail': string;
 }
 
 interface loginForm {

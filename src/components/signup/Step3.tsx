@@ -12,7 +12,7 @@ const Step3 = ({ member, step }: IStep3Props) => {
       <MainContainer>
         <StepCheck step={step} />
         <div>
-          <img src={welcome} alt='welcome' width={400} />
+          <img src={welcome} alt='welcome' width={500} />
         </div>
         {/* <div style={{ fontSize: '30px' }}>가입성공!</div> */}
         <Link to='/login'>
@@ -30,7 +30,7 @@ const MainContainer = styled.div`
     display: flex;
     justify-content: center;
     img {
-      margin: 10px 0 50px;
+      margin: 40px 0 80px;
     }
   }
 `;

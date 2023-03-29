@@ -47,6 +47,15 @@ const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISig
           <label htmlFor='email'>이메일</label>
           <Error>{formState.errors.email?.message?.toString()}</Error>
           <input type='email' id='email' placeholder='대표 이메일' {...register('email')} />
+          <button
+            className='email'
+            onClick={event => {
+              event.preventDefault();
+              // 이메일중복확인 로직
+            }}
+          >
+            중복확인
+          </button>
         </div>
 
         <div className='inputBox'>
@@ -117,13 +126,16 @@ const Form = styled.form`
       height: 30px;
       border-radius: 30px;
       border: 1px solid gray;
-      min-width: 280px;
+      min-width: 350px;
       width: 100%;
       padding: 10px 30px;
       font-size: 15px;
       &::placeholder {
         color: rgba(37, 37, 37, 0.5);
       }
+    }
+    input#email {
+      width: 70%;
     }
     input#zoneCode {
       width: 280px;
@@ -132,16 +144,19 @@ const Form = styled.form`
     button {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left: 52%;
       transform: translateY(-15px);
       background: #8294cd;
       border-radius: 20px;
-      padding: 0 10px;
+      padding: 7px 15px 4px;
       height: 30px;
       font-weight: bold;
       font-size: 13px;
       line-height: 24px;
       color: white;
+      &.email {
+        left: 80%;
+      }
     }
   }
 `;

@@ -45,7 +45,7 @@ export interface ISignUpFormProps {
   register: UseFormRegister;
   handleSubmit: UseFormHandleSubmit;
   formState: FormState;
-  setValue?: UseFormSetValue;
+  setValue: UseFormSetValue;
 }
 
 export interface ICheckBoxProps {

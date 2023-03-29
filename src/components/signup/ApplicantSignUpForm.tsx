@@ -1,53 +1,81 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { ISignUpFormProps } from '../../@types/props';
+import DropDown from '../common/DropDown';
 
-const ApplicantSignUpForm = ({ register, handleSubmit, formState }: ISignUpFormProps) => {
+const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: ISignUpFormProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <Wrapper>
       <Form onSubmit={() => handleSubmit()}>
         <div className='inputBox'>
-          <label htmlFor=''></label>
-          <>
-            <input id='name' type='text' placeholder='이름' {...register('name')} />
-            <p style={{ margin: '10px 0', color: 'red' }}>{formState.errors.name?.message}</p>
-          </>
-          <>
-            <input id='birthDate' type='date' placeholder='생년월일' {...register('birthDate')} />
-            <p style={{ margin: '10px 0', color: 'red' }}>{formState.errors.birthDate?.message}</p>
-          </>
+          <input id='name' type='text' placeholder='이름' {...register('name')} />
+          <Error>{formState.errors.name?.message}</Error>
+          <input id='birthDate' type='date' placeholder='생년월일' {...register('birthDate')} />
+          <Error>{formState.errors.birthDate?.message}</Error>
         </div>
 
-        <div>
-          <input id='sector' type='text' placeholder='직무' {...register('sector')} />
-          <div style={{ margin: '10px 0', color: 'red' }}>{formState.errors.sector?.message}</div>
-          <input id='email' type='text' placeholder='학력' {...register('email')} />
-          <div style={{ margin: '10px 0', color: 'red' }}>{formState.errors.email?.message}</div>
-          <input id='email' type='text' placeholder='경력' {...register('email')} />
-          <div style={{ margin: '10px 0', color: 'red' }}>{formState.errors.email?.message}</div>
+        <div className='inputBox'>
+          <DropDown
+            width='400px'
+            title='gender'
+            selections={['남자', '여자']}
+            register={register}
+            setValue={setValue}
+          />
+          <Error>{formState.errors.gender?.message}</Error>
+          <DropDown
+            width='400px'
+            title='sector'
+            selections={['의사', '간호사']}
+            register={register}
+            setValue={setValue}
+          />
+          <Error>{formState.errors.sector?.message}</Error>
+        </div>
+        <div className='inputBox'>
+          <DropDown
+            width='400px'
+            title='education'
+            selections={['고졸', '전문대졸', '4년제졸', '석/박사']}
+            register={register}
+            setValue={setValue}
+          />
+          <Error>{formState.errors.education?.message}</Error>
+
+          <DropDown
+            width='400px'
+            title='workExperience'
+            selections={['신입', '1년차']}
+            register={register}
+            setValue={setValue}
+          />
+          <Error>{formState.errors.workExperience?.message}</Error>
         </div>
 
-        <div>
+        <div className='inputBox'>
           <label htmlFor='phoneNumber'>휴대폰번호</label>
+          <Error>{formState.errors.phoneNumber?.message}</Error>
           <input id='phoneNumber' type='tel' {...register('phoneNumber')} placeholder='010-1234-5678' />
-          <p style={{ margin: '10px 0', color: 'red' }}>{formState.errors.phoneNumber?.message}</p>
         </div>
 
         <div className='inputBox'>
           <label htmlFor='email'>이메일</label>
-          <input id='email' type='text' {...register('email')} />
           <Error>{formState.errors.email?.message}</Error>
+          <input id='email' type='text' {...register('email')} />
         </div>
 
         <div className='inputBox'>
           <label htmlFor='password'>비밀번호</label>
-          <input id='password' type='password' {...register('password')} />
           <Error>{formState.errors.password?.message}</Error>
+          <input id='password' type='password' {...register('password')} />
         </div>
 
         <div className='inputBox'>
           <label htmlFor='confirmPassword'>비밀번호 확인</label>
+          <Error>{formState.errors.confirmPassword?.message}</Error>
           <input type='password' id='confirmPassword' {...register('confirmPassword')} />
-          <Error style={{ margin: '10px 0', color: 'red' }}>{formState.errors.confirmPassword?.message}</Error>
         </div>
       </Form>
     </Wrapper>
@@ -90,13 +118,29 @@ const Form = styled.form`
       height: 30px;
       border-radius: 30px;
       border: 1px solid gray;
-      min-width: 280px;
+      min-width: 350px;
       width: 100%;
       padding: 10px 30px;
       font-size: 15px;
       &::placeholder {
         color: rgba(37, 37, 37, 0.5);
       }
+    }
+    img {
+      position: absolute;
+      right: 53%;
+      top: 42%;
+      width: 16px;
+      height: 10px;
+      &:nth-child(n + 4) {
+        left: 95%;
+      }
+    }
+    input.inactive {
+      display: none;
+    }
+    input#email {
+      width: 70%;
     }
     input#zoneCode {
       width: 280px;
@@ -105,19 +149,52 @@ const Form = styled.form`
     button {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left: 52%;
       transform: translateY(-15px);
       background: #8294cd;
       border-radius: 20px;
-      padding: 0 10px;
+      padding: 7px 15px 4px;
       height: 30px;
       font-weight: bold;
       font-size: 13px;
       line-height: 24px;
       color: white;
+      &.email {
+        left: 80%;
+      }
+    }
+    ul {
+      position: absolute;
+      top: 60px;
+      border: 1px solid gray;
+      border-radius: 30px;
+      overflow: hidden;
+      width: 50%;
+      height: fit-content;
+      z-index: 2;
+      &:nth-child(n + 4) {
+        left: 50%;
+      }
+      li {
+        left: 0;
+        width: 100%;
+        height: 40px;
+        padding: 10px 30px;
+        box-sizing: border-box;
+        background-color: white;
+        font-size: 13px;
+        display: flex;
+        padding-left: 35px;
+        justify-content: flex-start;
+        align-items: center;
+        &:hover {
+          background-color: var(--color-light-gray);
+        }
+      }
     }
   }
 `;
+
 const Error = styled.div`
   position: absolute;
   bottom: -15px;

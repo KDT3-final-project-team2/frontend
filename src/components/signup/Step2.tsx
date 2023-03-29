@@ -22,7 +22,12 @@ const Step2 = ({
       <MainContainer>
         <StepCheck step={step} />
         {member === '개인' ? (
-          <ApplicantSignUpForm register={register} handleSubmit={handleSubmit} formState={formState} />
+          <ApplicantSignUpForm
+            register={register}
+            handleSubmit={handleSubmit}
+            formState={formState}
+            setValue={setValue}
+          />
         ) : (
           <CompanySignUpForm
             register={register}
