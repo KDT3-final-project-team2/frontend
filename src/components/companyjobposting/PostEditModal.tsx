@@ -147,6 +147,7 @@ export const ModalBackground = styled.section`
 
 export const ModalContainer = styled.div`
   width: 1056px;
+  height: 800px; // 삭제예정
   background: #ffffff;
   box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
   border-radius: 19px;
@@ -170,20 +171,20 @@ export const HeaderTitle = styled.p`
   font-size: 18px;
 `;
 
-const PostingTitleBox = styled.div`
+export const PostingTitleBox = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
   position: relative;
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   width: 90px;
   font-weight: 700;
   font-size: 16px;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 360px;
   height: 30px;
   border: 1px solid #7b7b7b;

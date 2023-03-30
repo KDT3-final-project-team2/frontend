@@ -58,7 +58,7 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
 
 export default JobPostingList;
 
-const NoticeContainer = styled.div`
+export const NoticeContainer = styled.div`
   width: 93%;
   height: 70px;
   box-shadow: 2px 2px 10px 2px #4357ac26;
@@ -72,7 +72,7 @@ const NoticeContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const NoticeTitle = styled.p`
+export const NoticeTitle = styled.p`
   font-weight: 700;
   font-size: 17px;
   color: #374151;
@@ -89,7 +89,7 @@ const Preview = styled.button`
   font-weight: 700;
 `;
 
-const IconContainer = styled.div`
+export const IconContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;

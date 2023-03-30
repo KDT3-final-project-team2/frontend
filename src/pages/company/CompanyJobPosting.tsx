@@ -28,7 +28,7 @@ const CompanyJobPosting = () => {
 
 export default CompanyJobPosting;
 
-const RecruitmentNotice = styled.h1`
+export const RecruitmentNotice = styled.h1`
   margin-top: 122px;
   margin-left: 62px;
 `;
@@ -45,7 +45,7 @@ const RecruitmentManagement = styled.h2`
   border-radius: 2px;
 `;
 
-const RegistrationButton = styled.button`
+export const RegistrationButton = styled.button`
   margin-top: 9px;
   background: var(--color-primary-100);
   border-radius: 20px;

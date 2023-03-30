@@ -68,6 +68,15 @@ const GlobalStyles = createGlobalStyle`
     min-width: 250px;
     box-sizing: border-box;
   }
+  .ql-editor strong {
+    font-weight: bold;
+  }
+  .ql-editor em {
+    font-style: italic;
+  }
+  .ql-editor u {
+    text-decoration: underline
+  } 
 `;
 
 export default GlobalStyles;
