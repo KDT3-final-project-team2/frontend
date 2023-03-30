@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { IModalProps } from '../../@types/props';
 import link from '../../assets/icons/link.png';
 import morevertical from '../../assets/icons/more_vertical.png';
+import PreviewModal from './PreviewModal';
 
 const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
 
   const onClickToggle = () => {
     setIsOpen(!isOpen);
@@ -19,12 +21,20 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
     setIsEditModal(true);
   };
 
+  const PreviewModalOpen = () => {
+    setPreviewModalOpen(true);
+  };
+
+  const onClickDisCard = () => {
+    // put or delete /company/jobposts/{jobpostId}
+  };
+
   return (
     <>
       <NoticeContainer onClick={onClickClose}>
         <NoticeTitle>2023년도 정규직 간호사 모집공고</NoticeTitle>
         <IconContainer>
-          <Preview>미리보기</Preview>
+          <Preview onClick={PreviewModalOpen}>미리보기</Preview>
           <Link src={link} />
           <DropDown>
             <Vertical src={morevertical} onClick={onClickToggle} />
@@ -33,7 +43,7 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
                 <Edit onClick={EditModalOpen}>
                   <p>수정</p>
                 </Edit>
-                <Delete>
+                <Delete onClick={onClickDisCard}>
                   <p>폐기</p>
                 </Delete>
               </DropDownBox>
@@ -41,6 +51,7 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
           </DropDown>
         </IconContainer>
       </NoticeContainer>
+      {previewModalOpen && <PreviewModal setPreviewModalOpen={setPreviewModalOpen} />}
     </>
   );
 };

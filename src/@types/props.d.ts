@@ -69,3 +69,12 @@ export interface IModalProps {
   setIsEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   isEditModal?: boolean;
 }
+
+export interface IPostingContensProps {
+  title: string;
+  contents: string;
+}
+
+export interface IPreviewModalProps {
+  setPreviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
