@@ -10,6 +10,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
     <Wrapper>
       <Form onSubmit={() => handleSubmit()}>
         <div className='inputBox'>
+          <label htmlFor=''>이름/생년월일</label>
           <input id='name' type='text' placeholder='이름' {...register('name')} />
           <Error>{formState.errors.name?.message}</Error>
           <input id='birthDate' type='date' placeholder='생년월일' {...register('birthDate')} />
@@ -17,6 +18,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
         </div>
 
         <div className='inputBox'>
+          <label htmlFor=''>성별/지원직무</label>
           <DropDown
             width='400px'
             title='gender'
@@ -35,6 +37,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
           <Error>{formState.errors.sector?.message}</Error>
         </div>
         <div className='inputBox'>
+          <label htmlFor=''>학력/경력</label>
           <DropDown
             width='400px'
             title='education'
@@ -132,7 +135,7 @@ const Form = styled.form`
       top: 42%;
       width: 16px;
       height: 10px;
-      &:nth-child(n + 4) {
+      &:nth-child(n + 5) {
         left: 95%;
       }
     }
@@ -172,7 +175,7 @@ const Form = styled.form`
       width: 50%;
       height: fit-content;
       z-index: 2;
-      &:nth-child(n + 4) {
+      &:nth-child(n + 5) {
         left: 50%;
       }
       li {
