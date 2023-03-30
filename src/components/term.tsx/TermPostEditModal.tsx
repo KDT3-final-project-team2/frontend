@@ -9,11 +9,12 @@ import {
 } from '../companyjobposting/PostEditModal';
 import close from '../../assets/icons/close.png';
 import { ModalContentsBox } from './../companyjobposting/PostEditModal';
-import { useState, ChangeEvent, React } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { termsOptions } from '../../constants/termsOptions';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useForm } from 'react-hook-form';
+import { RegistrationButton } from '../../pages/company/CompanyJobPosting';
 
 const TermPostEditModal = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -28,7 +29,7 @@ const TermPostEditModal = () => {
     trigger('contents');
   };
 
-  const onClickSubmit = data => {};
+  const onClickSubmit = () => {};
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
@@ -42,11 +43,11 @@ const TermPostEditModal = () => {
           <Close src={close} />
         </ModalHeader>
         <ModalContentsBox>
-          <PostingTitleBox>
-            <Label>버전</Label>
-            <VersionInput {...register('versioln')} />
-          </PostingTitleBox>
           <form onSubmit={handleSubmit(onClickSubmit)}>
+            <PostingTitleBox>
+              <Label>버전</Label>
+              <VersionInput {...register('versioln')} />
+            </PostingTitleBox>
             <SelectBox value={selectedOption} onChange={handleOptionChange}>
               {termsOptions.map(option => (
                 <option key={option.value} value={option.value}>
@@ -55,13 +56,14 @@ const TermPostEditModal = () => {
               ))}
             </SelectBox>
             <StyledReactQuill theme='snow' onChange={onChangeContents} />
+            <SaveBtn>저장</SaveBtn>
           </form>
         </ModalContentsBox>
-        <div
+        {/* <div
           dangerouslySetInnerHTML={{
             __html: '<p><strong>ㅇㅇㅇㅇㅇ</strong></p><p><br></p><ol><li>안녕</li></ol><h1>안녕하세용</h1>',
           }}
-        ></div>
+        ></div> */}
       </ModalContainer>
     </ModalBackground>
   );
@@ -92,9 +94,62 @@ const SelectBox = styled.select`
   height: 40px;
   padding: 10px;
   margin-top: 18px;
+  margin-bottom: 18px;
   font-size: 14px;
   color: #111827;
   font-weight: 500;
 `;
 
-const StyledReactQuill = styled(ReactQuill)``;
+const StyledReactQuill = styled(ReactQuill)`
+  height: 300px;
+  margin: 0px 0 85px;
+  .ql-editor strong {
+    font-weight: bold;
+  }
+  .ql-editor em {
+    font-style: italic;
+  }
+  .ql-editor u {
+    text-decoration: underline;
+  }
+  margin-top: 11px;
+  color: #374151;
+  .ql-container {
+    border: none;
+  }
+  .ql-toolbar.ql-snow {
+    border: 1px solid #e2efff;
+    border-radius: 10px 10px 0px 0px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .ql-formats {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .ql-formats:not(:last-child)::after {
+      content: '';
+      height: 26px;
+      width: 1px;
+      background: #d2d5da;
+      border-radius: 0.5px;
+    }
+    .ql-picker-options {
+      box-shadow: 2px 2px 10px 2px rgba(67, 87, 172, 0.15);
+      border-radius: 10px;
+      padding: 5px;
+    }
+  }
+  .ql-editor {
+    background-color: #e2efff;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid #e2efff;
+    padding: 33px;
+  }
+`;
+
+const SaveBtn = styled(RegistrationButton)`
+  margin-right: 0px;
+`;

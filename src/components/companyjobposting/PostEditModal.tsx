@@ -147,7 +147,6 @@ export const ModalBackground = styled.section`
 
 export const ModalContainer = styled.div`
   width: 1056px;
-  height: 800px; // 삭제예정
   background: #ffffff;
   box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
   border-radius: 19px;
