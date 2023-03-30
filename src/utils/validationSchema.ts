@@ -88,3 +88,13 @@ export const loginSchema = yup.object().shape({
     .max(15, '비밀번호는 최대 15자리로 입력해 주세요.')
     .matches(/^[a-zA-Z0-9]{8,15}$/, '영문자, 숫자를 조합하여 입력해주세요.'),
 });
+
+export const jobPostSchema = yup.object().shape({
+  title: yup.string().required('공고명을 입력해주세요.'),
+  sector: yup.string().required('직종을 입력해주세요.'),
+  experience: yup.string().required('경력을 입력해주세요.'),
+  education: yup.string().required('학력을 입력해주세요.'),
+  maxapplicants: yup.string().required('모집인원을 입력해주세요.'),
+  duedate: yup.string().required('마감일을 입력해주세요.'),
+  file: yup.mixed().required('공고 PDF를 입력해주세요.'),
+});

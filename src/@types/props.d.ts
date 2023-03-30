@@ -54,3 +54,27 @@ export interface ICheckBoxProps {
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   index: number;
 }
+
+export interface IinputBoxProps {
+  label: string;
+  register: UseFormRegister<FieldValues>;
+  placeholder?: string;
+  children?: JSX.Element;
+  id: string;
+  formState: FormState<FieldValues>;
+}
+
+export interface IModalProps {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditModal?: boolean;
+}
+
+export interface IPostingContensProps {
+  title: string;
+  contents: string;
+}
+
+export interface IPreviewModalProps {
+  setPreviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
