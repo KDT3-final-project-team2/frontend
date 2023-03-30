@@ -1,6 +1,6 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
-import WebEditor from '../../components/common/WebEditor';
+import WebEditor from '@components/common/WebEditor';
 import ReactQuill from 'react-quill';
 
 const EmailModal = ({ setEmailModal }: { setEmailModal: React.Dispatch<React.SetStateAction<boolean>> }) => {

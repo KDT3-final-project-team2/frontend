@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import List from '../../components/mainhome/List';
-import StepBox from '../../components/mainhome/StepBox';
+import List from '@components/mainhome/List';
+import StepBox from '@components/mainhome/StepBox';
 import { employSteps } from '../../constants/steps';
 
 const CompanyMain = () => {
