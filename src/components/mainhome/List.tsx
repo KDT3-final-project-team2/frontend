@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import emailIcon from '../../assets/icons/email.png';
+import EmailModal from './EmailModal';
 
-const List = ({ index }: { index: number }) => {
+const List = ({ index, step }: { index: number; step: string }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
+  const [emailModal, setEmailModal] = useState(false);
 
   return (
     <ListComponent>
@@ -22,10 +24,18 @@ const List = ({ index }: { index: number }) => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <p className='applyDate'>23.04.10</p>
           <div className='dDay'>지원 D+5</div>
-          <img src={emailIcon} alt='이메일' className='email' onClick={() => console.log('이메일')} />
+          <img
+            src={emailIcon}
+            alt='이메일'
+            className='email'
+            onClick={event => {
+              event.stopPropagation();
+              setEmailModal(true);
+            }}
+          />
         </div>
       </Head>
-
+      {emailModal ? <EmailModal setEmailModal={setEmailModal} /> : null}
       <Body>
         {open ? (
           <>
@@ -41,8 +51,16 @@ const List = ({ index }: { index: number }) => {
                 <p>메모</p>
                 <textarea name='memo' id='memo' cols={30} rows={10}></textarea>
                 <div className='buttons'>
-                  <button>합격</button>
-                  <button>불합격</button>
+                  {step === '서류통과' ? (
+                    <button>면접제안</button>
+                  ) : step === '채용제안' ? (
+                    <button>채용안내</button>
+                  ) : (
+                    <>
+                      <button>합격</button>
+                      <button>불합격</button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

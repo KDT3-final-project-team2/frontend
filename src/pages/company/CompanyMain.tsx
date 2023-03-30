@@ -10,17 +10,17 @@ const CompanyMain = () => {
 
   return (
     <Container>
-      <h1>채용현황</h1>
+      <h1 id='h1'>채용현황</h1>
       <div className='grid'>
         {employSteps.map(stepName => (
-          <StepBox stepName={stepName} step={step} setStep={setStep} />
+          <StepBox key={stepName} stepName={stepName} step={step} setStep={setStep} />
         ))}
       </div>
 
       <div>
         <h4>{step} 리스트</h4>
         {[1, 2, 3].map((applicant, index) => (
-          <List index={index}></List>
+          <List key={applicant + index} index={index} step={step}></List>
         ))}
       </div>
     </Container>
@@ -33,10 +33,10 @@ const Container = styled.div`
   margin: 100px 60px 50px;
   box-sizing: border-box;
   width: 90%;
-  h1 {
+  #h1 {
     position: relative;
   }
-  h1::after {
+  #h1::after {
     position: absolute;
     left: 125px;
     top: -10px;

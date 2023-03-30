@@ -5,7 +5,6 @@ const StepBox = ({ stepName, step, setStep }: IStepBoxProps) => {
   return (
     <div
       className={stepName === step ? `box active` : `box`}
-      key={stepName}
       style={{ backgroundColor: stepName === step ? '#FFC847' : '', color: stepName === step ? 'white' : '' }}
       onClick={() => setStep(stepName)}
     >
