@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import ModalWindow from '../../components/companyjobposting/ModalWindow';
 import JobPostingList from '../../components/companyjobposting/JobPostingList';
+import PostEditModal from '../../components/companyjobposting/PostEditModal';
 
 const CompanyJobPosting = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +20,7 @@ const CompanyJobPosting = () => {
         <JobPostingList key={data} setIsEditModal={setIsEditModal} />
       ))}
       {(isModalOpen || isEditModal) && (
-        <ModalWindow setIsModalOpen={setIsModalOpen} setIsEditModal={setIsEditModal} isEditModal={isEditModal} />
+        <PostEditModal setIsModalOpen={setIsModalOpen} setIsEditModal={setIsEditModal} isEditModal={isEditModal} />
       )}
     </>
   );
