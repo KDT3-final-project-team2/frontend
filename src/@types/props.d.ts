@@ -70,6 +70,12 @@ export interface IModalProps {
   isEditModal?: boolean;
 }
 
+export interface IStepBoxProps {
+  stepName: string;
+  step: string;
+  setStep: React.Dispatch<React.SetStateAction<string>>;
+}
+
 export interface IPostingContensProps {
   title: string;
   contents: string;
