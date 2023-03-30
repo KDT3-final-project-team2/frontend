@@ -15,11 +15,11 @@ const RightBar = ({ children }: { children: ReactNode }) => {
 export default RightBar;
 
 const RightBarComponent = styled.section`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
-  width: 350px;
-  height: 100vh;
+  width: 450px;
+  height: 100%;
   background-color: ${({ isLoginPage, isAdminLogin }: { isLoginPage: boolean; isAdminLogin: boolean }) =>
     isLoginPage ? '#fff' : isAdminLogin ? '#fff' : 'var(--color-primary-010)'};
   border-top-left-radius: 50px;

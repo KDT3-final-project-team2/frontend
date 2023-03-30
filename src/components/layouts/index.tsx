@@ -27,7 +27,7 @@ const MainSection = styled.main`
   position: absolute;
   left: ${({ isAdminLogin }: { isAdminLogin: boolean }) => (isAdminLogin ? '0' : '280px')};
   right: ${({ isSignUpPage, isAdminLogin }: { isSignUpPage: boolean; isAdminLogin: boolean }) =>
-    isSignUpPage ? '0' : isAdminLogin ? '0' : '350px'};
+    isSignUpPage ? '0' : isAdminLogin ? '0' : '450px'};
   min-height: 100vh;
   border-top-left-radius: ${({ isAdminLogin }: { isAdminLogin: boolean }) => (isAdminLogin ? '0' : '50px')};
   overflow: hidden;

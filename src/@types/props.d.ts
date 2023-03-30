@@ -69,3 +69,9 @@ export interface IModalProps {
   setIsEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   isEditModal?: boolean;
 }
+
+export interface IStepBoxProps {
+  stepName: string;
+  step: string;
+  setStep: React.Dispatch<React.SetStateAction<string>>;
+}

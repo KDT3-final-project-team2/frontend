@@ -1,30 +1,27 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { companyMainSteps } from '../../constants/steps';
+import List from '../../components/mainhome/List';
+import StepBox from '../../components/mainhome/StepBox';
+import { employSteps } from '../../constants/steps';
 
 const CompanyMain = () => {
   const [step, setStep] = useState('서류지원');
-  console.log(step);
+
   return (
     <Container>
       <h1>채용현황</h1>
       <div className='grid'>
-        {companyMainSteps.map(mainStep => (
-          <div
-            className={mainStep === step ? `box active` : `box`}
-            key={mainStep}
-            style={{ backgroundColor: mainStep === step ? '#FFC847' : '', color: mainStep === step ? 'white' : '' }}
-            onClick={() => setStep(mainStep)}
-          >
-            <h3>{mainStep}</h3>
-            <p>10</p>
-          </div>
+        {employSteps.map(stepName => (
+          <StepBox stepName={stepName} step={step} setStep={setStep} />
         ))}
       </div>
 
       <div>
-        <h4>지원자 리스트</h4>
+        <h4>{step} 리스트</h4>
+        {[1, 2, 3].map((applicant, index) => (
+          <List index={index}></List>
+        ))}
       </div>
     </Container>
   );
@@ -90,5 +87,6 @@ const Container = styled.div`
   h4 {
     font-size: 22px;
     font-weight: bold;
+    margin-bottom: 27px;
   }
 `;
