@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { IStepCheckColorProps, IStepCheckProps, IStepCheckTitle } from './../../@types/props.d';
-import { signupSteps } from '../../constants/signupSteps';
+import { signupSteps } from '../../constants/steps';
 
 const StepCheck = ({ step }: IStepCheckProps) => {
   return (

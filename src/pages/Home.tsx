@@ -45,7 +45,7 @@ const Home = () => {
         <SignUpContent>
           <div>
             <p>메디매치가 처음이라면?</p>
-            <Link to='applicant/signup'>개인 회원가입</Link>|<Link to='company/signup'>병원 회원가입</Link>
+            <Link to='company/signup'>병원 회원가입</Link>|<Link to='applicant/signup'>개인 회원가입</Link>
           </div>
         </SignUpContent>
       )}

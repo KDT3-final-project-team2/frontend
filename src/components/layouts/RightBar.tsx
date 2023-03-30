@@ -18,7 +18,7 @@ const RightBarComponent = styled.section`
   position: absolute;
   top: 0;
   right: 0;
-  width: 450px;
+  width: 350px;
   height: 100vh;
   background-color: ${({ isLoginPage, isAdminLogin }: { isLoginPage: boolean; isAdminLogin: boolean }) =>
     isLoginPage ? '#fff' : isAdminLogin ? '#fff' : 'var(--color-primary-010)'};
