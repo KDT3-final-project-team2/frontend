@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import arrowUp from '../../assets/icons/toggleArrowUp.png';
-import arrowDown from '../../assets/icons/toggleArrowDown.png';
 import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 const DropDown = ({
@@ -31,9 +29,9 @@ const DropDown = ({
         }}
       />
       {open ? (
-        <img src={arrowUp} alt='' onClick={() => setOpen(false)} />
+        <img src='/icons/toggleArrowUp.png' alt='닫기' onClick={() => setOpen(false)} />
       ) : (
-        <img src={arrowDown} alt='' onClick={() => setOpen(true)} />
+        <img src='/icons/toggleArrowDown.png' alt='열기' onClick={() => setOpen(true)} />
       )}
       {open ? (
         <ul>

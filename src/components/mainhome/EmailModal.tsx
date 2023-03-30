@@ -1,6 +1,5 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
-import close from '../../assets/icons/close.png';
 import WebEditor from '../../components/common/WebEditor';
 import ReactQuill from 'react-quill';
 
@@ -17,7 +16,7 @@ const EmailModal = ({ setEmailModal }: { setEmailModal: React.Dispatch<React.Set
       <div id='container'>
         <header>
           <h3>안내 이메일 전송</h3>
-          <img src={close} alt='닫기' onClick={() => setEmailModal(false)} />
+          <img src='/icons/close.png' alt='닫기' onClick={() => setEmailModal(false)} />
         </header>
         <div id='content'>
           <form>
