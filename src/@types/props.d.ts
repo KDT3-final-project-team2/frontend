@@ -75,3 +75,12 @@ export interface IStepBoxProps {
   step: string;
   setStep: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface IPostingContensProps {
+  title: string;
+  contents: string;
+}
+
+export interface IPreviewModalProps {
+  setPreviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
