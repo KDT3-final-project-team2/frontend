@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import ApplicantsInfo from './../../components/applicant/ApplicantsInfo';
-import ApplicantsRecommend from './../../components/applicant/ApplicantsRecommend';
-import MailTemplate from './../../components/applicant/MailTemplate';
+import ApplicantsInfo from '../../components/company/ApplicantsInfo';
+import ApplicantsRecommend from '../../components/company/ApplicantsRecommend';
+import ApplicantsStats from '../../components/company/ApplicantsStats';
+import MailTemplate from '../../components/company/MailTemplate';
 
 const CompanyApplicant = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -16,6 +17,7 @@ const CompanyApplicant = () => {
   return (
     <ContainerInner>
       <Title>지원자 통계</Title>
+      <ApplicantsStats />
       <TabContent>
         <ul>
           {tabs.map((item, idx) => (
@@ -47,20 +49,18 @@ const Title = styled.h1`
 `;
 
 const TabContent = styled.div`
-  padding: 0 30px;
   ul {
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 60px;
     li {
       cursor: pointer;
       color: var(--color-gray-500);
       font-size: 20px;
       font-weight: bold;
       letter-spacing: -0.5px;
-      line-height: 50px;
+      line-height: 44px;
       position: relative;
-      padding: 0 10px;
       &.active {
         color: var(--color-primary-100);
         :after {
