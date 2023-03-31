@@ -74,7 +74,7 @@ const modules = {
           ],
         },
       ],
-      [{ align: [''] }, { list: 'bullet' }, 'link'],
+      [{ align: ['', 'center', 'right'] }, { list: 'bullet' }, { list: 'ordered' }],
     ],
   },
 };
@@ -83,7 +83,8 @@ const Editor = styled.div`
   margin-top: 11px;
   color: #374151;
   .ql-container {
-    border: none;
+    border: 1px solid #e2efff;
+    border-radius: 0 0 10px 10px;
   }
   .ql-toolbar.ql-snow {
     border: 1px solid #e2efff;
