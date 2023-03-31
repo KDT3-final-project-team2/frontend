@@ -98,3 +98,11 @@ export const jobPostSchema = yup.object().shape({
   duedate: yup.string().required('마감일을 입력해주세요.'),
   file: yup.mixed().required('공고 PDF를 입력해주세요.'),
 });
+
+export const termPostSchema = yup.object().shape({
+  version: yup
+    .string()
+    .required('버전을 입력해주세요.')
+    .matches(/^[1-9]\d*\.\d{1,2}$/, '올바른 형식으로 입력해주세요. (ex. 1.0, 2.12)'),
+  contents: yup.string().notOneOf(['<p><br></p>'], '내용을 입력해주세요.').required('내용을 입력해주세요.'),
+});
