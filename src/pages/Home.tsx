@@ -19,7 +19,7 @@ const Home = () => {
       ) : (
         <img src='/logo.svg' width='230px' height='160px' />
       )}
-      {isLoginPage ? <img src='/loginContent.png' /> : null}
+      {isLoginPage ? <img src='/images/loginContent.png' /> : null}
       <strong>병원 채용 진행을 한눈에!</strong>
       <TextContent isLoginPage={isLoginPage}>
         <p>
