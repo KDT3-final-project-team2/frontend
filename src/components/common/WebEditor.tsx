@@ -79,7 +79,7 @@ const modules = {
   },
 };
 
-const Editor = styled.div`
+export const Editor = styled.div`
   margin-top: 11px;
   color: #374151;
   .ql-container {

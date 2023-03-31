@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { IconContainer, NoticeContainer } from '../companyjobposting/JobPostingList';
 import { NoticeTitle } from './../companyjobposting/JobPostingList';
-import edit from '../../assets/icons/edit.png';
-import trashcan from '../../assets/icons/trashcan.png';
 
 const TermList = () => {
   return (
@@ -11,8 +9,8 @@ const TermList = () => {
         <NoticeTitle>서비스 이용약관</NoticeTitle>
         <IconContainer>
           <CreateDate>2023.04.10</CreateDate>
-          <Icon src={edit} />
-          <Icon src={trashcan} />
+          <Icon src='/icons.edit.png' />
+          <Icon src='/icons.trashcan.png' />
         </IconContainer>
       </NoticeContainer>
     </>

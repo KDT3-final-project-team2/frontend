@@ -84,3 +84,8 @@ export interface IPostingContensProps {
 export interface IPreviewModalProps {
   setPreviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ITermDataProps {
+  version: string;
+  contents: string;
+}
