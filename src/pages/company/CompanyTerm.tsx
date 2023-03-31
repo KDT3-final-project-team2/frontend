@@ -1,7 +1,7 @@
-import React from 'react';
+import { AdminTerm } from './../admin/AdminTerm';
 
 const CompanyTerm = () => {
-  return <div>CompanyTerm</div>;
+  return <AdminTerm />;
 };
 
 export default CompanyTerm;

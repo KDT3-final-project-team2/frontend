@@ -4,7 +4,7 @@ import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
 import { MouseEvent, useState } from 'react';
 
-const AdminTerm = () => {
+export const AdminTerm = () => {
   const [termModalOpen, setTermModalOpen] = useState(false);
   const [saveBtnText, setSaveBtnText] = useState('저장');
 
