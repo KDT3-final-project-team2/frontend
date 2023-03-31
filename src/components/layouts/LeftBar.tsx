@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { navigations } from '../../constants/navigation';
+import AlertModal from '../common/AlertModal';
 
 const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
   const path = useLocation().pathname;
@@ -38,6 +39,12 @@ const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
           </ul>
         </NavigateComponent>
       )}
+
+      {isSignUpPage || path.includes('admin') ? null : (
+        <button className='qna' onClick={() => AlertModal({ message: '준비중인 서비스입니다.' })}>
+          문의하기
+        </button>
+      )}
     </LeftBarComponent>
   );
 };
@@ -57,6 +64,19 @@ const LeftBarComponent = styled.section`
 
   @media (max-width: 1000px) {
     display: none;
+  }
+
+  .qna {
+    width: 228px;
+    height: 46px;
+    color: #4357ac;
+    font-weight: 700;
+    font-size: 20px;
+    background: #b3c2e7;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 32px;
+    left: 27px;
   }
 `;
 

@@ -8,15 +8,26 @@ import RightBar from './RightBar';
 const Layout = () => {
   const path = useLocation().pathname;
   const isSignUpPage = path.includes('signup');
+  const isAdminPage = path.includes('admin');
   const isAdminLogin = useLocation().pathname === '/admin/login';
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <div style={{ position: 'relative', height: '100%' }}>
       {isAdminLogin ? null : <LeftBar isSignUpPage={isSignUpPage} />}
       <MainSection isSignUpPage={isSignUpPage} isAdminLogin={isAdminLogin}>
         <Outlet />
+        <ScrollTop onClick={() => scrollToTop()} isSignUpPage={isSignUpPage} isAdminPage={isAdminPage}>
+          <img src='/images/scroll_top.png' alt='스크롤' />
+        </ScrollTop>
       </MainSection>
-      {isAdminLogin ? null : !isSignUpPage ? <RightBar>{}</RightBar> : null}
+      {isAdminLogin || isAdminPage ? null : !isSignUpPage ? <RightBar>{}</RightBar> : null}
     </div>
   );
 };
@@ -43,5 +54,26 @@ const MainSection = styled.main`
   }
   @media (max-width: 1500px) {
     right: 0;
+  }
+`;
+
+interface IScrollTopProps {
+  isAdminPage: boolean;
+  isSignUpPage: boolean;
+}
+
+const ScrollTop = styled.div<IScrollTopProps>`
+  width: 67px;
+  height: 67px;
+  border-radius: 100%;
+  position: fixed;
+  right: ${props => (props.isAdminPage ? '30px' : '480px')};
+  bottom: 34px;
+  background-color: white;
+  display: ${props => (props.isSignUpPage ? 'none' : 'flex')};
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 1500px) {
+    right: 30px;
   }
 `;
