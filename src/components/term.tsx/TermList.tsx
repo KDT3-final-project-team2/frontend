@@ -94,7 +94,7 @@ const Date = styled.p`
 const TermContentsBox = styled.div`
   padding: 26px 0;
   .contentsborder {
-    width: 948px;
+    width: 99%;
     height: 245px;
     border: 1px solid #8294cd;
     border-radius: 10px;

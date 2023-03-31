@@ -19,6 +19,7 @@ import CompanySetting from './pages/company/CompanySetting';
 import ApplicantResume from './pages/applicant/ApplicantResume';
 import ApplicantSetting from './pages/applicant/ApplicantSetting';
 import ApplicantJobSearching from './pages/applicant/ApplicantJobSearching';
+import CompanyTerm from './pages/company/CompanyTerm';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path='' element={<CompanyMain />} />
             <Route path='applicant' element={<CompanyApplicant />} />
             <Route path='jobposting' element={<CompanyJobPosting />} />
+            <Route path='term' element={<CompanyTerm />} />
             <Route path='setting' element={<CompanySetting />} />
           </Route>
           <Route path='applicant'>
