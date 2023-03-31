@@ -50,7 +50,7 @@ const Login = () => {
     <>
       <HomeComponent isLoginPage={isLoginPage}>
         <img src='/logo.svg' width='230px' height='65px' />
-        <img src='/loginContent.png' />
+        <img src='/images/loginContent.png' />
         <strong>병원 채용 진행을 한눈에!</strong>
         <TextContent isLoginPage={isLoginPage}>
           <p>

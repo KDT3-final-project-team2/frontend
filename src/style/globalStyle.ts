@@ -15,7 +15,16 @@ const GlobalStyles = createGlobalStyle`
     --color-red: #E95656;
     --color-blue: #5A98E1;
     --color-back: #223f53;
-    --color-light-gray: #F5F5F5; 
+    --color-light-gray: #F5F5F5;
+    --color-gray-900: #111827;
+    --color-gray-800: #1F2937;
+    --color-gray-700: #374151;
+    --color-gray-600: #4B5563;
+    --color-gray-500: #6D7280;
+    --color-gray-400: #7B7B7B;
+    --color-gray-300: #D2D5DA;
+    --color-gray-200: #ECECEC;
+    --color-gray-100: #F3F4F6;
   }
   body {
     font-family: "LineSeedKR", sans-serif;
