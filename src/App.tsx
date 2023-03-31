@@ -15,9 +15,9 @@ import AdminSetting from './pages/admin/AdminSetting';
 import Loading from './components/common/Loading';
 import CompanyApplicant from './pages/company/CompanyApplicant';
 import CompanyJobPosting from './pages/company/CompanyJobPosting';
-import CompanyContract from './pages/company/CompanyContract';
+import CompanySetting from './pages/company/CompanySetting';
 import ApplicantResume from './pages/applicant/ApplicantResume';
-import ApplicantMyInfo from './pages/applicant/ApplicantMyInfo';
+import ApplicantSetting from './pages/applicant/ApplicantSetting';
 import ApplicantJobSearching from './pages/applicant/ApplicantJobSearching';
 
 function App() {
@@ -36,13 +36,13 @@ function App() {
             <Route path='' element={<CompanyMain />} />
             <Route path='applicant' element={<CompanyApplicant />} />
             <Route path='jobposting' element={<CompanyJobPosting />} />
-            <Route path='contract' element={<CompanyContract />} />
+            <Route path='setting' element={<CompanySetting />} />
           </Route>
           <Route path='applicant'>
             <Route path='' element={<ApplicantMain />} />
             <Route path='jobsearching' element={<ApplicantJobSearching />} />
             <Route path='resume' element={<ApplicantResume />} />
-            <Route path='myinfo' element={<ApplicantMyInfo />} />
+            <Route path='setting' element={<ApplicantSetting />} />
           </Route>
           <Route path='admin'>
             <Route path='' element={<AdminMain />} /> // admin관련 페이지들은 루트 경로 보호예정

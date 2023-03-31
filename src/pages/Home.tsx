@@ -15,11 +15,11 @@ const Home = () => {
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
       </div>
       {isLoginPage ? (
-        <img src='src/assets/logo/logo.svg' width='230px' height='65px' />
+        <img src='/logo.svg' width='230px' height='65px' />
       ) : (
-        <img src='src/assets/logo/logo.svg' width='230px' height='160px' />
+        <img src='/logo.svg' width='230px' height='160px' />
       )}
-      {isLoginPage ? <img src='src/assets/loginContent.png' /> : null}
+      {isLoginPage ? <img src='/loginContent.png' /> : null}
       <strong>병원 채용 진행을 한눈에!</strong>
       <TextContent isLoginPage={isLoginPage}>
         <p>
@@ -45,7 +45,7 @@ const Home = () => {
         <SignUpContent>
           <div>
             <p>메디매치가 처음이라면?</p>
-            <Link to='applicant/signup'>개인 회원가입</Link>|<Link to='company/signup'>병원 회원가입</Link>
+            <Link to='company/signup'>병원 회원가입</Link>|<Link to='applicant/signup'>개인 회원가입</Link>
           </div>
         </SignUpContent>
       )}

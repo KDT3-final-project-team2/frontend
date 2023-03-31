@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import close from '../../assets/icons/close.png';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
-import selectfile from '../../assets/icons/selectfile.png';
 import { IinputBoxProps, IModalProps } from '../../@types/props';
 import { jobPostSchema } from '../../utils/validationSchema';
 
@@ -61,7 +59,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
       <ModalContainer>
         <ModalHeader>
           <HeaderTitle>채용 공고</HeaderTitle>
-          <Close src={close} onClick={onClickModalClose} />
+          <Close src='/icons/close.png' onClick={onClickModalClose} />
         </ModalHeader>
         <ModalContentsBox>
           <form onSubmit={handleSubmit(onSubmitPosting)}>
@@ -107,7 +105,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
               <FileTitleBox>
                 <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>
               </FileTitleBox>
-              <SelectFile src={selectfile} onClick={onClickFile} />
+              <SelectFile src='/icons/selectfile.png' onClick={onClickFile} />
               <ErrorMessage>{formState.errors.file?.message}</ErrorMessage>
             </PostingTitleBox>
           </form>

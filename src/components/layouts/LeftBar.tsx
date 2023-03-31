@@ -11,7 +11,7 @@ const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
   return (
     <LeftBarComponent>
       <div style={{ display: 'flex', gap: '11px', margin: '35px 44px' }}>
-        <img src='../../src/assets/logo/logo.svg' alt='로고' width='140' />
+        <img src='/logo.svg' alt='로고' width='140' />
       </div>
 
       {isSignUpPage ? (
@@ -29,7 +29,7 @@ const LeftBar = ({ isSignUpPage }: { isSignUpPage: boolean }) => {
                 <Link to={menu === 'home' ? `${presentMainPath}` : `${presentMainPath}/${menu}`} key={menu}>
                   <Box isActive={menu === presentSubPath || (presentSubPath === undefined && menu === 'home')} />
                   <div style={{ display: 'flex', gap: '25px', alignItems: 'center', height: '20px' }}>
-                    <img src={`../../src/assets/icons/${menu}.png`} alt={menu} width='20px' />
+                    <img src={`/icons/${menu}.png`} alt={menu} width='20px' />
                     <p>{menus[menu]}</p>
                   </div>
                 </Link>

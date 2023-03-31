@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import SignUpPaginationButton from './SignUpPaginationButton';
 import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
-import { useState } from 'react';
 import { terms } from '../../constants/terms';
 import CheckBox from './CheckBox';
-import check from '../../assets/icons/check.png';
 
 const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setCheckedItems }: IStep1Props) => {
   const handleAllChecks = (event: React.ChangeEvent) => {
@@ -35,7 +33,7 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
                 id={'이용약관 전체 동의하기'}
               />
               <label htmlFor='이용약관 전체 동의하기'>
-                <img src={check} alt='체크' />
+                <img src='/icons/check.png' alt='체크' />
               </label>
               <div>이용약관 전체 동의하기</div>
             </div>

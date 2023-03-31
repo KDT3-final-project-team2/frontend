@@ -77,6 +77,9 @@ const GlobalStyles = createGlobalStyle`
     min-width: 250px;
     box-sizing: border-box;
   }
+  strong {
+    font-weight: bold;
+  }
 `;
 
 export default GlobalStyles;

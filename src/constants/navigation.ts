@@ -3,7 +3,6 @@ export const navigations: { [key: string]: { [key: string]: string } } = {
     home: '메인 홈',
     applicant: '지원자',
     jobposting: '채용공고',
-    contract: '계약작성',
     setting: '설정',
   },
   applicant: {
