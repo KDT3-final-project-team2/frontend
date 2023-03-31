@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
-import { HorizontalBarChart, PictorialChart } from 'amazing-react-charts';
+// import { HorizontalBarChart, PictorialChart } from 'amazing-react-charts';
 
 type Props = {};
 
@@ -53,7 +53,7 @@ const ApplicantsStats = (props: Props) => {
         <Age>
           <h3>연령</h3>
           <div style={{ position: 'absolute', width: '100%', top: '0', left: '-12px' }}>
-            <HorizontalBarChart
+            {/* <HorizontalBarChart
               xComplement='%'
               barWidth={5}
               yComplement='%'
@@ -83,13 +83,13 @@ const ApplicantsStats = (props: Props) => {
                   itemId: 'c',
                 },
               ]}
-            />
+            /> */}
           </div>
         </Age>
         <Gender>
           <h3>성별</h3>
           <div style={{ width: 60, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <PictorialChart
+            {/* <PictorialChart
               grid={{ bottom: '0' }}
               height={240}
               color='#E95656'
@@ -107,11 +107,11 @@ const ApplicantsStats = (props: Props) => {
                     'M8.42895 21C7.43365 21 6.5898 21.7319 6.44905 22.7172L0.0204768 67.7172C-0.151647 68.922 0.783277 70 2.00038 70H9.06278L10.5946 99.1051C10.6505 100.167 11.5281 101 12.5919 101H21.7969C22.8606 101 23.7382 100.167 23.7941 99.1051L25.3259 70H32.4345C33.6355 70 34.5657 68.949 34.4197 67.7569L28.9095 22.7569C28.7867 21.7538 27.9349 21 26.9243 21H8.42895Z',
                 },
               ]}
-            />
+            /> */}
             <p>여자</p>
           </div>
           <div style={{ width: 60, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <PictorialChart
+            {/* <PictorialChart
               grid={{ bottom: '0' }}
               height={240}
               color='#5691e9'
@@ -129,14 +129,14 @@ const ApplicantsStats = (props: Props) => {
                     'M4.15991 21C1.82986 21 -0.00701858 22.9836 0.171687 25.3068L2.69835 58.1534C2.7785 59.1954 3.64739 60 4.69246 60H6.05435L8.77457 98.1423C8.84922 99.189 9.72015 100 10.7695 100H23.9113C24.9606 100 25.8316 99.189 25.9062 98.1423L28.6264 60H29.9403C31.0051 60 31.8832 59.1658 31.9377 58.1024L33.6248 25.2049C33.742 22.9183 31.9196 21 29.63 21H4.15991Z',
                 },
               ]}
-            />
+            /> */}
             <p>남자</p>
           </div>
         </Gender>
         <Academic>
           <h3>학력</h3>
           <div style={{ position: 'absolute', width: '100%', top: '0', left: '12px' }}>
-            <HorizontalBarChart
+            {/* <HorizontalBarChart
               xComplement='%'
               barWidth={5}
               yComplement='%'
@@ -166,7 +166,7 @@ const ApplicantsStats = (props: Props) => {
                   itemId: 'c',
                 },
               ]}
-            />
+            /> */}
           </div>
         </Academic>
       </Type>

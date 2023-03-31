@@ -60,10 +60,10 @@ const ApplicantsInfo = () => {
                   </div>
                   <div>
                     <button>
-                      <img src='/public/icon/mail.svg' alt='메일' width='20px' height='16px' />
+                      <img src='/public/icons/mail.svg' alt='메일' width='20px' height='16px' />
                     </button>
                     <button>
-                      <img src='/public/icon/bookmark.svg' alt='북마크' width='14px' height='18px' />
+                      <img src='/public/icons/bookmark.svg' alt='북마크' width='14px' height='18px' />
                     </button>
                   </div>
                 </li>
