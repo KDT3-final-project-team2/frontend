@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import ApplicantsInfo from '../../components/company/ApplicantsInfo';
-import ApplicantsRecommend from '../../components/company/ApplicantsRecommend';
-import ApplicantsStats from '../../components/company/ApplicantsStats';
-import MailTemplate from '../../components/company/MailTemplate';
+import ApplicantsInfo from '../../components/companyApplicant/ApplicantsInfo';
+import ApplicantsRecommend from '../../components/companyApplicant/ApplicantsRecommend';
+import ApplicantsStats from '../../components/companyApplicant/ApplicantsStats';
+import MailTemplate from '../../components/companyApplicant/MailTemplate';
 
 const CompanyApplicant = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
-    { index: 1, name: '지원자 정보 보관함', content: <ApplicantsInfo activeTab={activeTab} /> },
+    { index: 1, name: '지원자 정보 보관함', content: <ApplicantsInfo /> },
     { index: 2, name: '맞춤 지원자 추천', content: <ApplicantsRecommend /> },
     { index: 3, name: '메일 템플릿', content: <MailTemplate /> },
   ];

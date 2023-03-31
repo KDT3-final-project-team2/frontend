@@ -20,10 +20,6 @@ const ApplicantsStats = (props: Props) => {
   const dispatch = useAppDispatch();
   const [stats, setStats] = useState([]);
 
-  useEffect(() => {
-    getStats();
-  }, []);
-
   const getStats = async () => {
     try {
       dispatch(showLoading());
@@ -32,6 +28,10 @@ const ApplicantsStats = (props: Props) => {
       dispatch(hideLoading());
     }
   };
+
+  useEffect(() => {
+    getStats();
+  }, []);
 
   return (
     <Applicants>
@@ -88,10 +88,10 @@ const ApplicantsStats = (props: Props) => {
         </Age>
         <Gender>
           <h3>성별</h3>
-          <div style={{ width: 35 }}>
+          <div style={{ width: 60, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <PictorialChart
               grid={{ bottom: '0' }}
-              height={130}
+              height={240}
               color='#E95656'
               tooltip={{
                 label: 'acidents',
@@ -108,11 +108,12 @@ const ApplicantsStats = (props: Props) => {
                 },
               ]}
             />
+            <p>여자</p>
           </div>
-          <div style={{ width: 35 }}>
+          <div style={{ width: 60, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <PictorialChart
               grid={{ bottom: '0' }}
-              height={130}
+              height={240}
               color='#5691e9'
               tooltip={{
                 label: 'acidents',
@@ -129,6 +130,7 @@ const ApplicantsStats = (props: Props) => {
                 },
               ]}
             />
+            <p>남자</p>
           </div>
         </Gender>
         <Academic>
@@ -280,8 +282,14 @@ const Gender = styled.div`
   align-items: center;
   width: 33.3%;
   position: relative;
+  padding-top: 20px;
+  justify-content: center;
   h3 {
     left: 37px;
+  }
+  p {
+    position: absolute;
+    bottom: 22px;
   }
 `;
 
