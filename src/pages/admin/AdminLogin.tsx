@@ -49,8 +49,8 @@ const Login = () => {
   return (
     <>
       <HomeComponent isLoginPage={isLoginPage}>
-        <img src='../src/assets/Logo.svg' width='230px' height='65px' />
-        <img src='../src/assets/loginContent.png' />
+        <img src='/logo.svg' width='230px' height='65px' />
+        <img src='/loginContent.png' />
         <strong>병원 채용 진행을 한눈에!</strong>
         <TextContent isLoginPage={isLoginPage}>
           <p>
@@ -80,7 +80,7 @@ const Login = () => {
                     })
                   }
                 >
-                  <img src='src/assets/google.svg' width='18px' height='18px' />
+                  <img src='/google.svg' width='18px' height='18px' />
                   Google 로그인
                 </div>
                 <div
@@ -90,7 +90,7 @@ const Login = () => {
                     })
                   }
                 >
-                  <img src='src/assets/kakao.svg' width='30px' height='30px' />
+                  <img src='/kakao.svg' width='30px' height='30px' />
                   카카오 로그인
                 </div>
               </SnsBtn>

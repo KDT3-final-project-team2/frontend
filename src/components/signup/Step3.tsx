@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
 import { Link } from 'react-router-dom';
-import welcome from '../../assets/images/welcome.png';
 
 const Step3 = ({ member, step }: IStep3Props) => {
   return (
@@ -12,7 +11,7 @@ const Step3 = ({ member, step }: IStep3Props) => {
       <MainContainer>
         <StepCheck step={step} />
         <div>
-          <img src={welcome} alt='welcome' width={500} />
+          <img src='/images/welcome.png' alt='welcome' width={500} />
         </div>
         {/* <div style={{ fontSize: '30px' }}>가입성공!</div> */}
         <Link to='/login'>

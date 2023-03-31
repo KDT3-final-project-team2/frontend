@@ -15,11 +15,11 @@ const Home = () => {
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
       </div>
       {isLoginPage ? (
-        <img src='src/assets/Logo.svg' width='230px' height='65px' />
+        <img src='/logo.svg' width='230px' height='65px' />
       ) : (
-        <img src='src/assets/Logo.svg' width='230px' height='160px' />
+        <img src='/logo.svg' width='230px' height='160px' />
       )}
-      {isLoginPage ? <img src='src/assets/loginContent.png' /> : null}
+      {isLoginPage ? <img src='/loginContent.png' /> : null}
       <strong>병원 채용 진행을 한눈에!</strong>
       <TextContent isLoginPage={isLoginPage}>
         <p>

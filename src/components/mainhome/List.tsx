@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import emailIcon from '../../assets/icons/email.png';
 import EmailModal from './EmailModal';
 
 const List = ({ index, step }: { index: number; step: string }) => {
@@ -25,7 +24,7 @@ const List = ({ index, step }: { index: number; step: string }) => {
           <p className='applyDate'>23.04.10</p>
           <div className='dDay'>지원 D+5</div>
           <img
-            src={emailIcon}
+            src='/icons/email.png'
             alt='이메일'
             className='email'
             onClick={event => {

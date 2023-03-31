@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ICheckBoxProps } from '../../@types/props';
-import check from '../../assets/icons/check.png';
-import arrowUp from '../../assets/icons/toggleArrowUp.png';
-import arrowDown from '../../assets/icons/toggleArrowDown.png';
 
 const CheckBox = ({ title, checkedItems, setCheckedItems, index }: ICheckBoxProps) => {
   const [toggle, setToggle] = useState(index === 0 ? true : false);
@@ -150,13 +147,13 @@ const CheckBox = ({ title, checkedItems, setCheckedItems, index }: ICheckBoxProp
           onChange={handleOneCheck}
         />
         <label htmlFor={title}>
-          <img src={check} alt='체크' />
+          <img src='/icons/check.png' alt='체크' />
         </label>
         <div>[필수] {title}</div>
         {toggle ? (
-          <img src={arrowUp} alt='' onClick={() => setToggle(false)} />
+          <img src='/icons/toggleArrowUp.png' alt='닫기' onClick={() => setToggle(false)} />
         ) : (
-          <img src={arrowDown} alt='' onClick={() => setToggle(true)} />
+          <img src='/icons/toggleArrowDown.png' alt='열기' onClick={() => setToggle(true)} />
         )}
       </div>
 

@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { Close, ModalBackground, ModalContainer, ModalContentsBox, QualificationsTitle } from './PostEditModal';
-import close from '../../assets/icons/close.png';
-import pdfFile from '../../assets/icons/pdfFile.png';
 import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
 
 const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
@@ -18,7 +16,7 @@ const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
               <SiteTitle>MEDIMATCH</SiteTitle>
               <PostingTitle>2023년도 정규직 간호사 모집공고</PostingTitle>
             </TitleBox>
-            <Close src={close} onClick={onClickClose} />
+            <Close src={'/icons/close.png'} onClick={onClickClose} />
           </PreviewModalHeader>
           <ApplyBtn>지원하기</ApplyBtn>
           <ModalContentsBox>
@@ -36,7 +34,7 @@ const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
               <ContentsBox>
                 <ContentsTitle>공고 PDF</ContentsTitle>
                 <FileBox>
-                  <File src={pdfFile} />
+                  <File src={'/icons/pdfFile.png'} />
                 </FileBox>
               </ContentsBox>
             </QualificationsBox>

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { IModalProps } from '../../@types/props';
-import link from '../../assets/icons/link.png';
-import morevertical from '../../assets/icons/more_vertical.png';
 import PreviewModal from './PreviewModal';
 
 const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>) => {
@@ -35,9 +33,9 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
         <NoticeTitle>2023년도 정규직 간호사 모집공고</NoticeTitle>
         <IconContainer>
           <Preview onClick={PreviewModalOpen}>미리보기</Preview>
-          <Link src={link} />
+          <Link src='/icons/link.png' />
           <DropDown>
-            <Vertical src={morevertical} onClick={onClickToggle} />
+            <Vertical src='/icons/more_vertical.png' onClick={onClickToggle} />
             {isOpen && (
               <DropDownBox>
                 <Edit onClick={EditModalOpen}>
