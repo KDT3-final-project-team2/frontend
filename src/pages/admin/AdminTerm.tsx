@@ -1,4 +1,4 @@
-import { RecruitmentNotice, RegistrationButton } from '../company/CompanyJobPosting';
+import { MainContainer, RecruitmentNotice, RegistrationButton } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
@@ -20,15 +20,17 @@ const AdminTerm = () => {
   };
 
   return (
-    <>
-      <RecruitmentNotice>약관 관리</RecruitmentNotice>
-      <ViewTerms>약관 조회</ViewTerms>
-      <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
+    <MainContainer>
+      <div className='headerBox'>
+        <RecruitmentNotice>약관 관리</RecruitmentNotice>
+        <ViewTerms>약관 조회</ViewTerms>
+        <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
+      </div>
       {[1, 2, 3].map((data, index) => (
         <TermList key={data} index={index} setTermModalOpen={setTermModalOpen} onClickTermEdit={onClickTermEdit} />
       ))}
       {termModalOpen && <TermPostEditModal setTermModalOpen={setTermModalOpen} saveBtnText={saveBtnText} />}
-    </>
+    </MainContainer>
   );
 };
 
@@ -40,7 +42,6 @@ const ViewTerms = styled.h2`
   font-weight: 700;
   color: var(--color-primary-100);
   margin-top: 50px;
-  margin-left: 62px;
   width: 100px;
   border-bottom: 5px solid;
 `;
