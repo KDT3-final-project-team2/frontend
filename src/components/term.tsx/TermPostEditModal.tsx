@@ -17,9 +17,9 @@ import { RegistrationButton } from '../../pages/company/CompanyJobPosting';
 import { Editor } from '../common/WebEditor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { termPostSchema } from '@/utils/validationSchema';
-import { ITermDataProps } from '@/@types/props';
+import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
 
-const TermPostEditModal = () => {
+const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModalProps) => {
   const [selectedOption, setSelectedOption] = useState('');
 
   const { register, handleSubmit, setValue, trigger, formState } = useForm<ITermDataProps>({
@@ -41,12 +41,16 @@ const TermPostEditModal = () => {
     setSelectedOption(event.target.value);
   };
 
+  const onClickCloseModal = () => {
+    setTermModalOpen(false);
+  };
+
   return (
     <ModalBackground>
       <ModalContainer>
         <ModalHeader>
           <HeaderTitle>약관 관리 작성</HeaderTitle>
-          <Close src='/icons/close.png' />
+          <Close src='/icons/close.png' onClick={onClickCloseModal} />
         </ModalHeader>
         <ModalContentsBox>
           <form onSubmit={handleSubmit(onClickSubmit)}>
@@ -66,14 +70,12 @@ const TermPostEditModal = () => {
               <StyledReactQuill theme='snow' onChange={onChangeContents} />
               <ErrorMessage>{formState.errors.contents?.message}</ErrorMessage>
             </Editor>
-            <SaveBtn>저장</SaveBtn>
+            <BtnContainer>
+              <CloseBtn onClick={onClickCloseModal}>취소</CloseBtn>
+              <SaveBtn>{saveBtnText}</SaveBtn>
+            </BtnContainer>
           </form>
         </ModalContentsBox>
-        {/* <div
-          dangerouslySetInnerHTML={{
-            __html: '<p><strong>ㅇㅇㅇㅇㅇ</strong></p><p><br></p><ol><li>안녕</li></ol><h1>안녕하세용</h1>',
-          }}
-        ></div> */}
       </ModalContainer>
     </ModalBackground>
   );
@@ -126,9 +128,29 @@ const StyledReactQuill = styled(ReactQuill)`
 
 const SaveBtn = styled(RegistrationButton)`
   margin-right: 0px;
+  margin-left: 0;
 `;
 
 const ErrorMessage = styled.p`
   color: #e95656;
   margin-left: 10px;
+  margin-top: 0px;
+`;
+
+const CloseBtn = styled.button`
+  height: 40px;
+  width: 140px;
+  border-radius: 20px;
+  border: 1px solid var(--color-primary-050);
+  background-color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-primary-050);
+  margin-top: 9px;
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 12px;
 `;

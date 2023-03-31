@@ -2,17 +2,32 @@ import { RecruitmentNotice, RegistrationButton } from '../company/CompanyJobPost
 import styled from 'styled-components';
 import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
+import { MouseEvent, useState } from 'react';
 
 const AdminTerm = () => {
+  const [termModalOpen, setTermModalOpen] = useState(false);
+  const [saveBtnText, setSaveBtnText] = useState('저장');
+
+  const onClickTermPost = () => {
+    setTermModalOpen(true);
+    setSaveBtnText('저장');
+  };
+
+  const onClickTermEdit = (event: MouseEvent<HTMLImageElement>) => {
+    event?.stopPropagation();
+    setTermModalOpen(true);
+    setSaveBtnText('수정완료');
+  };
+
   return (
     <>
       <RecruitmentNotice>약관 관리</RecruitmentNotice>
       <ViewTerms>약관 조회</ViewTerms>
-      <RegistrationButton>작성하기</RegistrationButton>
-      {[1, 2, 3].map(data => (
-        <TermList key={data} />
+      <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
+      {[1, 2, 3].map((data, index) => (
+        <TermList key={data} index={index} setTermModalOpen={setTermModalOpen} onClickTermEdit={onClickTermEdit} />
       ))}
-      <TermPostEditModal />
+      {termModalOpen && <TermPostEditModal setTermModalOpen={setTermModalOpen} saveBtnText={saveBtnText} />}
     </>
   );
 };

@@ -89,3 +89,14 @@ export interface ITermDataProps {
   version: string;
   contents: string;
 }
+
+export interface ITermPostEditModalProps {
+  setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  saveBtnText: string;
+}
+
+export interface ITermListProps {
+  setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClickTermEdit: (event: MouseEvent<HTMLImageElement>) => void;
+  index: number;
+}
