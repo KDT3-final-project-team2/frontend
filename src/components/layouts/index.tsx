@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { navigations } from '../../constants/navigation';
 import LeftBar from './LeftBar';
 import RightBar from './RightBar';
+import Calendar from '../../pages/Calendar';
 
 const Layout = () => {
   const path = useLocation().pathname;
@@ -16,7 +17,7 @@ const Layout = () => {
       <MainSection isSignUpPage={isSignUpPage} isAdminLogin={isAdminLogin}>
         <Outlet />
       </MainSection>
-      {isAdminLogin ? null : !isSignUpPage ? <RightBar>{}</RightBar> : null}
+      {isAdminLogin ? null : !isSignUpPage ? <RightBar>{<Calendar />}</RightBar> : null}
     </div>
   );
 };
