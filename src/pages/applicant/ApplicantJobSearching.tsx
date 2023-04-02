@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
+import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
 
 const ApplicantJobSearching = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -48,7 +49,11 @@ const ApplicantJobSearching = () => {
             <button style={{ display: 'none' }}></button>
           </form>
         </SearchBox>
+        <ListHeader>공고 리스트</ListHeader>
       </div>
+      {[1, 2, 3].map((data, index) => (
+        <JobSearchingList key={index} index={index} />
+      ))}
     </MainContainer>
   );
 };
@@ -125,6 +130,7 @@ const SelectBox = styled.select`
 
 const SearchInputWrapper = styled.div`
   position: relative;
+
   img {
     height: 18px;
     position: absolute;
@@ -145,4 +151,11 @@ const SearchInput = styled.input`
   ::placeholder {
     font-size: 14px;
   }
+`;
+
+const ListHeader = styled.p`
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 36px;
+  margin-bottom: 20px;
 `;

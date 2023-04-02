@@ -13,43 +13,41 @@ const TermList = ({ onClickTermEdit, index }: ITermListProps) => {
   };
 
   return (
-    <>
-      <TermListContainer open={open} onClick={onClickListOpen}>
-        <div className='termBox'>
-          <TermType>서비스 이용약관</TermType>
-          <IconContainer>
-            <CreateDate>2023.04.10</CreateDate>
-            <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
-            <Icon src='/icons/trashcan.png' />
-          </IconContainer>
-        </div>
-        {open && (
-          <>
-            <Border></Border>
-            <TermContentsBox>
-              <Date>2023. 04. 10 오전 10:00</Date>
-              <div className='contentsborder'>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: termExample,
-                  }}
-                ></p>
-              </div>
-            </TermContentsBox>
-          </>
-        )}
-      </TermListContainer>
-    </>
+    <TermListContainer open={open}>
+      <div className='termBox' onClick={onClickListOpen}>
+        <TermType>서비스 이용약관</TermType>
+        <IconContainer>
+          <CreateDate>2023.04.10</CreateDate>
+          <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
+          <Icon src='/icons/trashcan.png' />
+        </IconContainer>
+      </div>
+      {open && (
+        <>
+          <Border></Border>
+          <TermContentsBox>
+            <Date>2023. 04. 10 오전 10:00</Date>
+            <div className='contentsborder'>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: termExample,
+                }}
+              ></p>
+            </div>
+          </TermContentsBox>
+        </>
+      )}
+    </TermListContainer>
   );
 };
 
 export default TermList;
 
-const TermType = styled(NoticeTitle)`
+export const TermType = styled(NoticeTitle)`
   padding-top: 6px;
 `;
 
-const CreateDate = styled.p`
+export const CreateDate = styled.p`
   font-weight: 700;
   font-size: 16px;
   color: #4b5563;
@@ -60,7 +58,7 @@ const Icon = styled.img`
   cursor: pointer;
 `;
 
-const TermListContainer = styled.div`
+export const TermListContainer = styled.div`
   width: 93%;
   height: ${({ open }: { open?: boolean }) => {
     return open ? '420px' : '70px';
@@ -71,16 +69,16 @@ const TermListContainer = styled.div`
   margin: 0 auto;
   padding: 0 40px;
   margin-bottom: 20px;
-  cursor: pointer;
   .termBox {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 70px;
+    cursor: pointer;
   }
 `;
 
-const Border = styled.div`
+export const Border = styled.div`
   height: 1px;
   background-color: #ececec;
 `;
