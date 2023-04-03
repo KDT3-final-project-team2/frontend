@@ -45,7 +45,7 @@ const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
   );
 };
 
-const PostingContents = ({ title, contents }: IPostingContensProps) => {
+export const PostingContents = ({ title, contents }: IPostingContensProps) => {
   return (
     <ContentsBox>
       <ContentsTitle>{title}</ContentsTitle>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import List from '@components/mainhome/List';
+import ApplicantList from '@components/mainhome/ApplicantList';
 import StepBox from '@components/mainhome/StepBox';
 import { employSteps } from '../../constants/steps';
 
@@ -10,7 +10,7 @@ const CompanyMain = () => {
 
   return (
     <Container>
-      <h1 id='h1'>채용현황</h1>
+      <h1 id='h1'>채용 현황</h1>
       <div className='grid'>
         {employSteps.map(stepName => (
           <StepBox key={stepName} stepName={stepName} step={step} setStep={setStep} />
@@ -20,7 +20,7 @@ const CompanyMain = () => {
       <div>
         <h4>{step} 리스트</h4>
         {[1, 2, 3].map((applicant, index) => (
-          <List key={applicant + index} index={index} step={step}></List>
+          <ApplicantList key={applicant + index} index={index} step={step}></ApplicantList>
         ))}
       </div>
     </Container>
@@ -38,7 +38,7 @@ const Container = styled.div`
   }
   #h1::after {
     position: absolute;
-    left: 125px;
+    left: 132px;
     top: -10px;
     content: '';
     background-color: var(--color-yellow);
@@ -52,6 +52,8 @@ const Container = styled.div`
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
     margin-bottom: 60px;
+    cursor: pointer;
+
     .box {
       margin-top: 30px;
       height: 150px;

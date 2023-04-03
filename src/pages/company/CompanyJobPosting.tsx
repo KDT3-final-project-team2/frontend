@@ -12,26 +12,35 @@ const CompanyJobPosting = () => {
   };
 
   return (
-    <>
-      <RecruitmentNotice>채용 공고</RecruitmentNotice>
-      <RecruitmentManagement>공고 등록 관리</RecruitmentManagement>
-      <RegistrationButton onClick={showRegistrationModal}>등록하기</RegistrationButton>
+    <MainContainer>
+      <div className='headerBox'>
+        <RecruitmentNotice>채용 공고</RecruitmentNotice>
+        <RecruitmentManagement>공고 등록 관리</RecruitmentManagement>
+        <RegistrationButton onClick={showRegistrationModal}>등록하기</RegistrationButton>
+      </div>
       {[1, 2, 3].map(data => (
         <JobPostingList key={data} setIsEditModal={setIsEditModal} />
       ))}
       {(isModalOpen || isEditModal) && (
         <PostEditModal setIsModalOpen={setIsModalOpen} setIsEditModal={setIsEditModal} isEditModal={isEditModal} />
       )}
-    </>
+    </MainContainer>
   );
 };
 
 export default CompanyJobPosting;
 
-const RecruitmentNotice = styled.h1`
+export const MainContainer = styled.div`
+  margin: 0 auto;
   margin-top: 122px;
-  margin-left: 62px;
+  .headerBox {
+    width: 93%;
+    margin: 0 auto;
+    padding-left: 5px;
+  }
 `;
+
+export const RecruitmentNotice = styled.h1``;
 
 const RecruitmentManagement = styled.h2`
   width: 120px;
@@ -40,12 +49,11 @@ const RecruitmentManagement = styled.h2`
   font-weight: 700;
   color: var(--color-primary-100);
   margin-top: 50px;
-  margin-left: 62px;
   border-bottom: 5px solid;
   border-radius: 2px;
 `;
 
-const RegistrationButton = styled.button`
+export const RegistrationButton = styled.button`
   margin-top: 9px;
   background: var(--color-primary-100);
   border-radius: 20px;
@@ -55,6 +63,5 @@ const RegistrationButton = styled.button`
   font-size: 18px;
   font-weight: 700;
   margin-left: auto;
-  margin-right: 52px;
   margin-bottom: 26px;
 `;
