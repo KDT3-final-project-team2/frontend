@@ -16,6 +16,7 @@ export default RightBar;
 
 const RightBarComponent = styled.section`
   position: fixed;
+  overflow-y: auto;
   top: 0;
   right: 0;
   width: 450px;

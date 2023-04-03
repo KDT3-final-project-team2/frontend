@@ -3,15 +3,16 @@ import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
+import ScheduleElement from './ScheduleElement';
 
 const CalendarUI = () => {
   const [value, setValue] = useState(new Date());
+  const [addSchedule, setAddSchedule] = useState(false);
 
   const onChangeDate = (value: Date) => {
     setValue(value);
   };
 
-  // tileClassName 콜백 함수 설정
   const tileClassName = ({ date }: { date: Date }) => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -48,6 +49,10 @@ const CalendarUI = () => {
     return previousDay.getDate();
   };
 
+  const onClickAddSchedule = () => {
+    setAddSchedule(!addSchedule);
+  };
+
   return (
     <div>
       <StyledCalendar
@@ -59,31 +64,39 @@ const CalendarUI = () => {
         navigationLabel={({ date, label }) => `${date.getFullYear()}. ${date.getMonth() + 1}`}
       />
       <DayWrapper>
-        <DayGrayBox>
-          <p>{getPreviousDayString(3)}</p>
-        </DayGrayBox>
-        <DayGrayBox>
-          <p>{getPreviousDayString(2)}</p>
-        </DayGrayBox>
-        <DayGrayBox>
-          <p>{getPreviousDayString(1)}</p>
-        </DayGrayBox>
+        {[3, 2, 1].map(numDays => (
+          <DayGrayBox>
+            <p>{getPreviousDayString(numDays)}</p>
+          </DayGrayBox>
+        ))}
         <DayBox>
           <p className='day'>{value.getDate()}</p>
           <p className='dayOfWeek'>{days[value.getDay()]}</p>
         </DayBox>
-        <DayGrayBox>
-          <p>{getAfterDayString(1)}</p>
-        </DayGrayBox>
-        <DayGrayBox>
-          <p>{getAfterDayString(2)}</p>
-        </DayGrayBox>
-        <DayGrayBox>
-          <p>{getAfterDayString(3)}</p>
-        </DayGrayBox>
+        {[1, 2, 3].map(numDays => (
+          <DayGrayBox>
+            <p>{getAfterDayString(numDays)}</p>
+          </DayGrayBox>
+        ))}
       </DayWrapper>
+      <InputWrapper>
+        {[1, 2, 3].map((data, index) => (
+          <ScheduleElement index={index} />
+        ))}
+        {addSchedule && (
+          <form>
+            <AddSchedule>
+              <span>이름</span> <input type='text' className='nameInput' />
+              <span>내용</span> <input type='text' className='contentInput' />
+              <button>저장</button>
+            </AddSchedule>
+          </form>
+        )}
+        <div className='add' onClick={onClickAddSchedule}>
+          {addSchedule ? <img src='/icons/delete.png' /> : <img src='/icons/add.png' />}
+        </div>
+      </InputWrapper>
       <div className='contents'>
-        {value.getFullYear()}년 {value.getMonth() + 1}월 {value.getDate()}일
         {value.getFullYear() === 2023 && value.getMonth() + 1 === 3 && [1, 10, 17].includes(value.getDate()) && (
           <div>박지원 면접</div>
         )}
@@ -115,17 +128,13 @@ const StyledCalendar = styled(Calendar)`
     & abbr {
       text-decoration: none;
     }
-
     & abbr:before {
       content: none;
     }
   }
-
-  // 캘린더 header
   .react-calendar__navigation {
     position: relative;
   }
-  // 날짜
   .react-calendar__navigation__label {
     position: absolute;
     padding: 0;
@@ -143,24 +152,20 @@ const StyledCalendar = styled(Calendar)`
     font-size: 26px;
     color: #4357ac;
   }
-  // arrow 두개인거 사라지게
   .react-calendar__navigation__prev2-button,
   .react-calendar__navigation__next2-button {
     display: none;
   }
-  // arrow
   .react-calendar__navigation__arrow {
     color: #4357ac;
     font-size: 45px;
   }
-  // 앞에 arrow
   .react-calendar__navigation__prev-button {
     position: absolute;
     right: 25px;
     top: -16px;
     padding: 0;
   }
-  // 뒤에 arrow
   .react-calendar__navigation__next-button {
     position: absolute;
     right: 1px;
@@ -259,4 +264,89 @@ const DayGrayBox = styled.div`
 const DayWrapper = styled.div`
   display: flex;
   gap: 14px;
+  margin-bottom: 28px;
+`;
+
+export const InputWrapper = styled.div`
+  margin-left: 36px;
+  .schedule {
+    height: 56px;
+    width: 384px;
+    border-radius: 10px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    p {
+      padding-top: 3px;
+    }
+    .name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1f2937;
+    }
+    .content {
+      font-weight: 400;
+      font-size: 15px;
+      letter-spacing: -0.03em;
+      color: #1f2937;
+    }
+    img {
+      cursor: pointer;
+    }
+  }
+  .add {
+    height: 56px;
+    width: 384px;
+    border-radius: 10px;
+    background: #ffffff;
+    opacity: 0.7;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 50px;
+  }
+`;
+
+export const AddSchedule = styled.div`
+  height: 56px;
+  width: 384px;
+  border-radius: 10px;
+  background: #ffffff;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  span {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1f2937;
+    padding-top: 3px;
+  }
+  input {
+    padding-left: 3px;
+    border: none;
+    border-bottom: 3px solid var(--color-primary-100);
+    height: 28px;
+    border-radius: 0px;
+  }
+  .nameInput {
+    width: 45px;
+  }
+  .contentInput {
+    width: 120px;
+  }
+  button {
+    background-color: var(--color-primary-100);
+    border-radius: 20px;
+    padding: 3px 12px;
+    color: #fff;
+    font-weight: 700;
+    margin-left: 10px;
+  }
 `;
