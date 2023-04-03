@@ -1,3 +1,4 @@
+import { days } from '@/constants/dayOfWeek';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -5,7 +6,6 @@ import styled from 'styled-components';
 
 const CalendarUI = () => {
   const [value, setValue] = useState(new Date());
-  console.log('날짜', value);
 
   const onChangeDate = (value: Date) => {
     setValue(value);
@@ -13,8 +13,6 @@ const CalendarUI = () => {
 
   // tileClassName 콜백 함수 설정
   const tileClassName = ({ date }: { date: Date }) => {
-    console.log(date);
-
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
@@ -38,6 +36,18 @@ const CalendarUI = () => {
   const formatDay = (locale, date) =>
     new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(date).replace('일', '');
 
+  const getPreviousDayString = (numDays: number) => {
+    const previousDay = new Date(value);
+    previousDay.setDate(value.getDate() - numDays);
+    return previousDay.getDate();
+  };
+
+  const getAfterDayString = (numDays: number) => {
+    const previousDay = new Date(value);
+    previousDay.setDate(value.getDate() + numDays);
+    return previousDay.getDate();
+  };
+
   return (
     <div>
       <StyledCalendar
@@ -48,6 +58,30 @@ const CalendarUI = () => {
         formatDay={formatDay}
         navigationLabel={({ date, label }) => `${date.getFullYear()}. ${date.getMonth() + 1}`}
       />
+      <DayWrapper>
+        <DayGrayBox>
+          <p>{getPreviousDayString(3)}</p>
+        </DayGrayBox>
+        <DayGrayBox>
+          <p>{getPreviousDayString(2)}</p>
+        </DayGrayBox>
+        <DayGrayBox>
+          <p>{getPreviousDayString(1)}</p>
+        </DayGrayBox>
+        <DayBox>
+          <p className='day'>{value.getDate()}</p>
+          <p className='dayOfWeek'>{days[value.getDay()]}</p>
+        </DayBox>
+        <DayGrayBox>
+          <p>{getAfterDayString(1)}</p>
+        </DayGrayBox>
+        <DayGrayBox>
+          <p>{getAfterDayString(2)}</p>
+        </DayGrayBox>
+        <DayGrayBox>
+          <p>{getAfterDayString(3)}</p>
+        </DayGrayBox>
+      </DayWrapper>
       <div className='contents'>
         {value.getFullYear()}년 {value.getMonth() + 1}월 {value.getDate()}일
         {value.getFullYear() === 2023 && value.getMonth() + 1 === 3 && [1, 10, 17].includes(value.getDate()) && (
@@ -65,6 +99,8 @@ const StyledCalendar = styled(Calendar)`
   border-radius: 20px;
   border: none;
   padding: 21px 15px;
+  margin: 76px 0px 48px 36px;
+  width: 385px;
   .selected {
     background: #4357ac;
     border-radius: 10px;
@@ -162,4 +198,65 @@ const StyledCalendar = styled(Calendar)`
     background-color: transparent;
     border-radius: 10px;
   }
+  .react-calendar__tile--now {
+    border-radius: 10px;
+  }
+`;
+
+const DayBox = styled.div`
+  background: #ffffff;
+  border: 2px solid var(--color-primary-100);
+  border-bottom: 7px solid var(--color-primary-100);
+  border-radius: 6px;
+  padding-top: 13px;
+  width: 80px;
+  height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  .day {
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--color-primary-100);
+  }
+  .dayOfWeek {
+    color: #1f2937;
+    font-weight: 400;
+    font-size: 12px;
+  }
+`;
+
+const DayGrayBox = styled.div`
+  width: 49px;
+  height: 82px;
+  border-radius: 6px;
+  background: #ffffff;
+  border: 0.5px solid #d2d5da;
+  box-shadow: 0px 0px 2px rgba(34, 63, 83, 0.1);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :nth-child(1),
+  :nth-child(7) {
+    opacity: 0.6;
+    border-left: none;
+  }
+  :nth-child(2),
+  :nth-child(6) {
+    opacity: 0.8;
+  }
+  p {
+    color: #7b7b7b;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.019em;
+  }
+`;
+
+const DayWrapper = styled.div`
+  display: flex;
+  gap: 14px;
 `;

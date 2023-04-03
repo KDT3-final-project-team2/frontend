@@ -23,7 +23,6 @@ const RightBarComponent = styled.section`
   background-color: ${({ isLoginPage, isAdminLogin }: { isLoginPage: boolean; isAdminLogin: boolean }) =>
     isLoginPage ? '#fff' : isAdminLogin ? '#fff' : 'var(--color-primary-010)'};
   border-top-left-radius: 50px;
-  padding: 40px;
   box-sizing: border-box;
   @media (max-width: 1500px) {
     display: none;
