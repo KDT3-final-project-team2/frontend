@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Avvvatars from 'avvvatars-react';
 import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
-import { TabContainer, Inner, NoList, res } from './ApplicantsInfo';
+import { TabContainer, FilterBox, Inner, NoList, res } from './ApplicantsInfo';
 import SelectBox from '../common/SelectBox';
+import ApplicantsList from './ApplicantsList';
 
 const ApplicantsRecommend = () => {
   const dispatch = useAppDispatch();
@@ -38,42 +37,16 @@ const ApplicantsRecommend = () => {
         <SelectBox props={careerOption} valueText={setCareer} />
       </FilterBox>
       <Inner>
-        <ul>
-          {Array.isArray(info) ? (
-            info.map((item: any, idx: number) => {
-              return (
-                <li key={idx}>
-                  <Avvvatars value={item.applicant_name} style='character' size={32} />
-                  <p className='name'>{item.applicant_name}</p>
-                  <div>
-                    <span>{item.applicant_sector}</span>
-                    <span>{item.applicant_work_experience}</span>
-                    <span>{item.applicant_education}</span>
-                  </div>
-                  <div>
-                    <button>
-                      <img src='/public/icons/mail.svg' alt='메일' width='20px' height='16px' />
-                    </button>
-                    <button>
-                      <img src='/public/icons/bookmark.svg' alt='북마크' width='14px' height='18px' />
-                    </button>
-                  </div>
-                </li>
-              );
-            })
-          ) : (
-            <NoList>아직 지원한 지원자가 없습니다.</NoList>
-          )}
-        </ul>
+        {Array.isArray(info) ? (
+          info.map((item: any, idx: number) => {
+            return <ApplicantsList item={item} key={idx} />;
+          })
+        ) : (
+          <NoList>아직 지원한 지원자가 없습니다.</NoList>
+        )}
       </Inner>
     </TabContainer>
   );
 };
-
-const FilterBox = styled.div`
-  display: flex;
-  gap: 20px;
-  margin: 10px 0;
-`;
 
 export default ApplicantsRecommend;
