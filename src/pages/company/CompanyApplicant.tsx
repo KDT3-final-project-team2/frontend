@@ -46,6 +46,18 @@ const Title = styled.h1`
   font-size: 34px;
   margin-bottom: 30px;
   letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+  ::after {
+    content: '';
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    background-color: var(--color-red);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
 `;
 
 const TabContent = styled.div`
