@@ -100,3 +100,7 @@ export interface ITermListProps {
   onClickTermEdit: (event: MouseEvent<HTMLImageElement>) => void;
   index: number;
 }
+
+export interface IScheduleElementProps {
+  index: number;
+}
