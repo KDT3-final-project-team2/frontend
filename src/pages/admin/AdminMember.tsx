@@ -1,7 +1,10 @@
-import React from 'react';
+import UserList from '@/components/member/UserList';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const AdminMember = () => {
+  const [userType, setUserType] = useState('병원');
+
   return (
     <Container>
       <h1>회원 관리</h1>
@@ -11,11 +14,23 @@ const AdminMember = () => {
           <input type='text' placeholder='검색어를 입력해주세요.' />
           <img src='/icons/search.png' alt='검색' />
           <div>
-            <button>병원</button>
-            <button>지원자</button>
+            {['병원', '지원자'].map(typeName => (
+              <TypeButton
+                isUserType={typeName === userType}
+                onClick={event => {
+                  event.preventDefault();
+                  setUserType(typeName);
+                }}
+              >
+                {typeName}
+              </TypeButton>
+            ))}
           </div>
         </form>
       </div>
+      {[1, 2, 3].map((user, index) => (
+        <UserList key={index} index={index} user={user} userType={userType} />
+      ))}
     </Container>
   );
 };
@@ -29,21 +44,12 @@ const Container = styled.div`
   #h1 {
     position: relative;
   }
-  /* #h1::after {
-    position: absolute;
-    left: 132px;
-    top: -10px;
-    content: '';
-    background-color: var(--color-yellow);
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-  } */
+
   .search {
     margin: 50px 0 36px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 50px;
 
     h4 {
       font-size: 22px;
@@ -75,22 +81,21 @@ const Container = styled.div`
         gap: 5px;
 
         button {
-          display: inline-block;
-          width: 75px;
-          height: 28px;
-          background: #4357ac;
-          padding: 2px 12px;
-          border-radius: 14px;
-          color: white;
-          font-weight: bold;
-          font-size: 12px;
-          &:last-child {
-            color: #8294cd;
-            background-color: white;
-            border: 2px solid #8294cd;
-          }
         }
       }
     }
   }
+`;
+
+const TypeButton = styled.button<{ isUserType: boolean }>`
+  display: inline-block;
+  width: 75px;
+  height: 28px;
+  background: ${({ isUserType }) => (isUserType ? '#4357AC' : 'white')};
+  color: ${({ isUserType }) => (isUserType ? 'white' : '#8294cd')};
+  border: ${({ isUserType }) => (isUserType ? 'none' : '2px solid #8294cd')};
+  padding: 2px 12px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 12px;
 `;
