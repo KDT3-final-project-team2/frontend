@@ -65,3 +65,8 @@ interface IPostingInput {
   duedate: string;
   file: File | undefined;
 }
+
+interface IScheduleData {
+  name: string;
+  content: string;
+}

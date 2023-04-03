@@ -1,22 +1,36 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { AddSchedule, InputWrapper } from './CalendarUI';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ScheduleSchema } from '@/utils/validationSchema';
+import { IScheduleElementProps } from '@/@types/props';
+import { AddSchedule, InputWrapper } from './CalendarUI.styles';
 
-const ScheduleElement = ({ index }: { index: number }) => {
+const ScheduleElement = ({ index }: IScheduleElementProps) => {
   const [isEdit, setIsEdit] = useState(false);
+
+  const { register, handleSubmit, formState } = useForm<IScheduleData>({
+    resolver: yupResolver(ScheduleSchema),
+    mode: 'onChange',
+  });
 
   const onClickEditIcon = () => {
     setIsEdit(!isEdit);
   };
 
+  const onSubmitEditSchedule = (data: IScheduleData) => {
+    console.log(data);
+    setIsEdit(false);
+  };
+
   return (
     <>
       {isEdit ? (
-        <form>
+        <form onSubmit={handleSubmit(onSubmitEditSchedule)}>
           <AddSchedule>
-            <span>이름</span> <input type='text' className='nameInput' />
-            <span>내용</span> <input type='text' className='contentInput' />
-            <button>저장</button>
+            <span>이름</span> <input type='text' className='nameInput' {...register('name')} />
+            <span>내용</span> <input type='text' className='contentInput' {...register('content')} />
+            <button style={{ backgroundColor: formState.isValid ? 'var(--color-primary-100)' : '' }}>수정</button>
+            <img src='/icons/close.png' className='close' onClick={onClickEditIcon} />
           </AddSchedule>
         </form>
       ) : (
