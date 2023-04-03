@@ -75,6 +75,7 @@ const SelectOption = styled.ul`
   box-shadow: ${({ showOption }: { showOption: boolean }) =>
     showOption ? '2px 2px 10px 2px rgba(67, 87, 172, 0.15)' : 'none'};
   line-height: 34px;
+  z-index: 10;
 `;
 
 const Option = styled.li`
