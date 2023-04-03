@@ -67,6 +67,15 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
           <label htmlFor='email'>이메일</label>
           <Error>{formState.errors.email?.message}</Error>
           <input id='email' type='text' {...register('email')} />
+          <button
+            className='email'
+            onClick={event => {
+              event.preventDefault();
+              // 이메일중복확인 로직
+            }}
+          >
+            중복확인
+          </button>
         </div>
 
         <div className='inputBox'>

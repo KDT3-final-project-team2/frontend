@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const RightBar = ({ children }: { children: ReactNode }) => {
   const isLoginPage = useLocation().pathname === '/login';
   const isAdminLogin = useLocation().pathname === '/admin/login';
+
   return (
     <RightBarComponent isLoginPage={isLoginPage} isAdminLogin={isAdminLogin}>
       {children}

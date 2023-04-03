@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import Avvvatars from 'avvvatars-react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EmailModal from './EmailModal';
 
-const List = ({ index, step }: { index: number; step: string }) => {
+const ApplicantList = ({ index, step }: { index: number; step: string }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [emailModal, setEmailModal] = useState(false);
 
@@ -10,7 +11,7 @@ const List = ({ index, step }: { index: number; step: string }) => {
     <ListComponent>
       <Head onClick={() => setOpen(!open)} open={open}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
-          <div className='profile'></div>
+          <Avvvatars value={'조지원'} style='shape'></Avvvatars>
           <p className='name'>조지원</p>
           {open ? null : (
             <>
@@ -70,7 +71,7 @@ const List = ({ index, step }: { index: number; step: string }) => {
   );
 };
 
-export default List;
+export default ApplicantList;
 
 const ListComponent = styled.div`
   width: 100%;
