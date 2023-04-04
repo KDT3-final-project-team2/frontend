@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { navigations } from '../../constants/navigation';
 import LeftBar from './LeftBar';
 import RightBar from './RightBar';
+import Calendar from '../../pages/Calendar';
 
 const Layout = () => {
   const path = useLocation().pathname;
@@ -27,7 +28,7 @@ const Layout = () => {
           <img src='/images/scroll_top.png' alt='스크롤' />
         </ScrollTop>
       </MainSection>
-      {isAdminLogin || isAdminPage ? null : !isSignUpPage ? <RightBar>{}</RightBar> : null}
+      {isAdminLogin ? null : !isSignUpPage ? <RightBar>{<Calendar />}</RightBar> : null}
     </div>
   );
 };

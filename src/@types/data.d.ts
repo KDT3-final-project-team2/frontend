@@ -66,6 +66,11 @@ interface IPostingInput {
   file: File | undefined;
 }
 
+interface IScheduleData {
+  name: string;
+  content: string;
+}
+
 interface Props {
   fileUrl: string | undefined;
 }

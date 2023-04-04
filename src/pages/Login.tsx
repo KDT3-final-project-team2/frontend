@@ -101,7 +101,7 @@ export const Container = styled.div`
   flex-direction: column;
   width: 300px;
   margin: 0 auto;
-  padding-top: 140px;
+  padding-top: 180px;
   h3 {
     color: #000;
     font-size: 30px;
