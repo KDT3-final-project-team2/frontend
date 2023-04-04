@@ -1,3 +1,4 @@
+import { applicationInputToKorean } from '@/constants/signupInput';
 import React, { useState } from 'react';
 import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
@@ -21,7 +22,7 @@ const DropDown = ({
       <input
         id={title}
         type='text'
-        placeholder={title}
+        placeholder={applicationInputToKorean[`${title}`]}
         {...register(`${title}`)}
         onClick={event => {
           event.preventDefault();
