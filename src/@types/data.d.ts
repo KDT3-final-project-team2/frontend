@@ -65,3 +65,7 @@ interface IPostingInput {
   duedate: string;
   file: File | undefined;
 }
+
+interface Props {
+  fileUrl: string | undefined;
+}
