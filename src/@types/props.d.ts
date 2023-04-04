@@ -104,3 +104,13 @@ export interface ITermListProps {
 export interface IScheduleElementProps {
   index: number;
 }
+
+export interface IPlanUserProps {
+  id: string;
+  name: string;
+  price: number | string;
+  functions: string[];
+  year: number;
+  month: number;
+  today: number;
+}
