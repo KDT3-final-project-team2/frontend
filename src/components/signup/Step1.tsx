@@ -3,20 +3,24 @@ import styled from 'styled-components';
 import SignUpPaginationButton from './SignUpPaginationButton';
 import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
-import { terms } from '../../constants/terms';
+import { termNames } from '../../constants/terms';
 import CheckBox from './CheckBox';
+import { useQuery } from '@tanstack/react-query';
+import { getTerms } from '@/api/commonApi';
 
 const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setCheckedItems }: IStep1Props) => {
   const handleAllChecks = (event: React.ChangeEvent) => {
     const target = event.target as HTMLInputElement;
     if (target.checked) {
       const tempArray: string[] = [];
-      terms.map(value => tempArray.push(value));
+      termNames.map(termName => tempArray.push(termName));
       setCheckedItems(tempArray);
     } else {
       setCheckedItems([]);
     }
   };
+
+  const { data: terms, isLoading } = useQuery(['terms'], getTerms);
 
   return (
     <>
@@ -28,7 +32,7 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
             <div>
               <input
                 type='checkbox'
-                checked={checkedItems.length === terms.length ? true : false}
+                checked={checkedItems.length === termNames.length ? true : false}
                 onChange={handleAllChecks}
                 id={'이용약관 전체 동의하기'}
               />
@@ -40,10 +44,10 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
           </header>
           <main>
             <ul>
-              {terms.map((term, index) => (
+              {termNames.map((termName, index) => (
                 <CheckBox
-                  key={term}
-                  title={term}
+                  key={termName}
+                  title={termName}
                   checkedItems={checkedItems}
                   setCheckedItems={setCheckedItems}
                   index={index}
