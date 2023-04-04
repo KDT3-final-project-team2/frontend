@@ -33,9 +33,9 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
                 id={'이용약관 전체 동의하기'}
               />
               <label htmlFor='이용약관 전체 동의하기'>
-                <img src='/icons/check.png' alt='체크' />
+                <img src='/icons/check.png' alt='체크' className='check' />
+                <div>이용약관 전체 동의하기</div>
               </label>
-              <div>이용약관 전체 동의하기</div>
             </div>
           </header>
           <main>
@@ -103,30 +103,30 @@ const TermsContainer = styled.div`
   input[type='checkbox'] {
     display: none;
   }
+
   input[type='checkbox'] + label {
-    display: inline-block;
-    width: 17px;
-    height: 17px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
     border: none;
-    background-color: var(--color-primary-050);
-    border-radius: 100%;
     position: relative;
-    img {
+    padding-left: 25px;
+    img.check {
+      width: 17px;
+      height: 17px;
+      padding: 4px;
+      box-sizing: border-box;
+      border-radius: 100%;
+      background-color: var(--color-primary-050);
       position: absolute;
-      left: 17.65%;
-      right: 17.65%;
-      top: 25.86%;
-      bottom: 25.86%;
+      left: 0;
+      top: 5%;
     }
   }
   input[type='checkbox']:checked + label {
-    background-color: var(--color-primary-100);
-    img {
-      position: absolute;
-      left: 17.65%;
-      right: 17.65%;
-      top: 25.86%;
-      bottom: 25.86%;
+    img.check {
+      background-color: var(--color-primary-100);
     }
   }
 `;

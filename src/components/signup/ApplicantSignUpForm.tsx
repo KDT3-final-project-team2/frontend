@@ -1,24 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ISignUpFormProps } from '../../@types/props';
 import DropDown from '../common/DropDown';
 
 const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: ISignUpFormProps) => {
-  const [open, setOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Wrapper>
       <Form onSubmit={() => handleSubmit()}>
         <div className='inputBox'>
-          <label htmlFor=''>이름/생년월일</label>
+          <label htmlFor=''>기본정보</label>
           <input id='name' type='text' placeholder='이름' {...register('name')} />
           <Error>{formState.errors.name?.message}</Error>
-          <input id='birthDate' type='date' placeholder='생년월일' {...register('birthDate')} />
+          <input id='birthDate' type='text' placeholder='생년월일' {...register('birthDate')} />
           <Error>{formState.errors.birthDate?.message}</Error>
         </div>
 
         <div className='inputBox'>
-          <label htmlFor=''>성별/지원직무</label>
           <DropDown
             width='400px'
             title='gender'
@@ -30,18 +29,17 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
           <DropDown
             width='400px'
             title='sector'
-            selections={['의사', '간호사']}
+            selections={['의사', '간호사', '간호조무사', '의료기사', '의료행정']}
             register={register}
             setValue={setValue}
           />
           <Error>{formState.errors.sector?.message}</Error>
         </div>
         <div className='inputBox'>
-          <label htmlFor=''>학력/경력</label>
           <DropDown
             width='400px'
             title='education'
-            selections={['고졸', '전문대졸', '4년제졸', '석/박사']}
+            selections={['고졸', '전문대졸', '4년제졸', '석박사']}
             register={register}
             setValue={setValue}
           />
@@ -50,7 +48,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
           <DropDown
             width='400px'
             title='workExperience'
-            selections={['신입', '1년차']}
+            selections={['신입', '1년차', '2년차', '3년차', '4년차', '5년차', '5년이상']}
             register={register}
             setValue={setValue}
           />
@@ -66,7 +64,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
         <div className='inputBox'>
           <label htmlFor='email'>이메일</label>
           <Error>{formState.errors.email?.message}</Error>
-          <input id='email' type='text' {...register('email')} />
+          <input id='email' type='text' placeholder='medi@match.com' {...register('email')} />
           <button
             className='email'
             onClick={event => {
@@ -78,16 +76,38 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
           </button>
         </div>
 
-        <div className='inputBox'>
+        <div className='inputBox '>
           <label htmlFor='password'>비밀번호</label>
-          <Error>{formState.errors.password?.message}</Error>
-          <input id='password' type='password' {...register('password')} />
+          <input
+            type={showPassword ? 'string' : 'password'}
+            id='password'
+            placeholder='영문, 숫자 조합 8~15자리'
+            {...register('password')}
+          />
+          {showPassword ? (
+            <img src='/icons/close-eye.png' alt='' onClick={() => setShowPassword(false)} className='eye' />
+          ) : (
+            <img src='/icons/open-eye.png' alt='비밀번호보기' onClick={() => setShowPassword(true)} className='eye' />
+          )}
         </div>
 
-        <div className='inputBox'>
-          <label htmlFor='confirmPassword'>비밀번호 확인</label>
-          <Error>{formState.errors.confirmPassword?.message}</Error>
-          <input type='password' id='confirmPassword' {...register('confirmPassword')} />
+        <div className='inputBox password'>
+          <Error>
+            {formState.errors.password?.message?.toString()}
+            {` `}
+            {formState.errors.confirmPassword?.message?.toString()}
+          </Error>
+          <input
+            type={showPassword ? 'string' : 'password'}
+            id='confirmPassword'
+            placeholder='비밀번호 확인'
+            {...register('confirmPassword')}
+          />
+          {showPassword ? (
+            <img src='/icons/close-eye.png' alt='' onClick={() => setShowPassword(false)} className='eye' />
+          ) : (
+            <img src='/icons/open-eye.png' alt='비밀번호보기' onClick={() => setShowPassword(true)} className='eye' />
+          )}
         </div>
       </Form>
     </Wrapper>
@@ -110,6 +130,9 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 18px;
+  .inputBox.password {
+    margin-top: -18px;
+  }
 
   .inputBox {
     display: flex;
@@ -156,6 +179,21 @@ const Form = styled.form`
     }
     input#zoneCode {
       width: 280px;
+    }
+    input#password {
+      border-radius: 20px 20px 0 0;
+      border-bottom: none;
+    }
+    input#confirmPassword {
+      border-radius: 0 0 20px 20px;
+    }
+
+    img.eye {
+      height: 28px;
+      width: 28px;
+      position: absolute;
+      right: 20px;
+      top: 22%;
     }
 
     button {

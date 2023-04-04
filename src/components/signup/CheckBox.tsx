@@ -147,9 +147,9 @@ const CheckBox = ({ title, checkedItems, setCheckedItems, index }: ICheckBoxProp
           onChange={handleOneCheck}
         />
         <label htmlFor={title}>
-          <img src='/icons/check.png' alt='체크' />
+          <img src='/icons/check.png' alt='체크' className='check' />
+          <div>[필수] {title}</div>
         </label>
-        <div>[필수] {title}</div>
         {toggle ? (
           <img src='/icons/toggleArrowUp.png' alt='닫기' onClick={() => setToggle(false)} />
         ) : (
