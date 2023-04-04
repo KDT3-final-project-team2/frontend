@@ -41,7 +41,7 @@ export const applicantSignUpSchema = yup.object({
   education: yup
     .string()
     .required('학력을 입력해주세요.')
-    .matches(/^고졸$|^전문대졸$|^대졸$|^석박사$/, '아래 목록에서 선택해 주세요.'),
+    .matches(/^고졸$|^초대졸$|^대졸$|^석박사$/, '아래 목록에서 선택해 주세요.'),
   workExperience: yup
     .string()
     .required('경력을 입력해주세요.')

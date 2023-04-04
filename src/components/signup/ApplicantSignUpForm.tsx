@@ -39,7 +39,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
           <DropDown
             width='400px'
             title='education'
-            selections={['고졸', '전문대졸', '4년제졸', '석박사']}
+            selections={['고졸', '초대졸', '대졸', '석박사']}
             register={register}
             setValue={setValue}
           />
