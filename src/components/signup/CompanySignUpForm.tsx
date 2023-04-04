@@ -5,6 +5,7 @@ import { ISignUpFormProps } from '../../@types/props';
 import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
 
 const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISignUpFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
   const handleComplete = (data: Address) => {
@@ -37,16 +38,21 @@ const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISig
           <Error>{formState.errors.representative?.message?.toString()}</Error>
         </div>
         <div className='inputBox'>
-          <input type='text' id='companyNum' placeholder='사업자등록번호' {...register('companyNum')} />
+          <input
+            type='text'
+            id='companyNum'
+            placeholder={`사업자등록번호 / '-'포함 10자리`}
+            {...register('companyNum')}
+          />
           <Error>{formState.errors.companyNum?.message?.toString()}</Error>
-          <input type='string' id='contact' placeholder='대표번호' {...register('contact')} />
+          <input type='tel' id='contact' placeholder='대표전화' {...register('contact')} />
           <Error>{formState.errors.contact?.message?.toString()}</Error>
         </div>
 
         <div className='inputBox'>
           <label htmlFor='email'>이메일</label>
           <Error>{formState.errors.email?.message?.toString()}</Error>
-          <input type='email' id='email' placeholder='대표 이메일' {...register('email')} />
+          <input type='email' id='email' placeholder='medi@match.com' {...register('email')} />
           <button
             className='email'
             onClick={event => {
@@ -58,16 +64,38 @@ const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISig
           </button>
         </div>
 
-        <div className='inputBox'>
+        <div className='inputBox '>
           <label htmlFor='password'>비밀번호</label>
-          <Error>{formState.errors.password?.message?.toString()}</Error>
-          <input type='password' id='password' {...register('password')} />
+          <input
+            type={showPassword ? 'string' : 'password'}
+            id='password'
+            placeholder='영문, 숫자 조합 8~15자리'
+            {...register('password')}
+          />
+          {showPassword ? (
+            <img src='/icons/close-eye.png' alt='' onClick={() => setShowPassword(false)} />
+          ) : (
+            <img src='/icons/open-eye.png' alt='비밀번호보기' onClick={() => setShowPassword(true)} />
+          )}
         </div>
 
-        <div className='inputBox'>
-          <label htmlFor='confirmPassword'>비밀번호 확인</label>
-          <Error>{formState.errors.confirmPassword?.message?.toString()}</Error>
-          <input type='password' id='confirmPassword' {...register('confirmPassword')} />
+        <div className='inputBox password'>
+          <Error>
+            {formState.errors.password?.message?.toString()}
+            {` `}
+            {formState.errors.confirmPassword?.message?.toString()}
+          </Error>
+          <input
+            type={showPassword ? 'string' : 'password'}
+            id='confirmPassword'
+            placeholder='비밀번호 재입력'
+            {...register('confirmPassword')}
+          />
+          {showPassword ? (
+            <img src='/icons/close-eye.png' alt='' onClick={() => setShowPassword(false)} />
+          ) : (
+            <img src='/icons/open-eye.png' alt='비밀번호보기' onClick={() => setShowPassword(true)} />
+          )}
         </div>
 
         <div className='inputBox'>
@@ -85,7 +113,17 @@ const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISig
         </div>
         <div className='inputBox'>
           <Error>{formState.errors.address?.message?.toString()}</Error>
-          <input type='text' id='address' placeholder='주소를 입력해 주세요.' {...register('address')} />
+          <input type='text' id='address' placeholder='주소를 입력해주세요.' {...register('address')} />
+        </div>
+        <div className='inputBox'>
+          <label htmlFor=''>홈페이지(선택)</label>
+          <Error>{formState.errors.companyUrl?.message?.toString()}</Error>
+          <input
+            type='string'
+            id='companyUrl'
+            placeholder='병의원의 홈페이지 링크를 입력해주세요.'
+            {...register('companyUrl')}
+          />
         </div>
       </Form>
     </Wrapper>
@@ -106,7 +144,9 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 18px;
-
+  .inputBox.password {
+    margin-top: -18px;
+  }
   .inputBox {
     display: flex;
     gap: 10px;
@@ -125,13 +165,14 @@ const Form = styled.form`
       display: block;
       height: 30px;
       border-radius: 30px;
-      border: 1px solid gray;
+      border: 1px solid #374151;
       min-width: 350px;
       width: 100%;
       padding: 10px 30px;
       font-size: 15px;
       &::placeholder {
         color: rgba(37, 37, 37, 0.5);
+        font-weight: bold;
       }
     }
     input#email {
@@ -139,6 +180,21 @@ const Form = styled.form`
     }
     input#zoneCode {
       width: 280px;
+    }
+    input#password {
+      border-radius: 20px 20px 0 0;
+      border-bottom: none;
+    }
+    input#confirmPassword {
+      border-radius: 0 0 20px 20px;
+    }
+
+    img {
+      height: 28px;
+      width: 28px;
+      position: absolute;
+      right: 20px;
+      top: 22%;
     }
 
     button {
