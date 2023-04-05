@@ -3,21 +3,38 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { IconContainer, NoticeContainer } from '../companyjobposting/JobPostingList';
 import { NoticeTitle } from './../companyjobposting/JobPostingList';
-import { termExample } from './../../constants/termExample';
 
-const TermList = ({ onClickTermEdit, index }: ITermListProps) => {
+const TermList = ({ onClickTermEdit, index, adminTerm }: ITermListProps) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
 
   const onClickListOpen = () => {
     setOpen(!open);
   };
 
+  let type = '';
+  switch (adminTerm?.type) {
+    case 'SERVICE':
+      type = '서비스이용약관';
+      break;
+    case 'PRIVACY':
+      type = '개인정보처리방침';
+      break;
+    case 'THIRD_PARTY':
+      type = '제3자정보제공';
+      break;
+    case 'MARKETING':
+      type = '개인정보마케팅이용';
+      break;
+    default:
+      type = adminTerm?.type;
+  }
+
   return (
     <TermListContainer open={open}>
       <div className='termBox' onClick={onClickListOpen}>
-        <TermType>서비스 이용약관</TermType>
+        <TermType>{type}</TermType>
         <IconContainer>
-          <CreateDate>2023.04.10</CreateDate>
+          <CreateDate>{adminTerm?.createDate}</CreateDate>
           <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
           <Icon src='/icons/trashcan.png' />
         </IconContainer>
@@ -26,11 +43,11 @@ const TermList = ({ onClickTermEdit, index }: ITermListProps) => {
         <>
           <Border></Border>
           <TermContentsBox>
-            <Date>2023. 04. 10 오전 10:00</Date>
+            <Date>{adminTerm?.createDate}</Date>
             <div className='contentsborder'>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: termExample,
+                  __html: adminTerm?.content,
                 }}
               ></p>
             </div>

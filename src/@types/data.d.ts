@@ -74,3 +74,13 @@ interface IScheduleData {
 interface Props {
   fileUrl: string | undefined;
 }
+
+interface adminTermData {
+  termId: number;
+  type: string;
+  version: string;
+  createDate: string;
+  editDate: string;
+  status: string;
+  content: string;
+}

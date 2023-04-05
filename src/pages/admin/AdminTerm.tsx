@@ -4,7 +4,8 @@ import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
 import { MouseEvent, useState } from 'react';
 import axios from 'axios';
-import TestMocking from '@/components/TestMocking';
+import { useQuery } from '@tanstack/react-query';
+import { getAdminTermList } from '@/api/adminApi';
 
 export const AdminTerm = () => {
   const [termModalOpen, setTermModalOpen] = useState(false);
@@ -21,40 +22,23 @@ export const AdminTerm = () => {
     setSaveBtnText('수정완료');
   };
 
-  const postCartItem = async () => {
-    const res = await axios.post(
-      'http://13.124.119.131:3100/admin/term',
-      {
-        content: '테스트',
-        type: 'PRIVACY',
-        version: '4',
-        status: 'USE',
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    console.log(res.data);
-  };
+  const { data: adminTerm } = useQuery(['adminTerm'], getAdminTermList);
 
   return (
     <MainContainer>
-      <button
-        onClick={() => {
-          postCartItem();
-        }}
-      >
-        약관생성
-      </button>
       <div className='headerBox'>
         <RecruitmentNotice>약관 관리</RecruitmentNotice>
         <ViewTerms>약관 조회</ViewTerms>
         <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
       </div>
-      {[1, 2, 3].map((data, index) => (
-        <TermList key={data} index={index} setTermModalOpen={setTermModalOpen} onClickTermEdit={onClickTermEdit} />
+      {adminTerm?.map((data: adminTermData, index: number) => (
+        <TermList
+          adminTerm={data}
+          key={data?.termId}
+          index={index}
+          setTermModalOpen={setTermModalOpen}
+          onClickTermEdit={onClickTermEdit}
+        />
       ))}
       {termModalOpen && <TermPostEditModal setTermModalOpen={setTermModalOpen} saveBtnText={saveBtnText} />}
     </MainContainer>

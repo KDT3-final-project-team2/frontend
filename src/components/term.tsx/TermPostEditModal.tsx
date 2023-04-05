@@ -18,9 +18,19 @@ import { Editor } from '../common/WebEditor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { termPostSchema } from '@/utils/validationSchema';
 import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postAdminTerm } from '@/api/adminApi';
 
 const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModalProps) => {
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('SERVICE');
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(postAdminTerm, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['adminTerm']);
+    },
+  });
 
   const { register, handleSubmit, setValue, trigger, formState } = useForm<ITermDataProps>({
     resolver: yupResolver(termPostSchema),
@@ -30,11 +40,19 @@ const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModal
   const onChangeContents = (value: string) => {
     setValue('contents', value === '<p><br><p>' ? '' : value);
     trigger('contents');
-    console.log(value);
   };
 
   const onClickSubmit = (data: ITermDataProps) => {
-    console.log(data);
+    mutation.mutate({
+      termId: Math.random() * 10, // 삭제
+      type: selectedOption,
+      version: data.version,
+      createDate: '2023-12-25', // 삭제
+      editDate: '2023-12-25', // 삭제
+      status: 'USE',
+      content: data.contents,
+    });
+    setTermModalOpen(false);
   };
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {

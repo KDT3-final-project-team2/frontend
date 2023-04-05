@@ -99,6 +99,7 @@ export interface ITermListProps {
   setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onClickTermEdit: (event: MouseEvent<HTMLImageElement>) => void;
   index: number;
+  adminTerm: adminTermData;
 }
 
 export interface IScheduleElementProps {
