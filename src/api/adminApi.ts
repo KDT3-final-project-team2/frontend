@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { baseUrl } from './baseUrl';
+import { instance } from './instance';
 
 export const getAdminTermList = async () => {
   try {

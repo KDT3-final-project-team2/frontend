@@ -4,9 +4,14 @@ import styled from 'styled-components';
 import ApplicantList from '@components/mainhome/ApplicantList';
 import StepBox from '@components/mainhome/StepBox';
 import { employSteps } from '../../constants/steps';
+import { useQuery } from '@tanstack/react-query';
 
 const CompanyMain = () => {
   const [step, setStep] = useState('서류지원');
+
+  const { data, isLoading } = useQuery(['applications', step], () => {
+    // getApplications(step);
+  });
 
   return (
     <Container>

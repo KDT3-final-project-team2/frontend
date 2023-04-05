@@ -115,3 +115,10 @@ export interface IPlanUserProps {
   month: number;
   today: number;
 }
+
+export interface ISettingProps {
+  register: UseFormRegister<TFieldValues>;
+  handleSubmit: UseFormHandleSubmit<TFieldValues>;
+  formState: FormState<TFieldValues>;
+  setValue?: UseFormSetValue<TFieldValues>;
+}

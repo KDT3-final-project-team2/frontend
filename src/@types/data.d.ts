@@ -2,8 +2,11 @@ interface IApplicantSignUpData {
   email: string;
   password: string;
   confirmPassword: string;
-  lastName: string;
-  firstName: string;
+  name: string;
+  gender: string;
+  sector: string;
+  education: string;
+  workExperience: string;
   birth: string;
   phoneNumber: string;
 }
@@ -18,6 +21,7 @@ interface ICompanySignUpData {
   contact: string;
   zoneCode: string;
   address: string;
+  companyUrl?: string;
 }
 
 interface loginForm {
