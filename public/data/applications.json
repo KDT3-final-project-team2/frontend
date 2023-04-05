@@ -1,0 +1,123 @@
+{
+  "default": [
+    {
+      "applicantId": "1",
+      "applicantName": "박연진",
+      "applicantEmail": "yeon@naver.com",
+      "applicantBirthdate": "1990-08-08",
+      "applicantGender": "여자",
+      "applicantContact": "010-1111-1111",
+      "applicantFilePath": "./박연진.pdf",
+      "applicantEducation": "고졸",
+      "applicantWorkExperience": "신입",
+      "applicantSector": "간호조무사",
+      "jobpostID": "1",
+      "jobpostTitle": " 간호조무사 신입 채용",
+      "applicationId": "1",
+      "applicationStatusType": "default",
+      "applyDate": "2023-03-30",
+      "memo": "서류검토중"
+    },
+    {
+      "applicantId": "2",
+      "applicantName": "문동은",
+      "applicantEmail": "moon88@naver.com",
+      "applicantBirthdate": "1988-02-02",
+      "applicantGender": "여자",
+      "applicantContact": "010-1341-4511",
+      "applicantFilePath": "./문동은.pdf",
+      "applicantEducation": "초대졸",
+      "applicantWorkExperience": "3년차",
+      "applicantSector": "간호조무사",
+      "jobpostID": "1",
+      "jobpostTitle": " 간호조무사 채용",
+      "applicationId": "2",
+      "applicationStatusType": "default",
+      "applyDate": "2023-03-28",
+      "interviewDate": null,
+      "memo": "개인병원 경력 있음. 서류통과 검토중"
+    },
+    {
+      "applicantId": "3",
+      "applicantName": "이사라",
+      "applicantEmail": "saraa@naver.com",
+      "applicantBirthdate": "1995-08-02",
+      "applicantGender": "여자",
+      "applicantContact": "010-3434-2323",
+      "applicantFilePath": "./이사라.pdf",
+      "applicantEducation": "대졸",
+      "applicantWorkExperience": "신입",
+      "applicantSector": "간호조무사",
+      "jobpostID": "1",
+      "jobpostTitle": " 간호조무사 채용",
+      "applicationId": "3",
+      "applicationStatusType": "default",
+      "applyDate": "2023-03-30",
+      "interviewDate": null,
+      "memo": "경력이 없어서,,"
+    }
+  ],
+  "resume-pass": [
+    {
+      "applicantId": "4",
+      "applicantName": "전재준",
+      "applicantEmail": "jjj123@naver.com",
+      "applicantBirthdate": "1993-07-13",
+      "applicantGender": "남자",
+      "applicantContact": "010-3334-2323",
+      "applicantFilePath": "./전재준.pdf",
+      "applicantEducation": "대졸",
+      "applicantWorkExperience": "4년차",
+      "applicantSector": "간호조무사",
+      "jobpostID": "1",
+      "jobpostTitle": " 간호조무사 채용",
+      "applicationId": "4",
+      "applicationStatusType": "resume-pass",
+      "applyDate": "2023-03-20",
+      "interviewDate": null,
+      "memo": "면접날짜 고민중"
+    }
+  ],
+  "interview": [
+    {
+      "applicantId": "5",
+      "applicantName": "이지원",
+      "applicantEmail": "zwon123@naver.com",
+      "applicantBirthdate": "1992-08-23",
+      "applicantGender": "여자",
+      "applicantContact": "010-3334-2323",
+      "applicantFilePath": "./이지원.pdf",
+      "applicantEducation": "대졸",
+      "applicantWorkExperience": "2년차",
+      "applicantSector": "간호조무사",
+      "jobpostID": "1",
+      "jobpostTitle": " 간호조무사 채용",
+      "applicationId": "5",
+      "applicationStatusType": "interview",
+      "applyDate": "2023-03-23",
+      "interviewDate": "2023-04-10",
+      "memo": "면접때 뭐물어보쥐..."
+    }
+  ],
+  "interview-pass": [
+    {
+      "applicantId": "6",
+      "applicantName": "손명오",
+      "applicantEmail": "son13@naver.com",
+      "applicantBirthdate": "1988-02-20",
+      "applicantGender": "남자",
+      "applicantContact": "010-3334-2323",
+      "applicantFilePath": "./이지원.pdf",
+      "applicantEducation": "대졸",
+      "applicantWorkExperience": "2년차",
+      "applicantSector": "간호조무사",
+      "jobpostID": "1",
+      "jobpostTitle": " 간호조무사 채용",
+      "applicationId": "6",
+      "applicationStatusType": "interview",
+      "applyDate": "2023-03-23",
+      "interviewDate": "2023-04-01",
+      "memo": "5월1일 입사예정"
+    }
+  ]
+}

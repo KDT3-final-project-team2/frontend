@@ -74,6 +74,7 @@ export interface IStepBoxProps {
   stepName: string;
   step: string;
   setStep: React.Dispatch<React.SetStateAction<string>>;
+  num: number;
 }
 
 export interface IPostingContensProps {

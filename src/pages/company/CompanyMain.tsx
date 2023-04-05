@@ -3,29 +3,40 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import ApplicantList from '@components/mainhome/ApplicantList';
 import StepBox from '@components/mainhome/StepBox';
-import { employSteps } from '../../constants/steps';
+import { employSteps, employStepsToEng } from '../../constants/steps';
 import { useQuery } from '@tanstack/react-query';
+import { getApplications } from '@/api/companyApi';
+import Loading from '@components/common/Loading';
 
 const CompanyMain = () => {
   const [step, setStep] = useState('서류지원');
 
-  const { data, isLoading } = useQuery(['applications', step], () => {
-    // getApplications(step);
-  });
+  const { data, isLoading } = useQuery(['applications', step], getApplications);
 
+  console.log(data);
+  // console.log(employStepsToEng[step]);
+  // console.log(data[employStepsToEng[step]]);
+
+  if (isLoading) return <Loading />;
   return (
     <Container>
       <h1 id='h1'>채용 현황</h1>
       <div className='grid'>
-        {employSteps.map(stepName => (
-          <StepBox key={stepName} stepName={stepName} step={step} setStep={setStep} />
+        {employSteps.map((stepName, index) => (
+          <StepBox
+            key={stepName}
+            stepName={stepName}
+            step={step}
+            setStep={setStep}
+            num={data[employStepsToEng[stepName]]?.length}
+          />
         ))}
       </div>
 
       <div>
         <h4>{step} 리스트</h4>
-        {[1, 2, 3].map((applicant, index) => (
-          <ApplicantList key={applicant + index} index={index} step={step}></ApplicantList>
+        {data[employStepsToEng[step]].map((applicant: CompanyMainData, index: number) => (
+          <ApplicantList key={applicant.applicationId} index={index} step={step} applicant={applicant}></ApplicantList>
         ))}
       </div>
     </Container>

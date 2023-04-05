@@ -2,40 +2,74 @@ import Avvvatars from 'avvvatars-react';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import EmailModal from './EmailModal';
+import ConfirmModal from '../common/ConfirmModal';
+import { getDday } from '@/utils/getDday';
 
-const ApplicantList = ({ index, step }: { index: number; step: string }) => {
+const ApplicantList = ({ index, step, applicant }: { index: number; step: string; applicant: CompanyMainData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [emailModal, setEmailModal] = useState(false);
+  const [mailType, setMailType] = useState<keyof mailTypeCase>('서류합격');
+  const {
+    applicantId,
+    applicantName,
+    applicantEmail,
+    applicantBirthdate,
+    applicantGender,
+    applicantContact,
+    applicantFilePath,
+    applicantEducation,
+    applicantWorkExperience,
+    applicantSector,
+    jobpostID,
+    jobpostTitle,
+    applicationId,
+    applicationStatusType,
+    applyDate,
+    interviewDate,
+    memo,
+  } = applicant;
 
   return (
     <ListComponent>
       <Head onClick={() => setOpen(!open)} open={open}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
-          <Avvvatars value={'조지원'} style='shape'></Avvvatars>
-          <p className='name'>조지원</p>
+          <Avvvatars value={applicantName} style='shape'></Avvvatars>
+          <p className='name'>{applicantName}</p>
           {open ? null : (
             <>
-              <div className='sector'>간호사</div>
-              <div className='tag'># 대졸</div>
-              <div className='tag'># 1년 경력</div>
+              <div className='sector'>{applicantSector}</div>
+              <div className='tag'># {applicantEducation}</div>
+              <div className='tag'># {applicantWorkExperience}</div>
             </>
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <p className='applyDate'>23.04.10</p>
-          <div className='dDay'>지원 D+5</div>
+          <p className='applyDate'>{applyDate}</p>
+          <div className='dDay'>
+            {step === '서류지원' || step === '서류통과' ? '지원' : '면접'} D
+            {step === '서류지원' || step === '서류통과' ? `${getDday(applyDate)}` : getDday(interviewDate)}
+          </div>
           <img
             src='/icons/email.png'
             alt='이메일'
             className='email'
             onClick={event => {
               event.stopPropagation();
+              setMailType('기본');
               setEmailModal(true);
             }}
           />
         </div>
       </Head>
-      {emailModal ? <EmailModal setEmailModal={setEmailModal} /> : null}
+      {emailModal ? (
+        <EmailModal
+          setEmailModal={setEmailModal}
+          email={applicantEmail}
+          applicantName={applicantName}
+          mailType={mailType}
+          jobpostTitle={jobpostTitle}
+        />
+      ) : null}
       <Body>
         {open ? (
           <>
@@ -44,21 +78,67 @@ const ApplicantList = ({ index, step }: { index: number; step: string }) => {
               <div style={{ width: '210px', height: '297px', backgroundColor: '#ECECEC' }}>이력서</div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
-                  <div className='sector'>간호사</div>
-                  <div className='tag'># 대졸</div>
-                  <div className='tag'># 1년 경력</div>
+                  <div className='sector'>{applicantSector}</div>
+                  <div className='tag'># {applicantEducation}</div>
+                  <div className='tag'># {applicantWorkExperience}</div>
                 </div>
                 <p>메모</p>
-                <textarea name='memo' id='memo' cols={30} rows={10}></textarea>
+                <textarea name='memo' id='memo' cols={30} rows={10}>
+                  {memo}
+                </textarea>
                 <div className='buttons'>
                   {step === '서류통과' ? (
-                    <button>면접제안</button>
-                  ) : step === '채용제안' ? (
-                    <button>채용안내</button>
+                    <button onClick={() => {}}>면접일정확정</button>
+                  ) : step === '최종합격' ? (
+                    <button onClick={() => {}}>채용확정</button>
                   ) : (
                     <>
-                      <button>합격</button>
-                      <button>불합격</button>
+                      <button
+                        onClick={() => {
+                          if (step === '서류지원') {
+                            ConfirmModal({
+                              message: '서류합격 메일 전송화면으로 이동합니다.',
+                              action: () => {
+                                setMailType('서류합격');
+                                setEmailModal(true);
+                              },
+                            });
+                          } else {
+                            ConfirmModal({
+                              message: '면접합격 메일 전송화면으로 이동합니다.',
+                              action: () => {
+                                setMailType('면접합격');
+                                setEmailModal(true);
+                              },
+                            });
+                          }
+                        }}
+                      >
+                        합격
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (step === '서류지원') {
+                            ConfirmModal({
+                              message: '서류불합격 메일 전송화면으로 이동합니다.',
+                              action: () => {
+                                setMailType('서류불합격');
+                                setEmailModal(true);
+                              },
+                            });
+                          } else {
+                            ConfirmModal({
+                              message: '면접불합격 메일 전송화면으로 이동합니다.',
+                              action: () => {
+                                setMailType('면접불합격');
+                                setEmailModal(true);
+                              },
+                            });
+                          }
+                        }}
+                      >
+                        불합격
+                      </button>
                     </>
                   )}
                 </div>

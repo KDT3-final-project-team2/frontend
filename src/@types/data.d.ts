@@ -78,3 +78,31 @@ interface IScheduleData {
 interface Props {
   fileUrl: string | undefined;
 }
+
+interface CompanyMainData {
+  applicantId: string;
+  applicantName: string;
+  applicantEmail: string;
+  applicantBirthdate: string;
+  applicantGender: string;
+  applicantContact: string;
+  applicantFilePath: string;
+  applicantEducation: string;
+  applicantWorkExperience: string;
+  applicantSector: string;
+  jobpostID: string;
+  jobpostTitle: string;
+  applicationId: string;
+  applicationStatusType: string;
+  applyDate: string;
+  interviewDate: string;
+  memo: string;
+}
+
+interface mailTypeCase {
+  기본: 기본;
+  서류합격: 서류합격;
+  서류불합격: 서류불합격;
+  면접합격: 면접합격;
+  면접불합격: 면접불합격;
+}
