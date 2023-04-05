@@ -90,8 +90,12 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
               />
               <InputBox label='학력' id='education' register={register} placeholder='학력무관' formState={formState} />
             </QualificationsBox>
-            <InputBox label='모집인원' id='maxapplicants' register={register} placeholder='4명' formState={formState} />
-            <InputBox label='마감일' id='duedate' register={register} placeholder='2023.04.12' formState={formState} />
+            <InputBox label='모집인원' id='maxapplicants' register={register} placeholder='4' formState={formState} />
+            <PostingTitleBox>
+              <Label htmlFor='duedate'>마감일</Label>
+              <DatePickerInput id='duedate' type='date' {...register('duedate')} />
+              <ErrorMessage>{formState.errors.duedate?.message}</ErrorMessage>
+            </PostingTitleBox>
             <PostingTitleBox>
               <Label htmlFor='file'>공고 PDF</Label>
               <InputFile
@@ -188,6 +192,10 @@ export const Input = styled.input`
   border-radius: 20px;
   background: #ffffff;
   padding-top: 2px;
+`;
+
+const DatePickerInput = styled(Input)`
+  padding-right: 10px;
 `;
 
 const InputFile = styled(Input)`
