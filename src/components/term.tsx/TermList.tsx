@@ -4,10 +4,14 @@ import styled from 'styled-components';
 import { IconContainer, NoticeContainer } from '../companyjobposting/JobPostingList';
 import { NoticeTitle } from './../companyjobposting/JobPostingList';
 import TermPostEditModal from './TermPostEditModal';
+import ConfirmModal from '../common/ConfirmModal';
+import { useUpdateAdminTerm } from '@/api/adminApi';
 
 const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnText }: ITermListProps) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+
+  const updateAdminTerm = useUpdateAdminTerm();
 
   const onClickListOpen = () => {
     setOpen(!open);
@@ -37,6 +41,23 @@ const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnT
     setSaveBtnText('수정완료');
   };
 
+  const onClickDeleteTerm = (event: MouseEvent<HTMLImageElement>) => {
+    event?.stopPropagation();
+    const update = () => {
+      updateAdminTerm({
+        termId: adminTerm?.termId,
+        data: {
+          type: adminTerm?.type,
+          version: adminTerm?.version,
+          status: 'DISCARD',
+          content: adminTerm?.content,
+        },
+      });
+    };
+
+    ConfirmModal({ message: '폐기하시겠습니까?.', action: update });
+  };
+
   return (
     <>
       {adminTerm.status === 'USE' && (
@@ -46,7 +67,7 @@ const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnT
             <IconContainer>
               <CreateDate>{adminTerm?.createDate}</CreateDate>
               <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
-              <Icon src='/icons/trashcan.png' />
+              <Icon src='/icons/trashcan.png' onClick={onClickDeleteTerm} />
             </IconContainer>
           </div>
           {open && (

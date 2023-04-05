@@ -18,8 +18,7 @@ import { Editor } from '../common/WebEditor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { termPostSchema } from '@/utils/validationSchema';
 import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postAdminTerm, updateAdminTerm } from '@/api/adminApi';
+import { usePostAdminTerm, useUpdateAdminTerm } from '@/api/adminApi';
 
 const TermPostEditModal = ({
   setTermModalOpen,
@@ -37,19 +36,8 @@ const TermPostEditModal = ({
     },
   });
 
-  const queryClient = useQueryClient();
-
-  const { mutate: postAdminTermMutate } = useMutation(postAdminTerm, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminTerm']);
-    },
-  });
-
-  const { mutate: updateAdminTermMutate } = useMutation(updateAdminTerm, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminTerm']);
-    },
-  });
+  const postAdminTerm = usePostAdminTerm();
+  const updateAdminTerm = useUpdateAdminTerm();
 
   const onChangeContents = (value: string) => {
     setValue('contents', value === '<p><br><p>' ? '' : value);
@@ -64,7 +52,7 @@ const TermPostEditModal = ({
   const onClickSubmit = (data: ITermDataProps) => {
     console.log('저장', data);
     if (saveBtnText === '저장') {
-      postAdminTermMutate({
+      postAdminTerm({
         termId: Math.random() * 10, // 삭제
         type: data.selectedOption,
         version: data.version,
@@ -76,7 +64,7 @@ const TermPostEditModal = ({
     }
     if (saveBtnText === '수정완료' && defaultData) {
       console.log('수정', data);
-      updateAdminTermMutate({
+      updateAdminTerm({
         termId: defaultData.termId,
         data: {
           type: data.selectedOption,
