@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import EmailModal from './EmailModal';
 import ConfirmModal from '../common/ConfirmModal';
 import { getDday } from '@/utils/getDday';
+import AlertModal from '../common/AlertModal';
 
 const ApplicantList = ({ index, step, applicant }: { index: number; step: string; applicant: CompanyMainData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
@@ -90,7 +91,7 @@ const ApplicantList = ({ index, step, applicant }: { index: number; step: string
                   {step === '서류통과' ? (
                     <button onClick={() => {}}>면접일정확정</button>
                   ) : step === '최종합격' ? (
-                    <button onClick={() => {}}>채용확정</button>
+                    ''
                   ) : (
                     <>
                       <button
@@ -177,9 +178,9 @@ const ListComponent = styled.div`
   }
 `;
 
-const Head = styled.div`
+const Head = styled.div<{ open: boolean }>`
   width: 100%;
-  height: ${({ open }: { open: boolean }) => {
+  height: ${({ open }) => {
     return open ? '460px' : '70px';
   }};
   box-shadow: 2px 2px 10px 2px #4357ac26;
@@ -187,11 +188,11 @@ const Head = styled.div`
   border-radius: 20px;
   margin: 0 auto;
   display: flex;
-  align-items: ${({ open }: { open: boolean }) => {
+  align-items: ${({ open }) => {
     return open ? 'flex-start' : 'center';
   }};
   justify-content: space-between;
-  padding: ${({ open }: { open: boolean }) => {
+  padding: ${({ open }) => {
     return open ? '15px 40px' : '0 40px';
   }};
   margin-bottom: 20px;
