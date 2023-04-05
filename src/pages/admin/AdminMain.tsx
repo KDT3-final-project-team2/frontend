@@ -1,6 +1,8 @@
 import NewUsersBox from '@/components/mainhome/NewUsersBox';
+import PlanUserBox from '@/components/mainhome/PlanUserBox';
 import UserSector from '@/components/mainhome/UserSector';
 import UserStaticsBox from '@/components/mainhome/UserStaticsBox';
+import { PlanUsers } from '@/constants/PlanUsers';
 import { userStatics } from '@/constants/steps';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -19,15 +21,25 @@ const AdminMain = () => {
       </div>
       <div className='body'>
         <h3>{tap}</h3>
-        <div className='first-row'>
-          <UserStaticsBox user={'병원'} total={15000} year={2300} month={200} day={33} />
-          <UserStaticsBox user={'지원자'} total={15000} year={2300} month={200} day={33} />
-        </div>
+        {tap === '사용자 현황' ? (
+          <>
+            <div className='first-row'>
+              <UserStaticsBox user={'병원'} total={15000} year={2300} month={200} day={33} />
+              <UserStaticsBox user={'지원자'} total={15000} year={2300} month={200} day={33} />
+            </div>
 
-        <div className='second-row'>
-          <NewUsersBox />
-          <UserSector />
-        </div>
+            <div className='second-row'>
+              <NewUsersBox />
+              <UserSector />
+            </div>
+          </>
+        ) : (
+          <div className='boxs'>
+            {PlanUsers.map(user => (
+              <PlanUserBox key={user.id} {...user} />
+            ))}
+          </div>
+        )}
       </div>
     </Container>
   );
@@ -61,6 +73,11 @@ const Container = styled.div`
     .second-row {
       display: flex;
       gap: 24px;
+    }
+    .boxs {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
     }
   }
 `;

@@ -29,7 +29,9 @@ const NewUsersBox = () => {
         </div>
         <div className='flex' style={{ height: '30px' }}>
           {Array.from(Array(12).keys()).map((val, index) => (
-            <div className='flex_month'>{index + 1}월</div>
+            <div key={val} className='flex_month'>
+              {index + 1}월
+            </div>
           ))}
         </div>
       </div>
