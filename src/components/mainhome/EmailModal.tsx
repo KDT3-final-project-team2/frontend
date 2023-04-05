@@ -15,10 +15,10 @@ const EmailModal = ({
   email: string;
   applicantName: string;
   mailType: keyof mailTypeCase;
-  jobpostTitle: string;
+  jobpostTitle?: string;
 }) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState(getMailSample({ applicantName, mailType, jobpostTitle }));
+  const [contents, setContents] = useState(getMailSample({ applicantName, mailType, jobpostTitle: '' }));
   const [receiver, setReceiver] = useState('');
   const [title, setTitle] = useState('');
 
@@ -28,7 +28,11 @@ const EmailModal = ({
 
   useEffect(() => {
     setReceiver(`${applicantName}, ${email}`);
-    setTitle(`${jobpostTitle}관련 안내`);
+    if (jobpostTitle) {
+      setTitle(`${jobpostTitle}관련 안내`);
+    } else {
+      setTitle('');
+    }
     // setContents(getMailSample({ applicantName, mailType, jobpostTitle }));
   });
 
