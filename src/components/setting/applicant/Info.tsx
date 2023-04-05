@@ -4,13 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { applicantSignUpSchema } from '@/utils/validationSchema';
 import DropDown from '@/components/common/DropDown';
+import { ISettingProps } from '@/@types/props';
 
-const Info = () => {
-  const { register, handleSubmit, formState, setValue } = useForm<IApplicantSignUpData>({
-    resolver: yupResolver(applicantSignUpSchema),
-    mode: 'onChange',
-  });
-
+const Info = ({ register, handleSubmit, formState, setValue }: ISettingProps) => {
   const onValid = (data: IApplicantSignUpData) => {
     console.log(data);
   };

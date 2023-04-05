@@ -3,12 +3,23 @@ import styled from 'styled-components';
 import { ContainerInner, TabContent } from '../company/CompanyApplicant';
 import Info from '@/components/setting/applicant/Info';
 import Withdrawal from '@/components/setting/applicant/Withdrawal';
+import { useForm } from 'react-hook-form';
+import { applicantSignUpSchema } from '@/utils/validationSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const ApplicantSetting = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const { register, handleSubmit, formState, setValue } = useForm<IApplicantSignUpData>({
+    resolver: yupResolver(applicantSignUpSchema),
+    mode: 'onChange',
+  });
 
   const tabs = [
-    { index: 1, name: '정보 수정', content: <Info /> },
+    {
+      index: 1,
+      name: '정보 수정',
+      content: <Info register={register} handleSubmit={handleSubmit} formState={formState} setValue={setValue} />,
+    },
     { index: 3, name: '회원탈퇴', content: <Withdrawal /> },
   ];
 
