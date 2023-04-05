@@ -30,31 +30,35 @@ const TermList = ({ onClickTermEdit, index, adminTerm }: ITermListProps) => {
   }
 
   return (
-    <TermListContainer open={open}>
-      <div className='termBox' onClick={onClickListOpen}>
-        <TermType>{type}</TermType>
-        <IconContainer>
-          <CreateDate>{adminTerm?.createDate}</CreateDate>
-          <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
-          <Icon src='/icons/trashcan.png' />
-        </IconContainer>
-      </div>
-      {open && (
-        <>
-          <Border></Border>
-          <TermContentsBox>
-            <Date>{adminTerm?.createDate}</Date>
-            <div className='contentsborder'>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: adminTerm?.content,
-                }}
-              ></p>
-            </div>
-          </TermContentsBox>
-        </>
+    <>
+      {adminTerm.status === 'USE' && (
+        <TermListContainer open={open}>
+          <div className='termBox' onClick={onClickListOpen}>
+            <TermType>{type}</TermType>
+            <IconContainer>
+              <CreateDate>{adminTerm?.createDate}</CreateDate>
+              <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
+              <Icon src='/icons/trashcan.png' />
+            </IconContainer>
+          </div>
+          {open && (
+            <>
+              <Border></Border>
+              <TermContentsBox>
+                <Date>{adminTerm?.createDate}</Date>
+                <div className='contentsborder'>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: adminTerm?.content,
+                    }}
+                  ></p>
+                </div>
+              </TermContentsBox>
+            </>
+          )}
+        </TermListContainer>
       )}
-    </TermListContainer>
+    </>
   );
 };
 
