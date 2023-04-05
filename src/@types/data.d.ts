@@ -88,3 +88,10 @@ interface adminTermData {
   status: string;
   content: string;
 }
+
+interface IAdminTermPostData {
+  type: string;
+  version: string;
+  status: string;
+  content: string;
+}

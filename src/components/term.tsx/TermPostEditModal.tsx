@@ -19,7 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { termPostSchema } from '@/utils/validationSchema';
 import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postAdminTerm } from '@/api/adminApi';
+import { postAdminTerm, updateAdminTerm } from '@/api/adminApi';
 
 const TermPostEditModal = ({
   setTermModalOpen,
@@ -27,19 +27,28 @@ const TermPostEditModal = ({
   setEditModalOpen,
   defaultData,
 }: ITermPostEditModalProps) => {
-  const [selectedOption, setSelectedOption] = useState('SERVICE');
+  const { register, handleSubmit, setValue, trigger, formState } = useForm<ITermDataProps>({
+    resolver: yupResolver(termPostSchema),
+    mode: 'onChange',
+    defaultValues: {
+      version: defaultData?.version,
+      selectedOption: defaultData?.type,
+      contents: defaultData?.content,
+    },
+  });
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(postAdminTerm, {
+  const { mutate: postAdminTermMutate } = useMutation(postAdminTerm, {
     onSuccess: () => {
       queryClient.invalidateQueries(['adminTerm']);
     },
   });
 
-  const { register, handleSubmit, setValue, trigger, formState } = useForm<ITermDataProps>({
-    resolver: yupResolver(termPostSchema),
-    mode: 'onChange',
+  const { mutate: updateAdminTermMutate } = useMutation(updateAdminTerm, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['adminTerm']);
+    },
   });
 
   const onChangeContents = (value: string) => {
@@ -47,26 +56,40 @@ const TermPostEditModal = ({
     trigger('contents');
   };
 
+  const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setValue('selectedOption', event.target.value);
+    trigger('selectedOption');
+  };
+
   const onClickSubmit = (data: ITermDataProps) => {
+    console.log('저장', data);
     if (saveBtnText === '저장') {
-      mutation.mutate({
+      postAdminTermMutate({
         termId: Math.random() * 10, // 삭제
-        type: selectedOption,
+        type: data.selectedOption,
         version: data.version,
         createDate: '2023-12-25', // 삭제
         editDate: '2023-12-25', // 삭제
         status: 'USE',
         content: data.contents,
       });
-      setTermModalOpen(false);
     }
-    if (saveBtnText === '수정완료') {
+    if (saveBtnText === '수정완료' && defaultData) {
       console.log('수정', data);
+      updateAdminTermMutate({
+        termId: defaultData.termId,
+        data: {
+          type: data.selectedOption,
+          version: data.version,
+          status: 'USE',
+          content: data.contents,
+        },
+      });
     }
-  };
-
-  const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+    setTermModalOpen(false);
+    if (setEditModalOpen) {
+      setEditModalOpen(false);
+    }
   };
 
   const onClickCloseModal = () => {
@@ -91,12 +114,14 @@ const TermPostEditModal = ({
               <ErrorMessage>{formState.errors.version?.message}</ErrorMessage>
             </PostingTitleBox>
             <SelectBox onChange={handleOptionChange} defaultValue={defaultData?.type}>
+              <option>선택하세요.</option>
               {termsOptions.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </SelectBox>
+            <ErrorMessage>{formState.errors.selectedOption?.message}</ErrorMessage>
             <Editor>
               <StyledReactQuill theme='snow' onChange={onChangeContents} defaultValue={defaultData?.content} />
               <ErrorMessage>{formState.errors.contents?.message}</ErrorMessage>

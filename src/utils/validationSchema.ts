@@ -116,6 +116,7 @@ export const termPostSchema = yup.object().shape({
     .required('버전을 입력해주세요.')
     .matches(/^[1-9]\d*\.\d{1,2}$/, '올바른 형식으로 입력해주세요. (ex. 1.0, 2.12)'),
   contents: yup.string().notOneOf(['<p><br></p>'], '내용을 입력해주세요.').required('내용을 입력해주세요.'),
+  selectedOption: yup.string().required('type을 선택해주세요.'),
 });
 
 export const ScheduleSchema = yup.object().shape({

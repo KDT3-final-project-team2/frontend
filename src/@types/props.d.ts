@@ -88,6 +88,7 @@ export interface IPreviewModalProps {
 export interface ITermDataProps {
   version: string;
   contents: string;
+  selectedOption: string;
 }
 
 export interface ITermPostEditModalProps {
