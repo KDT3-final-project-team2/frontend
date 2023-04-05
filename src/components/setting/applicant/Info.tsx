@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { applicantSignUpSchema } from '@/utils/validationSchema';
@@ -12,6 +13,7 @@ const Info = ({ register, handleSubmit, formState, setValue }: ISettingProps) =>
   };
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Wrapper>
@@ -92,6 +94,7 @@ const Info = ({ register, handleSubmit, formState, setValue }: ISettingProps) =>
             <img src='/icons/open-eye.png' alt='비밀번호보기' onClick={() => setShowPassword(true)} className='eye' />
           )}
         </div>
+        <SubmitButton type='submit'>수정완료</SubmitButton>
       </Form>
     </Wrapper>
   );
@@ -198,6 +201,7 @@ const Form = styled.form`
     }
   }
 `;
+
 const Error = styled.div`
   position: absolute;
   bottom: -15px;
@@ -207,6 +211,17 @@ const Error = styled.div`
   &:last-child {
     left: 54%;
   }
+`;
+
+export const SubmitButton = styled.button`
+  margin: 15px 0 0 auto;
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 20px;
+  background-color: var(--color-primary-100);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
 `;
 
 export default Info;
