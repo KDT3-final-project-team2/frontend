@@ -32,7 +32,9 @@ const ApplicantsList = ({ item }: { item: any }) => {
           </button>
         </div>
       </Inner>
-      {emailModal ? <EmailModal setEmailModal={setEmailModal} /> : null}
+      {emailModal ? (
+        <EmailModal setEmailModal={setEmailModal} email={'email@email.com'} applicantName={'이름'} mailType={'기본'} />
+      ) : null}
       {open ? (
         <HideContent>
           <Resume>이력서</Resume>
