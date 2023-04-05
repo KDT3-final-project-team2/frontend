@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import ApplicantsInfo from '../../components/companyApplicant/ApplicantsInfo';
-import ApplicantsRecommend from '../../components/companyApplicant/ApplicantsRecommend';
-import ApplicantsStats from '../../components/companyApplicant/ApplicantsStats';
-import MailTemplate from '../../components/companyApplicant/MailTemplate';
+import ApplicantsInfo from '@/components/companyApplicant/ApplicantsInfo';
+import ApplicantsRecommend from '@/components/companyApplicant/ApplicantsRecommend';
+import ApplicantsStats from '@/components/companyApplicant/ApplicantsStats';
+import MailTemplate from '@/components/companyApplicant/MailTemplate';
 
 const CompanyApplicant = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -38,7 +38,7 @@ const CompanyApplicant = () => {
   );
 };
 
-const ContainerInner = styled.div`
+export const ContainerInner = styled.div`
   padding: 30px 70px 0;
 `;
 
@@ -60,7 +60,7 @@ const Title = styled.h1`
   }
 `;
 
-const TabContent = styled.div`
+export const TabContent = styled.div`
   ul {
     display: flex;
     align-items: center;
@@ -71,7 +71,10 @@ const TabContent = styled.div`
       font-size: 20px;
       font-weight: bold;
       letter-spacing: -0.5px;
-      line-height: 44px;
+      display: flex;
+      justify-content: center;
+      line-height: 54px;
+      width: 151px;
       position: relative;
       &.active {
         color: var(--color-primary-100);
