@@ -2,8 +2,7 @@ import { MainContainer, RecruitmentNotice, RegistrationButton } from '../company
 import styled from 'styled-components';
 import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
-import { MouseEvent, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAdminTermList } from '@/api/adminApi';
 
@@ -14,12 +13,6 @@ export const AdminTerm = () => {
   const onClickTermPost = () => {
     setTermModalOpen(true);
     setSaveBtnText('저장');
-  };
-
-  const onClickTermEdit = (event: MouseEvent<HTMLImageElement>) => {
-    event?.stopPropagation();
-    setTermModalOpen(true);
-    setSaveBtnText('수정완료');
   };
 
   const { data: adminTerm } = useQuery(['adminTerm'], getAdminTermList);
@@ -37,7 +30,8 @@ export const AdminTerm = () => {
           key={data?.termId}
           index={index}
           setTermModalOpen={setTermModalOpen}
-          onClickTermEdit={onClickTermEdit}
+          setSaveBtnText={setSaveBtnText}
+          saveBtnText={saveBtnText}
         />
       ))}
       {termModalOpen && <TermPostEditModal setTermModalOpen={setTermModalOpen} saveBtnText={saveBtnText} />}

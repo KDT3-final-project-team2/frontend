@@ -21,7 +21,12 @@ import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postAdminTerm } from '@/api/adminApi';
 
-const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModalProps) => {
+const TermPostEditModal = ({
+  setTermModalOpen,
+  saveBtnText,
+  setEditModalOpen,
+  defaultData,
+}: ITermPostEditModalProps) => {
   const [selectedOption, setSelectedOption] = useState('SERVICE');
 
   const queryClient = useQueryClient();
@@ -43,16 +48,21 @@ const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModal
   };
 
   const onClickSubmit = (data: ITermDataProps) => {
-    mutation.mutate({
-      termId: Math.random() * 10, // 삭제
-      type: selectedOption,
-      version: data.version,
-      createDate: '2023-12-25', // 삭제
-      editDate: '2023-12-25', // 삭제
-      status: 'USE',
-      content: data.contents,
-    });
-    setTermModalOpen(false);
+    if (saveBtnText === '저장') {
+      mutation.mutate({
+        termId: Math.random() * 10, // 삭제
+        type: selectedOption,
+        version: data.version,
+        createDate: '2023-12-25', // 삭제
+        editDate: '2023-12-25', // 삭제
+        status: 'USE',
+        content: data.contents,
+      });
+      setTermModalOpen(false);
+    }
+    if (saveBtnText === '수정완료') {
+      console.log('수정', data);
+    }
   };
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -61,6 +71,9 @@ const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModal
 
   const onClickCloseModal = () => {
     setTermModalOpen(false);
+    if (setEditModalOpen) {
+      setEditModalOpen(false);
+    }
   };
 
   return (
@@ -74,10 +87,10 @@ const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModal
           <form onSubmit={handleSubmit(onClickSubmit)}>
             <PostingTitleBox>
               <Label>버전</Label>
-              <VersionInput placeholder='1.0' {...register('version')} />
+              <VersionInput placeholder='1.0' {...register('version')} defaultValue={defaultData?.version} />
               <ErrorMessage>{formState.errors.version?.message}</ErrorMessage>
             </PostingTitleBox>
-            <SelectBox value={selectedOption} onChange={handleOptionChange}>
+            <SelectBox onChange={handleOptionChange} defaultValue={defaultData?.type}>
               {termsOptions.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -85,7 +98,7 @@ const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModal
               ))}
             </SelectBox>
             <Editor>
-              <StyledReactQuill theme='snow' onChange={onChangeContents} />
+              <StyledReactQuill theme='snow' onChange={onChangeContents} defaultValue={defaultData?.content} />
               <ErrorMessage>{formState.errors.contents?.message}</ErrorMessage>
             </Editor>
             <BtnContainer>

@@ -1,11 +1,13 @@
 import { ITermListProps } from '@/@types/props';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import { IconContainer, NoticeContainer } from '../companyjobposting/JobPostingList';
 import { NoticeTitle } from './../companyjobposting/JobPostingList';
+import TermPostEditModal from './TermPostEditModal';
 
-const TermList = ({ onClickTermEdit, index, adminTerm }: ITermListProps) => {
+const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnText }: ITermListProps) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const onClickListOpen = () => {
     setOpen(!open);
@@ -28,6 +30,12 @@ const TermList = ({ onClickTermEdit, index, adminTerm }: ITermListProps) => {
     default:
       type = adminTerm?.type;
   }
+
+  const onClickTermEdit = (event: MouseEvent<HTMLImageElement>) => {
+    event?.stopPropagation();
+    setEditModalOpen(true);
+    setSaveBtnText('수정완료');
+  };
 
   return (
     <>
@@ -57,6 +65,14 @@ const TermList = ({ onClickTermEdit, index, adminTerm }: ITermListProps) => {
             </>
           )}
         </TermListContainer>
+      )}
+      {editModalOpen && (
+        <TermPostEditModal
+          setTermModalOpen={setTermModalOpen}
+          saveBtnText={saveBtnText}
+          setEditModalOpen={setEditModalOpen}
+          defaultData={adminTerm}
+        />
       )}
     </>
   );
