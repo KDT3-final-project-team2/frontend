@@ -40,6 +40,36 @@ const terms = [
   },
 ];
 
+const jobposts = [
+  {
+    postId: 1,
+    title: '2023년도 정규직 간호사 모집공고',
+    startDate: '2023-04-06',
+    dueDate: '2023-4-12',
+    createDate: '2023-04-06',
+    editDate: '2023-04-06',
+    status: 'USE',
+  },
+  {
+    postId: 2,
+    title: '2023년도 정규직 의사 모집공고',
+    startDate: '2023-04-06',
+    dueDate: '2023-4-12',
+    createDate: '2023-04-06',
+    editDate: '2023-04-06',
+    status: 'USE',
+  },
+  {
+    postId: 3,
+    title: '2023년도 정규직 간호조무사 모집공고',
+    startDate: '2023-04-06',
+    dueDate: '2023-4-12',
+    createDate: '2023-04-06',
+    editDate: '2023-04-06',
+    status: 'USE',
+  },
+];
+
 export const handlers = [
   rest.get('http://localhost:5173/admin/term/list', async (req, res, ctx) => {
     return res(ctx.json(terms));
@@ -51,5 +81,9 @@ export const handlers = [
     terms.push(termData);
     console.log(terms);
     return res(ctx.status(201), ctx.json(true));
+  }),
+
+  rest.get('http://localhost:5173/company/jobposts', async (req, res, ctx) => {
+    return res(ctx.json(jobposts));
   }),
 ];

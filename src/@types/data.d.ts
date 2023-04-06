@@ -67,7 +67,18 @@ interface IPostingInput {
   education: string;
   maxapplicants: string;
   duedate: string;
+  startDate: string;
   file: File | undefined;
+}
+
+interface IGetCompanyJobPosts {
+  postId: number;
+  title: string;
+  startDate: string;
+  dueDate: string;
+  createDate: string;
+  editDate: string;
+  status: string;
 }
 
 interface IScheduleData {

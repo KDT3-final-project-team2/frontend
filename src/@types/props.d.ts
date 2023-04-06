@@ -141,3 +141,8 @@ interface Option {
   value: string;
   label: string;
 }
+
+export interface IJobPostingListProps {
+  setIsEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  jobPosts: IGetCompanyJobPosts;
+}

@@ -97,6 +97,11 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
             </QualificationsBox>
             <InputBox label='모집인원' id='maxapplicants' register={register} placeholder='4' formState={formState} />
             <PostingTitleBox>
+              <Label htmlFor='startData'>모집시작일</Label>
+              <DatePickerInput id='startDate' type='datetime-local' {...register('startDate')} />
+              <ErrorMessage>{formState.errors.startDate?.message}</ErrorMessage>
+            </PostingTitleBox>
+            <PostingTitleBox>
               <Label htmlFor='duedate'>마감일</Label>
               <DatePickerInput id='duedate' type='date' {...register('duedate')} />
               <ErrorMessage>{formState.errors.duedate?.message}</ErrorMessage>

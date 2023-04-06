@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { IModalProps } from '../../@types/props';
+import { IJobPostingListProps } from '../../@types/props';
 import PreviewModal from './PreviewModal';
 
-const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>) => {
+const JobPostingList = ({ setIsEditModal, jobPosts }: IJobPostingListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
 
@@ -30,7 +30,7 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
   return (
     <>
       <NoticeContainer onClick={onClickClose}>
-        <NoticeTitle>2023년도 정규직 간호사 모집공고</NoticeTitle>
+        <NoticeTitle>{jobPosts.title}</NoticeTitle>
         <IconContainer>
           <Preview onClick={PreviewModalOpen}>미리보기</Preview>
           <Link src='/icons/link.png' />

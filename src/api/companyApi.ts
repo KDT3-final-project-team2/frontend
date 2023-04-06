@@ -10,3 +10,14 @@ export const getApplications = async () => {
     console.log(error);
   }
 };
+
+export const getCompanyJobposts = async () => {
+  try {
+    const res = await axios.get('http://localhost:5173/company/jobposts');
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
