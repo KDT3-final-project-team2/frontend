@@ -1,4 +1,4 @@
-import { instance } from './instance';
+import { instance, authInstance } from './instance';
 
 export const getTerms = async () => {
   try {
@@ -8,4 +8,14 @@ export const getTerms = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+// 로그인
+export const adminLogin = async (id: string, pw: string) => {
+  const send = {
+    adminEmail: id,
+    adminPassword: pw,
+  };
+  const res = await instance.post(`/admin/login`, { params: { ...send } });
+  return res.data;
 };
