@@ -100,7 +100,12 @@ export const jobPostSchema = yup.object().shape({
   sector: yup.string().required('직종을 입력해주세요.'),
   experience: yup.string().required('경력을 입력해주세요.'),
   education: yup.string().required('학력을 입력해주세요.'),
-  maxapplicants: yup.string().required('모집인원을 입력해주세요.'),
+  maxapplicants: yup
+    .number()
+    .required('모집인원을 입력해주세요.')
+    .typeError('숫자만 입력 가능합니다.')
+    .integer('정수만 입력 가능합니다.')
+    .min(1, '1 이상의 숫자를 입력해주세요.'),
   duedate: yup.string().required('마감일을 입력해주세요.'),
   file: yup.mixed().required('공고 PDF를 입력해주세요.'),
 });
@@ -111,6 +116,7 @@ export const termPostSchema = yup.object().shape({
     .required('버전을 입력해주세요.')
     .matches(/^[1-9]\d*\.\d{1,2}$/, '올바른 형식으로 입력해주세요. (ex. 1.0, 2.12)'),
   contents: yup.string().notOneOf(['<p><br></p>'], '내용을 입력해주세요.').required('내용을 입력해주세요.'),
+  selectedOption: yup.string().required('type을 선택해주세요.'),
 });
 
 export const ScheduleSchema = yup.object().shape({

@@ -74,6 +74,7 @@ export interface IStepBoxProps {
   stepName: string;
   step: string;
   setStep: React.Dispatch<React.SetStateAction<string>>;
+  num: number;
 }
 
 export interface IPostingContensProps {
@@ -88,17 +89,23 @@ export interface IPreviewModalProps {
 export interface ITermDataProps {
   version: string;
   contents: string;
+  selectedOption: string;
 }
 
 export interface ITermPostEditModalProps {
   setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditModalOpen?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
   saveBtnText: string;
+  defaultData?: adminTermData;
+  editModalOpen?: boolean;
 }
 
 export interface ITermListProps {
-  setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onClickTermEdit: (event: MouseEvent<HTMLImageElement>) => void;
   index: number;
+  adminTerm: adminTermData;
+  setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
+  setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  saveBtnText: string;
 }
 
 export interface IScheduleElementProps {

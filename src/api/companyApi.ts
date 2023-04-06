@@ -1,8 +1,11 @@
+import axios from 'axios';
 import { instance, authInstance } from './instance';
 
 export const getApplications = async () => {
   try {
-    const res = await instance.get(`/company/applications`);
+    const res = await fetch('/data/applications.json');
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log(error);
   }
