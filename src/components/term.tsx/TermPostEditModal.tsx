@@ -18,31 +18,73 @@ import { Editor } from '../common/WebEditor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { termPostSchema } from '@/utils/validationSchema';
 import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
+import { usePostAdminTerm, useUpdateAdminTerm } from '@/api/adminApi';
 
-const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModalProps) => {
-  const [selectedOption, setSelectedOption] = useState('');
-
+const TermPostEditModal = ({
+  setTermModalOpen,
+  saveBtnText,
+  setEditModalOpen,
+  defaultData,
+}: ITermPostEditModalProps) => {
   const { register, handleSubmit, setValue, trigger, formState } = useForm<ITermDataProps>({
     resolver: yupResolver(termPostSchema),
     mode: 'onChange',
+    defaultValues: {
+      version: defaultData?.version,
+      selectedOption: defaultData?.type,
+      contents: defaultData?.content,
+    },
   });
+
+  const postAdminTerm = usePostAdminTerm();
+  const updateAdminTerm = useUpdateAdminTerm();
 
   const onChangeContents = (value: string) => {
     setValue('contents', value === '<p><br><p>' ? '' : value);
     trigger('contents');
-    console.log(value);
-  };
-
-  const onClickSubmit = (data: ITermDataProps) => {
-    console.log(data);
   };
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+    setValue('selectedOption', event.target.value);
+    trigger('selectedOption');
+  };
+
+  const onClickSubmit = (data: ITermDataProps) => {
+    console.log('저장', data);
+    if (saveBtnText === '저장') {
+      postAdminTerm({
+        termId: Math.random() * 10, // 삭제
+        type: data.selectedOption,
+        version: data.version,
+        createDate: '2023-12-25', // 삭제
+        editDate: '2023-12-25', // 삭제
+        status: 'USE',
+        content: data.contents,
+      });
+    }
+    if (saveBtnText === '수정완료' && defaultData) {
+      console.log('수정', data);
+      updateAdminTerm({
+        termId: defaultData.termId,
+        data: {
+          type: data.selectedOption,
+          version: data.version,
+          status: 'USE',
+          content: data.contents,
+        },
+      });
+    }
+    setTermModalOpen(false);
+    if (setEditModalOpen) {
+      setEditModalOpen(false);
+    }
   };
 
   const onClickCloseModal = () => {
     setTermModalOpen(false);
+    if (setEditModalOpen) {
+      setEditModalOpen(false);
+    }
   };
 
   return (
@@ -56,18 +98,20 @@ const TermPostEditModal = ({ setTermModalOpen, saveBtnText }: ITermPostEditModal
           <form onSubmit={handleSubmit(onClickSubmit)}>
             <PostingTitleBox>
               <Label>버전</Label>
-              <VersionInput placeholder='1.0' {...register('version')} />
+              <VersionInput placeholder='1.0' {...register('version')} defaultValue={defaultData?.version} />
               <ErrorMessage>{formState.errors.version?.message}</ErrorMessage>
             </PostingTitleBox>
-            <SelectBox value={selectedOption} onChange={handleOptionChange}>
+            <SelectBox onChange={handleOptionChange} defaultValue={defaultData?.type}>
+              <option>선택하세요.</option>
               {termsOptions.map(option => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </SelectBox>
+            <ErrorMessage>{formState.errors.selectedOption?.message}</ErrorMessage>
             <Editor>
-              <StyledReactQuill theme='snow' onChange={onChangeContents} />
+              <StyledReactQuill theme='snow' onChange={onChangeContents} defaultValue={defaultData?.content} />
               <ErrorMessage>{formState.errors.contents?.message}</ErrorMessage>
             </Editor>
             <BtnContainer>

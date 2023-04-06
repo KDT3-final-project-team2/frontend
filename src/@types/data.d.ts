@@ -79,6 +79,22 @@ interface Props {
   fileUrl: string | undefined;
 }
 
+interface adminTermData {
+  termId: number;
+  type: string;
+  version: string;
+  createDate: string;
+  editDate: string;
+  status: string;
+  content: string;
+}
+
+interface IAdminTermPostData {
+  type: string;
+  version: string;
+  status: string;
+  content: string;
+}
 interface CompanyMainData {
   applicantId: string;
   applicantName: string;

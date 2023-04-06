@@ -3,7 +3,7 @@ import React from 'react';
 type Props = {};
 
 const AdminSetting = (props: Props) => {
-  return <div>AdminSetting</div>;
+  return <div></div>;
 };
 
 export default AdminSetting;

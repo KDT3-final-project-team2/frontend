@@ -7,6 +7,13 @@ import { store } from './store/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+// Start the mocking conditionally.
+if (process.env.NODE_ENV === 'development') {
+  import('./mocks/browser').then(({ worker }) => {
+    worker.start();
+  });
+}
+
 let persistor = persistStore(store);
 const queryClient = new QueryClient();
 
