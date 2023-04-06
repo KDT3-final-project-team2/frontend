@@ -16,51 +16,8 @@ const CompanyJobPosting = () => {
 
   const { data: jobPosts } = useQuery(['jobPosts'], getCompanyJobposts);
 
-  const postSignUp = async () => {
-    const res = await axios.post(
-      'http://13.124.119.131:3100/admin/term',
-      {
-        content: '테스트',
-        type: 'PRIVACY',
-        version: '6',
-        status: 'USE',
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJ1c2VyRW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQURNSU4iLCJpZCI6MSwiaXNzdWVyIjoiZG5lZml0IiwiaWF0IjoxNjgwNzc2Njc5LCJleHAiOjE2ODA3NzY3Mzl9.g9BlFUlfQvFFvAPFZTu7VFMM1da7UDUOufgD-MC7H24`,
-        },
-      },
-    );
-    console.log(res.data);
-  };
-
-  const getCartItem = async () => {
-    const res = await axios.get('http://13.124.119.131:3100/company/jobposts', {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuaWtla2VAbmF2ZXIuY29tIiwidXNlckVtYWlsIjoibmlrZWtlQG5hdmVyLmNvbSIsInJvbGUiOiJDT01QQU5ZIiwiaWQiOjQsImlzc3VlciI6ImRuZWZpdCIsImlhdCI6MTY4MDc3NTY3NiwiZXhwIjoxNjgwNzc1NzM2fQ.fYPE1h3-gfcWfffsZz2RgyBz0pfFxDPOrVqiID0A3QA`,
-      },
-    });
-    console.log(res.data);
-  };
-
   return (
     <MainContainer>
-      <button
-        onClick={() => {
-          getCartItem();
-        }}
-      >
-        조회
-      </button>
-      <button
-        onClick={() => {
-          postSignUp();
-        }}
-      >
-        회원가입
-      </button>
       <div className='headerBox'>
         <RecruitmentNotice>채용 공고</RecruitmentNotice>
         <RecruitmentManagement>공고 등록 관리</RecruitmentManagement>

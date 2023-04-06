@@ -21,3 +21,14 @@ export const getCompanyJobposts = async () => {
     throw error;
   }
 };
+
+export const getCompanyJobpostSingle = async (jobpostId: number) => {
+  try {
+    const res = await axios.get(`http://localhost:5173/company/jobposts/${jobpostId}`);
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

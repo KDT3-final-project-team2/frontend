@@ -49,7 +49,7 @@ const JobPostingList = ({ setIsEditModal, jobPosts }: IJobPostingListProps) => {
           </DropDown>
         </IconContainer>
       </NoticeContainer>
-      {previewModalOpen && <PreviewModal setPreviewModalOpen={setPreviewModalOpen} />}
+      {previewModalOpen && <PreviewModal setPreviewModalOpen={setPreviewModalOpen} jobPosts={jobPosts} />}
     </>
   );
 };

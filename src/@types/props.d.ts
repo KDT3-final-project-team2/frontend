@@ -84,6 +84,7 @@ export interface IPostingContensProps {
 
 export interface IPreviewModalProps {
   setPreviewModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  jobPosts: IGetCompanyJobPosts;
 }
 
 export interface ITermDataProps {

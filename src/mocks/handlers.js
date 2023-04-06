@@ -86,4 +86,27 @@ export const handlers = [
   rest.get('http://localhost:5173/company/jobposts', async (req, res, ctx) => {
     return res(ctx.json(jobposts));
   }),
+
+  rest.get('http://localhost:5173/company/jobposts/:jobpostId', (req, res, ctx) => {
+    const { jobpostId } = req.params;
+    console.log('jobpostId', jobpostId);
+    const jobPost = {
+      postId: 1,
+      title: '2023년도 정규직 간호사 모집공고',
+      sector: '간호사',
+      education: '석박사',
+      workExperience: '3년차',
+      companyNm: '메디메치',
+      companyTel: '02-920-1020',
+      startDate: '2024-02-04T11:12:13.123',
+      dueDate: '2024-02-04T11:12:13.123',
+      createDate: null,
+      editDate: null,
+      maxApplicants: 10,
+      filePath: 'C:/Users/user/Desktop/자료구조 알고리즘/인프런 코테 강의자료/섹션3/섹션 3. 문자열 탐색.pdf',
+      status: '모집중',
+    };
+
+    return res(ctx.status(200), ctx.json(jobPost));
+  }),
 ];
