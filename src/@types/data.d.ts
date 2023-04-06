@@ -68,7 +68,7 @@ interface IPostingInput {
   maxapplicants: string;
   duedate: string;
   startDate: string;
-  file: File | undefined;
+  file: File;
 }
 
 interface IGetCompanyJobPosts {

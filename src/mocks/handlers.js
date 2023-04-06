@@ -109,4 +109,12 @@ export const handlers = [
 
     return res(ctx.status(200), ctx.json(jobPost));
   }),
+
+  rest.post('http://localhost:5173/company/jobposts', async (req, res, ctx) => {
+    const { jobPostData } = req.body;
+    console.log(JSON.stringify(jobPostData));
+    jobposts.push(jobPostData);
+    console.log(terms);
+    return res(ctx.status(201), ctx.json(true));
+  }),
 ];

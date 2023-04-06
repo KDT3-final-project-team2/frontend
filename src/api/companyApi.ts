@@ -32,3 +32,18 @@ export const getCompanyJobpostSingle = async (jobpostId: number) => {
     throw error;
   }
 };
+
+export const postJobPosts = async (jobPostData: FormData) => {
+  try {
+    const res = await axios.post('http://localhost:5173/company/jobposts', jobPostData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

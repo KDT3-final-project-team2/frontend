@@ -98,9 +98,9 @@ export const loginSchema = yup.object().shape({
 export const jobPostSchema = yup.object().shape({
   title: yup.string().required('공고명을 입력해주세요.'),
   sector: yup.string().required('직종을 입력해주세요.'),
-  experience: yup.string().required('경력을 입력해주세요.'),
+  workExperience: yup.string().required('경력을 입력해주세요.'),
   education: yup.string().required('학력을 입력해주세요.'),
-  maxapplicants: yup
+  recruitNum: yup
     .number()
     .required('모집인원을 입력해주세요.')
     .typeError('숫자만 입력 가능합니다.')

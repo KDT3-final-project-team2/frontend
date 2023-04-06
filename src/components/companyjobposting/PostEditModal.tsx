@@ -7,9 +7,11 @@ import { jobPostSchema } from '../../utils/validationSchema';
 import { educationOptions, sectorOptions, workExperiencerOptions } from '@/constants/jobPostingOptions';
 import { InputBox } from './InputBox';
 import { SelectBox } from './SelectBox';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postJobPosts } from '@/api/companyApi';
 
 const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalProps) => {
-  const [selectedFile, setSelectedFile] = useState<File | undefined>();
+  const [selectedFile, setSelectedFile] = useState<File>();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
@@ -21,27 +23,25 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
     // get, put /company/jobposts/{jobpostId}
   }, [isEditModal]);
 
+  const queryClient = useQueryClient();
+
+  const { mutate: jobPostMutate } = useMutation(postJobPosts, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['jobPosts']);
+    },
+  });
+
   const onSubmitPosting = (data: IPostingInput) => {
     console.log('채용공고등록', data);
-
-    // const formData = new FormData();
-    // formData.append('jobpostTitle', title);
-    // formData.append('jobpostSector', sector);
-    // formData.append('jobpostWorkExperience', experience);
-    // formData.append('jobpostEducation', education);
-    // formData.append('jobpostMaxApplicants', maxapplicants);
-    // formData.append('jobpostDueDate', duedate);
-    // formData.append('jobpostFile', file);
-    // try {
-    //   const response = await axios.post('/company/jobposts', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   });
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const postData = Object.fromEntries(Object.entries(data).filter(([key]) => key !== 'file'));
+    const formData = new FormData();
+    formData.append('requestDTO', JSON.stringify(postData));
+    formData.append('jobpostFile', data.file);
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    jobPostMutate(formData);
+    setIsModalOpen(false);
   };
 
   const onClickFile = () => {
@@ -54,9 +54,11 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
   };
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedFile(event.target.files?.[0]);
-    setValue('file', event.target.files?.[0]);
-    console.log(event.target.files?.[0]);
+    if (event.target.files?.[0]) {
+      setSelectedFile(event.target.files[0]);
+      setValue('file', event.target.files[0]);
+      console.log(event.target.files?.[0]);
+    }
   };
 
   return (
@@ -85,7 +87,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
                 options={workExperiencerOptions}
                 setValue={setValue}
                 trigger={trigger}
-                property='experience'
+                property='workExperience'
               />
               <SelectBox
                 label='학력'
@@ -95,7 +97,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
                 property='education'
               />
             </QualificationsBox>
-            <InputBox label='모집인원' id='maxapplicants' register={register} placeholder='4' formState={formState} />
+            <InputBox label='모집인원' id='recruitNum' register={register} placeholder='4' formState={formState} />
             <PostingTitleBox>
               <Label htmlFor='startData'>모집시작일</Label>
               <DatePickerInput id='startDate' type='datetime-local' {...register('startDate')} />
@@ -103,7 +105,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
             </PostingTitleBox>
             <PostingTitleBox>
               <Label htmlFor='duedate'>마감일</Label>
-              <DatePickerInput id='duedate' type='date' {...register('duedate')} />
+              <DatePickerInput id='duedate' type='datetime-local' {...register('duedate')} />
               <ErrorMessage>{formState.errors.duedate?.message}</ErrorMessage>
             </PostingTitleBox>
             <PostingTitleBox>
