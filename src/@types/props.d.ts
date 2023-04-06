@@ -128,3 +128,16 @@ export interface ISettingProps {
   formState: FormState<TFieldValues>;
   setValue?: UseFormSetValue<TFieldValues>;
 }
+
+export interface ISelectBoxProps {
+  label: string;
+  options: Option[];
+  setValue: UseFormSetValue<IPostingInput>;
+  trigger: UseFormTrigger<IPostingInput>;
+  property: string;
+}
+
+interface Option {
+  value: string;
+  label: string;
+}

@@ -2,14 +2,17 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
-import { IinputBoxProps, IModalProps } from '../../@types/props';
+import { IModalProps } from '../../@types/props';
 import { jobPostSchema } from '../../utils/validationSchema';
+import { educationOptions, sectorOptions, workExperiencerOptions } from '@/constants/jobPostingOptions';
+import { InputBox } from './InputBox';
+import { SelectBox } from './SelectBox';
 
 const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalProps) => {
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const { register, handleSubmit, formState, setValue } = useForm<IPostingInput>({
+  const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
     resolver: yupResolver(jobPostSchema),
     mode: 'onChange',
   });
@@ -18,7 +21,9 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
     // get, put /company/jobposts/{jobpostId}
   }, [isEditModal]);
 
-  const onSubmitPosting = () => {
+  const onSubmitPosting = (data: IPostingInput) => {
+    console.log('채용공고등록', data);
+
     // const formData = new FormData();
     // formData.append('jobpostTitle', title);
     // formData.append('jobpostSector', sector);
@@ -74,21 +79,21 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
             </InputBox>
             <QualificationsBox>
               <QualificationsTitle>모집분야 및 지원자격</QualificationsTitle>
-              <InputBox
-                label='직종'
-                id='sector'
-                register={register}
-                placeholder='간호직 > 간호사'
-                formState={formState}
-              />
-              <InputBox
+              <SelectBox label='직종' options={sectorOptions} setValue={setValue} trigger={trigger} property='sector' />
+              <SelectBox
                 label='경력'
-                id='experience'
-                register={register}
-                placeholder='신입 / 인턴 경험'
-                formState={formState}
+                options={workExperiencerOptions}
+                setValue={setValue}
+                trigger={trigger}
+                property='experience'
               />
-              <InputBox label='학력' id='education' register={register} placeholder='학력무관' formState={formState} />
+              <SelectBox
+                label='학력'
+                options={educationOptions}
+                setValue={setValue}
+                trigger={trigger}
+                property='education'
+              />
             </QualificationsBox>
             <InputBox label='모집인원' id='maxapplicants' register={register} placeholder='4' formState={formState} />
             <PostingTitleBox>
@@ -116,17 +121,6 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
         </ModalContentsBox>
       </ModalContainer>
     </ModalBackground>
-  );
-};
-
-const InputBox = ({ label, register, placeholder, children, id, formState }: IinputBoxProps) => {
-  return (
-    <PostingTitleBox>
-      <Label htmlFor={id}>{label}</Label>
-      <Input id={id} type='text' {...register(id)} placeholder={placeholder} />
-      <ErrorMessage>{formState.errors[id]?.message}</ErrorMessage>
-      {children}
-    </PostingTitleBox>
   );
 };
 
@@ -238,7 +232,7 @@ const SelectFile = styled.img`
   cursor: pointer;
 `;
 
-const ErrorMessage = styled.p`
+export const ErrorMessage = styled.p`
   color: #e95656;
   margin-left: 10px;
 `;
