@@ -1,22 +1,19 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getCookie, setCookie } from '../utils/cookie';
-import { useAppSelector } from '@/hooks/useDispatchHooks';
-import { useDispatch } from 'react-redux';
 
-const dispatch = useDispatch();
 const accessToken = getCookie('accessToken');
+const refreshToken = getCookie('refreshToken');
 
 export const instance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 100000000,
   headers: { 'Content-type': 'application/json' },
 });
 
 export const authInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 100000000,
   headers: {
     Authorization: `Bearer ${accessToken}`,
+    Refresh: `Bearer ${refreshToken}`,
     'Content-type': 'application/json',
   },
 });
@@ -47,24 +44,24 @@ const onErrorResponse = async (err: AxiosError | Error): Promise<AxiosError> => 
   const originalConfig: any = _err?.config; // 기존의 요청 정보를 저장
 
   if (response && response.status === 403) {
-    const refreshToken = useAppSelector(state => state.tokenSlice.RefreshToken); // 리프레시 토큰 가져오기
     if (!!refreshToken === null) {
       // refresh token이 쿠키에서 삭제 또는 만료 되었을 경우
       console.log('리프레시 토큰 쿠키 삭제 또는 만료');
+      location.pathname = '/';
       // 만료 처리
     } else {
       try {
         // 만료된 accessToken과 refreshToken을 이용해 리프레시api에 갱신 요청
-        const data = await axios.post(
-          `/refresh`,
-          {}, // 백엔드에서 빈 객체 body를 받을 수 있도록 수정 요청
-          { headers: { Refresh: `Bearer ${refreshToken}`, Authorization: `Bearer ${accessToken}` } },
-        );
-        if (data) {
-          // 응답값이 있을 경우 새로 발급 받은 토큰을 저장한다.
-          await setCookie('accessToken', accessToken); // 토큰을 쿠키에 저장 비동기 함수
-          return await instance.request(originalConfig);
-        }
+        // const data = await axios.post(
+        //   `/refresh`,
+        //   {}, // 백엔드에서 빈 객체 body를 받을 수 있도록 수정 요청
+        //   { headers: { Refresh: `Bearer ${refreshToken}`, Authorization: `Bearer ${accessToken}` } },
+        // );
+        // if (data) {
+        //   // 응답값이 있을 경우 새로 발급 받은 토큰을 저장한다.
+        //   await setCookie('accessToken', accessToken); // 토큰을 쿠키에 저장 비동기 함수
+        //   return await instance.request(originalConfig);
+        // }
       } catch (err) {
         // 리프레시 토큰 만료. 로그아웃 처리
         const _err = err as unknown as AxiosError;
