@@ -16,8 +16,6 @@ const CompanyMain = () => {
 
   const { data, isLoading } = useQuery(['applications', step], () => getApplications({ accessToken, status }));
 
-  const { data, isLoading } = useQuery(['applications', step], getApplications);
-
   console.log(data);
   // console.log(employStepsToEng[step]);
   // console.log(data[employStepsToEng[step]]);

@@ -9,7 +9,7 @@ import AlertModal from '../common/AlertModal';
 const ApplicantList = ({ index, step, applicant }: { index: number; step: string; applicant: CompanyMainData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [emailModal, setEmailModal] = useState(false);
-  const [mailType, setMailType] = useState<keyof mailTypeCase>('서류합격');
+  const [mailType, setMailType] = useState<mailTypeCase>('서류합격');
   const {
     applicantId,
     applicantName,

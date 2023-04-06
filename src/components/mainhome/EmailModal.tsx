@@ -14,7 +14,7 @@ const EmailModal = ({
   setEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
   email: string;
   applicantName: string;
-  mailType: keyof mailTypeCase;
+  mailType: mailTypeCase;
   jobpostTitle?: string;
 }) => {
   const QuillRef = useRef<ReactQuill>();
