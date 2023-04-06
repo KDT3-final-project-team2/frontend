@@ -3,7 +3,19 @@ import styled from 'styled-components';
 import WebEditor from '@components/common/WebEditor';
 import ReactQuill from 'react-quill';
 
-const EmailModal = ({ setEmailModal }: { setEmailModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const EmailModal = ({
+  setEmailModal,
+  email,
+  applicantName,
+  mailType,
+  jobpostTitle,
+}: {
+  setEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
+  email: string;
+  applicantName: string;
+  mailType: mailTypeCase;
+  jobpostTitle?: string;
+}) => {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState('');
 

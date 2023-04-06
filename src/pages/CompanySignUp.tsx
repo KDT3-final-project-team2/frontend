@@ -7,6 +7,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { companySignUpSchema } from '../utils/validationSchema';
 import AlertModal from '../components/common/AlertModal';
+import { companySignUp } from '@/api/companyApi';
 
 const CompanySignUp = () => {
   const [step, setStep] = useState(1);
@@ -18,11 +19,36 @@ const CompanySignUp = () => {
   });
 
   const onValid = (data: ICompanySignUpData) => {
-    const { companyName, representative, companyNum, email, password, confirmPassword, contact, zoneCode } = data;
-    const address = data.zoneCode + ' ' + data.address;
+    const {
+      companyName,
+      companyEmail,
+      companyContact,
+      companyPassword,
+      companyRegNum,
+      companyRepresentative,
+      companyUrl,
+      address,
+      zoneCode,
+    } = data;
+    const companyAddress = `[${zoneCode}] ${address}`;
 
-    console.log(data, address);
-    setStep(prev => prev + 1);
+    companySignUp({
+      companyName,
+      companyEmail,
+      companyAddress,
+      companyContact,
+      companyPassword,
+      companyRegNum,
+      companyRepresentative,
+      companyUrl,
+    }).then(res => {
+      if (res.stateCode === 200) {
+        setStep(prev => prev + 1);
+      } else {
+        const message = res.message;
+        AlertModal({ message });
+      }
+    });
   };
 
   const onClickBack = () => {

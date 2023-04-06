@@ -1,11 +1,14 @@
+import { getMyApplications } from '@/api/applicantApi';
 import JobList from '@/components/mainhome/JobList';
 import StepBox from '@/components/mainhome/StepBox';
 import { applySteps } from '@/constants/steps';
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const ApplicantMain = () => {
   const [step, setStep] = useState('서류지원');
+  const { data, isLoading } = useQuery(['myapplications'], getMyApplications);
 
   return (
     <Container>

@@ -6,6 +6,26 @@ import EmailModal from './EmailModal';
 const ApplicantList = ({ index, step }: { index: number; step: string }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [emailModal, setEmailModal] = useState(false);
+  const [mailType, setMailType] = useState<mailTypeCase>('서류합격');
+  const {
+    applicantId,
+    applicantName,
+    applicantEmail,
+    applicantBirthdate,
+    applicantGender,
+    applicantContact,
+    applicantFilePath,
+    applicantEducation,
+    applicantWorkExperience,
+    applicantSector,
+    jobpostID,
+    jobpostTitle,
+    applicationId,
+    applicationStatusType,
+    applyDate,
+    interviewDate,
+    memo,
+  } = applicant;
 
   return (
     <ListComponent>
@@ -41,8 +61,8 @@ const ApplicantList = ({ index, step }: { index: number; step: string }) => {
           <>
             <div className='horizonLine'></div>
             <div className='content'>
-              <div style={{ width: '210px', height: '297px', backgroundColor: '#ECECEC' }}>이력서</div>
-              <div>
+              <div style={{ minWidth: '210px', height: '297px', backgroundColor: '#ECECEC' }}>이력서</div>
+              <div style={{ width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
                   <div className='sector'>간호사</div>
                   <div className='tag'># 대졸</div>
@@ -150,7 +170,6 @@ const Body = styled.div`
   .horizonLine {
     width: 100%;
     border: 1px solid #ececec;
-    /* margin-bottom: 38px; */
   }
   .content {
     padding: 35px;
@@ -165,7 +184,7 @@ const Body = styled.div`
     margin: 23px 0 8px;
   }
   textarea {
-    width: 630px;
+    width: 100%;
     height: 148px;
     background: #eff6ff;
     border: none;

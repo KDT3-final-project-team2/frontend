@@ -8,10 +8,15 @@ import { useQuery } from '@tanstack/react-query';
 
 const CompanyMain = () => {
   const [step, setStep] = useState('서류지원');
+  const status = employStepsToEng[step];
+  const accessToken =
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraW1zQGtpbS5jb20iLCJ1c2VyRW1haWwiOiJraW1zQGtpbS5jb20iLCJyb2xlIjoiQ09NUEFOWSIsImlkIjo1LCJpc3N1ZXIiOiJkbmVmaXQiLCJpYXQiOjE2ODA3NzEyMDAsImV4cCI6MTY4MDc3MTI2MH0.-FdThue5QuueV1GlZ89BbfAUkZaVMGuOl8EV1Hm7tv8';
 
-  const { data, isLoading } = useQuery(['applications', step], () => {
-    // getApplications(step);
-  });
+  const { data, isLoading } = useQuery(['applications', step], () => getApplications({ accessToken, status }));
+
+  console.log(data);
+  // console.log(employStepsToEng[step]);
+  // console.log(data[employStepsToEng[step]]);
 
   return (
     <Container>

@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { applicantSignUpSchema } from '../utils/validationSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AlertModal from '../components/common/AlertModal';
+import { applicantSignUp } from '@/api/applicantApi';
+import { applicantSignUpData } from '@/constants/signupInput';
 
 const ApplicantSignUp = () => {
   const [step, setStep] = useState(1);
@@ -16,8 +18,34 @@ const ApplicantSignUp = () => {
     mode: 'onChange',
   });
   const onValid = (data: IApplicantSignUpData) => {
-    console.log(data);
-    setStep(prev => prev + 1);
+    const { applicantEmail, applicantPassword, applicantName, applicantBirthDate, applicantContact } = data;
+
+    const [applicantGender, applicantEducation, applicantWorkExperience, applicantSector] = [
+      applicantSignUpData['applicantGender'][data.applicantGender],
+      applicantSignUpData['applicantEducation'][data.applicantEducation],
+      applicantSignUpData['applicantWorkExperience'][data.applicantWorkExperience],
+      applicantSignUpData['applicantSector'][data.applicantSector],
+    ];
+
+    applicantSignUp({
+      applicantEmail,
+      applicantPassword,
+      applicantName,
+      applicantBirthDate,
+      applicantGender,
+      applicantContact,
+      applicantEducation,
+      applicantWorkExperience,
+      applicantSector,
+    }).then(res => {
+      if (res.stateCode === 200) {
+        console.log(res);
+        setStep(prev => prev + 1);
+      } else {
+        const message = res.message;
+        AlertModal({ message });
+      }
+    });
   };
 
   const navigate = useNavigate();
