@@ -11,11 +11,13 @@ export const getTerms = async () => {
 };
 
 // 로그인
-export const adminLogin = async (id: string, pw: string) => {
-  const send = {
-    adminEmail: id,
-    adminPassword: pw,
-  };
-  const res = await instance.post(`/admin/login`, { params: { ...send } });
+export const adminLogin = async (formData: FormData) => {
+  const res = await instance.post('/admin/login', formData);
+  return res.data;
+};
+
+// 로그아웃
+export const userLogout = async () => {
+  const res = await authInstance.post('/logout');
   return res.data;
 };

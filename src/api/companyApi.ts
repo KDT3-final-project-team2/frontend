@@ -12,11 +12,7 @@ export const getApplications = async () => {
 };
 
 // 로그인
-export const companyLogin = async (id: string, pw: string) => {
-  const send = {
-    companyEmail: id,
-    companyPassword: pw,
-  };
-  const res = await instance.post(`/company/login`, { params: { ...send } });
+export const companyLogin = async (formData: FormData) => {
+  const res: any = await instance.post(`/company/login`, formData);
   return res.data;
 };

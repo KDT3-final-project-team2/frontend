@@ -3,11 +3,8 @@ import { instance, authInstance } from './instance';
 export const applicantSignUp = async () => {};
 
 // 로그인
-export const applicantLogin = async (id: string, pw: string) => {
-  const send = {
-    applicantEmail: id,
-    applicantPassword: pw,
-  };
-  const res = await instance.post(`/applicant/login`, { params: { ...send } });
+export const applicantLogin = async (formData: FormData) => {
+  const res: any = await instance.post(`/applicant/login`, formData);
+  console.log(res);
   return res.data;
 };
