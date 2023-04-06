@@ -1,4 +1,4 @@
-import { instance } from './instance';
+import { instance, authInstance } from './instance';
 
 export const applicantSignUp = async ({
   applicantEmail,
@@ -28,15 +28,11 @@ export const applicantSignUp = async ({
     console.log(error);
   }
 };
-
-export const getMyApplications = async () => {
-  // try {
-  //   const res = await fetch('/data/myApplications.json');
-  //   const data = await res.json();
-  //   return data;
-  // } catch (error) {
-  //   console.log(error);
-  // }
+// 로그인
+export const applicantLogin = async (formData: FormData) => {
+  const res: any = await instance.post(`/applicant/login`, formData);
+  console.log(res);
+  return res.data;
 };
 
 export const applicantEmailCheck = async ({ applicantEmail }: { applicantEmail: string }) => {

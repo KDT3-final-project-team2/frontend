@@ -1,7 +1,8 @@
-import React, { SetStateAction, useRef, useState } from 'react';
+import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import WebEditor from '@components/common/WebEditor';
 import ReactQuill from 'react-quill';
+import { getMailSample } from '@/constants/mailSample';
 
 const EmailModal = ({
   setEmailModal,
@@ -13,32 +14,49 @@ const EmailModal = ({
   setEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
   email: string;
   applicantName: string;
-  mailType: mailTypeCase;
+  mailType: keyof mailTypeCase;
   jobpostTitle?: string;
 }) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState('');
+  const [contents, setContents] = useState(getMailSample({ applicantName, mailType, jobpostTitle: '' }));
+  const [receiver, setReceiver] = useState('');
+  const [title, setTitle] = useState('');
 
   const sendEmail = () => {
-    console.log(contents);
+    console.log(contents, email);
   };
+
+  useEffect(() => {
+    setReceiver(`${applicantName}, ${email}`);
+    if (jobpostTitle) {
+      setTitle(`${jobpostTitle}관련 안내`);
+    } else {
+      setTitle('');
+    }
+    // setContents(getMailSample({ applicantName, mailType, jobpostTitle }));
+  });
 
   return (
     <ModalBackground>
       <div id='container'>
         <header>
-          <h3>안내 이메일 전송</h3>
+          <h3>{mailType} 이메일 전송</h3>
           <img src='/icons/close.png' alt='닫기' onClick={() => setEmailModal(false)} />
         </header>
         <div id='content'>
           <form>
             <div className='space-between'>
               <label htmlFor='emailAddress'>받는 사람</label>
-              <input type='text' id='emailAddress' />
+              <input
+                type='text'
+                id='emailAddress'
+                value={receiver}
+                onChange={event => setReceiver(event.target.value)}
+              />
             </div>
             <div className='space-between'>
               <label htmlFor='title'>제목</label>
-              <input type='text' id='title' />
+              <input type='text' id='title' value={title} onChange={event => setTitle(event.target.value)} />
             </div>
             <WebEditor QuillRef={QuillRef} contents={contents} setContents={setContents}></WebEditor>
           </form>

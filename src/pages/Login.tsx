@@ -3,10 +3,12 @@ import { Link, useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../utils/validationSchema';
-import { setCookie } from '../utils/cookie';
+import { setCookie } from './../utils/cookie';
 import AlertModal from '../components/common/AlertModal';
 import { useAppDispatch } from '../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../store/loadingSlice';
+import { applicantLogin } from '@/api/applicantApi';
+import { companyLogin } from '@/api/companyApi';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -24,18 +26,23 @@ const Login = () => {
 
   const loginSubmit = async (id: string, pw: string) => {
     console.log(id, pw);
-    //const res = await requestLogin(id, pw);
+    const formData = new FormData();
+    formData.append('email', id);
+    formData.append('password', pw);
+    const res = userType.userType === '지원자' ? await applicantLogin(formData) : await companyLogin(formData);
     try {
       dispatch(showLoading());
-      //AlertModal({
-      //  message: '아이디 또는 비밀번호가 일치하지 않습니다.',
-      //});
-      //const token = res.accessToken;
-      //setCookie('accessToken', token);
-      //location.pathname = '/';
-      AlertModal({
-        message: '로그인 성공!',
-      });
+      if (res.stateCode === 401) {
+        AlertModal({
+          message: `${res.message}`,
+        });
+      } else {
+        const accessToken = res.data.accessToken;
+        const refreshToken = res.data.refreshToken;
+        setCookie('accessToken', accessToken);
+        setCookie('refreshToken', refreshToken);
+        userType.userType === '지원자' ? (location.pathname = '/applicant') : (location.pathname = '/company');
+      }
     } catch (error) {
       AlertModal({
         message: '에러가 발생했습니다. 다시 시도해주세요.',

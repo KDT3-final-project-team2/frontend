@@ -15,7 +15,7 @@ const ApplicantMain = () => {
       <h1 id='h1'>지원 현황</h1>
       <div className='grid'>
         {applySteps.map(stepName => (
-          <StepBox key={stepName} stepName={stepName} step={step} setStep={setStep} />
+          <StepBox key={stepName} stepName={stepName} step={step} setStep={setStep} num={3} />
         ))}
       </div>
       {step === '서류통과' ? (

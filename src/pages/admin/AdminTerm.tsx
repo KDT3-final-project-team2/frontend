@@ -2,7 +2,8 @@ import { MainContainer, RecruitmentNotice, RegistrationButton } from '../company
 import styled from 'styled-components';
 import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
+import { useGetAdminTermList } from '@/api/adminApi';
 
 export const AdminTerm = () => {
   const [termModalOpen, setTermModalOpen] = useState(false);
@@ -13,11 +14,7 @@ export const AdminTerm = () => {
     setSaveBtnText('저장');
   };
 
-  const onClickTermEdit = (event: MouseEvent<HTMLImageElement>) => {
-    event?.stopPropagation();
-    setTermModalOpen(true);
-    setSaveBtnText('수정완료');
-  };
+  const adminTerm = useGetAdminTermList();
 
   return (
     <MainContainer>
@@ -26,8 +23,15 @@ export const AdminTerm = () => {
         <ViewTerms>약관 조회</ViewTerms>
         <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
       </div>
-      {[1, 2, 3].map((data, index) => (
-        <TermList key={data} index={index} setTermModalOpen={setTermModalOpen} onClickTermEdit={onClickTermEdit} />
+      {adminTerm?.map((data: adminTermData, index: number) => (
+        <TermList
+          adminTerm={data}
+          key={data?.termId}
+          index={index}
+          setTermModalOpen={setTermModalOpen}
+          setSaveBtnText={setSaveBtnText}
+          saveBtnText={saveBtnText}
+        />
       ))}
       {termModalOpen && <TermPostEditModal setTermModalOpen={setTermModalOpen} saveBtnText={saveBtnText} />}
     </MainContainer>
