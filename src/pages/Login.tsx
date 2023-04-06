@@ -9,7 +9,6 @@ import { useAppDispatch } from '../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../store/loadingSlice';
 import { applicantLogin } from '@/api/applicantApi';
 import { companyLogin } from '@/api/companyApi';
-import { SET_TOKEN } from '@/store/RefreshToken';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -27,21 +26,22 @@ const Login = () => {
 
   const loginSubmit = async (id: string, pw: string) => {
     console.log(id, pw);
-    let res;
-    userType.userType === '지원자' ? (res = await applicantLogin(id, pw)) : (res = await companyLogin(id, pw));
+    const formData = new FormData();
+    formData.append('email', id);
+    formData.append('password', pw);
+    const res = userType.userType === '지원자' ? await applicantLogin(formData) : await companyLogin(formData);
     try {
       dispatch(showLoading());
-      // 코드 상태 바꾸기
-      if (res.resultCode === '401') {
+      if (res.stateCode === 401) {
         AlertModal({
-          message: '아이디 또는 비밀번호가 일치하지 않습니다.',
+          message: `${res.message}`,
         });
       } else {
-        const accessToken = res.accessToken;
-        const refreshToken = res.refreshToken;
+        const accessToken = res.data.accessToken;
+        const refreshToken = res.data.refreshToken;
         setCookie('accessToken', accessToken);
-        dispatch(SET_TOKEN(refreshToken));
-        location.pathname = '/';
+        setCookie('refreshToken', refreshToken);
+        userType.userType === '지원자' ? (location.pathname = '/applicant') : (location.pathname = '/company');
       }
     } catch (error) {
       AlertModal({
