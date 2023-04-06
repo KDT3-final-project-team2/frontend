@@ -69,7 +69,7 @@ export const ContainerInner = styled.div`
     background-color: var(--color-primary-100);
     color: #fff;
     font-weight: bold;
-    line-height: 39px;
+    padding-top: 2px;
   }
 `;
 

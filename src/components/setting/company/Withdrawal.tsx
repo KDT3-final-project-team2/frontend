@@ -95,7 +95,7 @@ const Inner = styled.div`
     margin-right: 7px;
   }
   input[type='checkbox'].css-checkbox:checked + label.css-label {
-    background-image: url(../public/icons/check.svg);
+    background-image: url(../icons/check.svg);
     background-size: 12px;
   }
 `;
