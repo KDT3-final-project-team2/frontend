@@ -9,6 +9,8 @@ import { showLoading, hideLoading } from '../../store/loadingSlice';
 import { HomeComponent, TextContent } from '../Home';
 import { Container, SnsBtn, Error } from '../Login';
 import RightBar from '../../components/layouts/RightBar';
+import { adminLogin } from '@/api/commonApi';
+import { SET_TOKEN } from '@/store/RefreshToken';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -25,18 +27,21 @@ const Login = () => {
 
   const loginSubmit = async (id: string, pw: string) => {
     console.log(id, pw);
-    //const res = await requestLogin(id, pw);
+    const res = await adminLogin(id, pw);
     try {
       dispatch(showLoading());
-      //AlertModal({
-      //  message: '아이디 또는 비밀번호가 일치하지 않습니다.',
-      //});
-      //const token = res.accessToken;
-      //setCookie('accessToken', token);
-      //location.pathname = '/';
-      AlertModal({
-        message: '로그인 성공!',
-      });
+      // 코드 상태 바꾸기
+      if (res.resultCode === '401') {
+        AlertModal({
+          message: '아이디 또는 비밀번호가 일치하지 않습니다.',
+        });
+      } else {
+        const accessToken = res.accessToken;
+        const refreshToken = res.refreshToken;
+        setCookie('accessToken', accessToken);
+        dispatch(SET_TOKEN(refreshToken));
+        location.pathname = '/';
+      }
     } catch (error) {
       AlertModal({
         message: '에러가 발생했습니다. 다시 시도해주세요.',
