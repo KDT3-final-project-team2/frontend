@@ -106,7 +106,7 @@ export const jobPostSchema = yup.object().shape({
     .typeError('숫자만 입력 가능합니다.')
     .integer('정수만 입력 가능합니다.')
     .min(1, '1 이상의 숫자를 입력해주세요.'),
-  duedate: yup.string().required('마감일을 입력해주세요.'),
+  dueDate: yup.string().required('마감일을 입력해주세요.'),
   startDate: yup.string().required('채용 시작일을 입력해주세요.'),
   file: yup.mixed().required('공고 PDF를 입력해주세요.'),
 });

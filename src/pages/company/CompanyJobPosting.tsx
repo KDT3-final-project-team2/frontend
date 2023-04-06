@@ -8,10 +8,11 @@ import axios from 'axios';
 
 const CompanyJobPosting = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
+  const [saveBtnText, setSaveBtnText] = useState('저장');
 
   const showRegistrationModal = () => {
     setIsModalOpen(true);
+    setSaveBtnText('등록하기');
   };
 
   const { data: jobPosts } = useQuery(['jobPosts'], getCompanyJobposts);
@@ -24,11 +25,9 @@ const CompanyJobPosting = () => {
         <RegistrationButton onClick={showRegistrationModal}>등록하기</RegistrationButton>
       </div>
       {jobPosts?.map((data: IGetCompanyJobPosts) => (
-        <JobPostingList key={data.postId} setIsEditModal={setIsEditModal} jobPosts={data} />
+        <JobPostingList key={data.postId} jobPosts={data} setSaveBtnText={setSaveBtnText} saveBtnText={saveBtnText} />
       ))}
-      {(isModalOpen || isEditModal) && (
-        <PostEditModal setIsModalOpen={setIsModalOpen} setIsEditModal={setIsEditModal} isEditModal={isEditModal} />
-      )}
+      {isModalOpen && <PostEditModal setIsModalOpen={setIsModalOpen} saveBtnText={saveBtnText} />}
     </MainContainer>
   );
 };

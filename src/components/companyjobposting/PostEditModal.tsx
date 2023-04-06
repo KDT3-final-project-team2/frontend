@@ -7,29 +7,57 @@ import { jobPostSchema } from '../../utils/validationSchema';
 import { educationOptions, sectorOptions, workExperiencerOptions } from '@/constants/jobPostingOptions';
 import { InputBox } from './InputBox';
 import { SelectBox } from './SelectBox';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postJobPosts } from '@/api/companyApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getCompanyJobpostSingle, postJobPosts } from '@/api/companyApi';
 
-const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalProps) => {
+const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }: IModalProps) => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
-    resolver: yupResolver(jobPostSchema),
-    mode: 'onChange',
-  });
-
-  useEffect(() => {
-    // get, put /company/jobposts/{jobpostId}
-  }, [isEditModal]);
-
   const queryClient = useQueryClient();
-
   const { mutate: jobPostMutate } = useMutation(postJobPosts, {
     onSuccess: () => {
       queryClient.invalidateQueries(['jobPosts']);
     },
   });
+
+  const { data: jobPostSingle } = useQuery(
+    ['jobPostSingle', jobPosts?.postId],
+    () => {
+      if (jobPosts) {
+        return getCompanyJobpostSingle(jobPosts.postId);
+      }
+    },
+    {
+      enabled: !!jobPosts?.postId,
+    },
+  );
+
+  const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
+    resolver: yupResolver(jobPostSchema),
+    mode: 'onChange',
+    defaultValues: {
+      title: jobPostSingle?.title,
+      sector: jobPostSingle?.sector,
+      workExperience: jobPostSingle?.workExperience,
+      education: jobPostSingle?.education,
+      recruitNum: jobPostSingle?.maxApplicants,
+      dueDate: jobPostSingle?.dueDate,
+      file: jobPostSingle?.file,
+      startDate: jobPostSingle?.startDate,
+    },
+  });
+
+  useEffect(() => {
+    setValue('title', jobPostSingle?.title);
+    setValue('sector', jobPostSingle?.sector);
+    setValue('workExperience', jobPostSingle?.workExperience);
+    setValue('education', jobPostSingle?.education);
+    setValue('recruitNum', jobPostSingle?.maxApplicants);
+    setValue('dueDate', jobPostSingle?.dueDate);
+    setValue('file', jobPostSingle?.file);
+    setValue('startDate', jobPostSingle?.startDate);
+  }, [jobPostSingle, setValue]);
 
   const onSubmitPosting = (data: IPostingInput) => {
     console.log('채용공고등록', data);
@@ -41,7 +69,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
       console.log(key, value);
     }
     jobPostMutate(formData);
-    setIsModalOpen(false);
+    if (setIsModalOpen) setIsModalOpen(false);
   };
 
   const onClickFile = () => {
@@ -49,8 +77,8 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
   };
 
   const onClickModalClose = () => {
-    setIsEditModal(false);
-    setIsModalOpen(false);
+    if (setIsEditModal) setIsEditModal(false);
+    if (setIsModalOpen) setIsModalOpen(false);
   };
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -76,18 +104,27 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
               register={register}
               placeholder='2023년도 정규직 간호사 채용 공고'
               formState={formState}
+              defaultValue={jobPostSingle?.title}
             >
-              <PostingButton>{isEditModal ? '수정완료' : '등록하기'}</PostingButton>
+              <PostingButton>{saveBtnText}</PostingButton>
             </InputBox>
             <QualificationsBox>
               <QualificationsTitle>모집분야 및 지원자격</QualificationsTitle>
-              <SelectBox label='직종' options={sectorOptions} setValue={setValue} trigger={trigger} property='sector' />
+              <SelectBox
+                label='직종'
+                options={sectorOptions}
+                setValue={setValue}
+                trigger={trigger}
+                property='sector'
+                defaultValue={jobPostSingle?.sector}
+              />
               <SelectBox
                 label='경력'
                 options={workExperiencerOptions}
                 setValue={setValue}
                 trigger={trigger}
                 property='workExperience'
+                defaultValue={jobPostSingle?.workExperience}
               />
               <SelectBox
                 label='학력'
@@ -95,18 +132,36 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
                 setValue={setValue}
                 trigger={trigger}
                 property='education'
+                defaultValue={jobPostSingle?.education}
               />
             </QualificationsBox>
-            <InputBox label='모집인원' id='recruitNum' register={register} placeholder='4' formState={formState} />
+            <InputBox
+              label='모집인원'
+              id='recruitNum'
+              register={register}
+              placeholder='4'
+              formState={formState}
+              defaultValue={jobPostSingle?.maxApplicants}
+            />
             <PostingTitleBox>
               <Label htmlFor='startData'>모집시작일</Label>
-              <DatePickerInput id='startDate' type='datetime-local' {...register('startDate')} />
+              <DatePickerInput
+                id='startDate'
+                type='datetime-local'
+                {...register('startDate')}
+                defaultValue={jobPostSingle?.startDate}
+              />
               <ErrorMessage>{formState.errors.startDate?.message}</ErrorMessage>
             </PostingTitleBox>
             <PostingTitleBox>
-              <Label htmlFor='duedate'>마감일</Label>
-              <DatePickerInput id='duedate' type='datetime-local' {...register('duedate')} />
-              <ErrorMessage>{formState.errors.duedate?.message}</ErrorMessage>
+              <Label htmlFor='dueDate'>마감일</Label>
+              <DatePickerInput
+                id='dueDate'
+                type='datetime-local'
+                {...register('dueDate')}
+                defaultValue={jobPostSingle?.dueDate}
+              />
+              <ErrorMessage>{formState.errors.dueDate?.message}</ErrorMessage>
             </PostingTitleBox>
             <PostingTitleBox>
               <Label htmlFor='file'>공고 PDF</Label>
@@ -117,6 +172,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, isEditModal }: IModalPr
                 ref={fileRef}
                 onChange={handleFileSelect}
                 accept='.pdf'
+                defaultValue={jobPostSingle?.filePath}
               />
               <FileTitleBox>
                 <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>

@@ -62,12 +62,14 @@ export interface IinputBoxProps {
   children?: JSX.Element;
   id: string;
   formState: FormState<FieldValues>;
+  defaultValue: string;
 }
 
 export interface IModalProps {
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsEditModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isEditModal?: boolean;
+  setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  jobPosts?: IGetCompanyJobPosts;
+  saveBtnText: string;
 }
 
 export interface IStepBoxProps {
@@ -136,6 +138,7 @@ export interface ISelectBoxProps {
   setValue: UseFormSetValue<IPostingInput>;
   trigger: UseFormTrigger<IPostingInput>;
   property: string;
+  defaultValue: string;
 }
 
 interface Option {
@@ -144,6 +147,7 @@ interface Option {
 }
 
 export interface IJobPostingListProps {
-  setIsEditModal: React.Dispatch<React.SetStateAction<boolean>>;
   jobPosts: IGetCompanyJobPosts;
+  setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
+  saveBtnText: string;
 }

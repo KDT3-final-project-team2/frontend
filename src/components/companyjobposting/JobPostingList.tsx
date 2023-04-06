@@ -2,10 +2,12 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { IJobPostingListProps } from '../../@types/props';
 import PreviewModal from './PreviewModal';
+import PostEditModal from './PostEditModal';
 
-const JobPostingList = ({ setIsEditModal, jobPosts }: IJobPostingListProps) => {
+const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText }: IJobPostingListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
 
   const onClickToggle = () => {
     setIsOpen(!isOpen);
@@ -17,6 +19,7 @@ const JobPostingList = ({ setIsEditModal, jobPosts }: IJobPostingListProps) => {
 
   const EditModalOpen = () => {
     setIsEditModal(true);
+    setSaveBtnText('수정완료');
   };
 
   const PreviewModalOpen = () => {
@@ -50,6 +53,7 @@ const JobPostingList = ({ setIsEditModal, jobPosts }: IJobPostingListProps) => {
         </IconContainer>
       </NoticeContainer>
       {previewModalOpen && <PreviewModal setPreviewModalOpen={setPreviewModalOpen} jobPosts={jobPosts} />}
+      {isEditModal && <PostEditModal setIsEditModal={setIsEditModal} jobPosts={jobPosts} saveBtnText={saveBtnText} />}
     </>
   );
 };

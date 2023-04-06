@@ -47,3 +47,13 @@ export const postJobPosts = async (jobPostData: FormData) => {
     throw error;
   }
 };
+
+export const deleteJobPost = async (jobpostId: number) => {
+  try {
+    const res = await axios.delete(`http://localhost:5173/company/jobposts${jobpostId}`);
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

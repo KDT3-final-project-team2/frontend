@@ -63,10 +63,10 @@ interface IuserType {
 interface IPostingInput {
   title: string;
   sector: string;
-  experience: string;
+  workExperience: string;
   education: string;
-  maxapplicants: string;
-  duedate: string;
+  recruitNum: string;
+  dueDate: string;
   startDate: string;
   file: File;
 }
