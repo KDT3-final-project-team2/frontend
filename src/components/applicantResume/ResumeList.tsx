@@ -58,7 +58,7 @@ const List = styled.div`
         border-radius: 20px;
         line-height: 29px;
         height: 28px;
-        padding: 0 12px;
+        padding: 3px 12px 0px;
       }
     }
   }

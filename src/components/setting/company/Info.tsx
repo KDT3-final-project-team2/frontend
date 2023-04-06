@@ -5,6 +5,7 @@ import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { companySignUpSchema } from '@/utils/validationSchema';
+import { SubmitButton } from '../applicant/Info';
 
 const Info = () => {
   const { register, handleSubmit, formState, setValue } = useForm<ICompanySignUpData>({
@@ -118,6 +119,7 @@ const Info = () => {
             {...register('companyUrl')}
           />
         </div>
+        <SubmitButton type='submit'>수정완료</SubmitButton>
       </Form>
     </Wrapper>
   );
