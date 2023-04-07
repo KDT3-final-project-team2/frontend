@@ -63,11 +63,22 @@ interface IuserType {
 interface IPostingInput {
   title: string;
   sector: string;
-  experience: string;
+  workExperience: string;
   education: string;
-  maxapplicants: string;
-  duedate: string;
-  file: File | undefined;
+  recruitNum: string;
+  dueDate: string;
+  startDate: string;
+  file: File;
+}
+
+interface IGetCompanyJobPosts {
+  postId: number;
+  title: string;
+  startDate: string;
+  dueDate: string;
+  createDate: string;
+  editDate: string;
+  status: string;
 }
 
 interface IScheduleData {

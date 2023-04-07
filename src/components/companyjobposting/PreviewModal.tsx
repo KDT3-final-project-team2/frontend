@@ -1,11 +1,24 @@
 import styled from 'styled-components';
 import { Close, ModalBackground, ModalContainer, ModalContentsBox, QualificationsTitle } from './PostEditModal';
 import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
+import { useQuery } from '@tanstack/react-query';
+import { getCompanyJobpostSingle } from '@/api/companyApi';
+import { useDateToString } from '@/hooks/useDateToString';
 
-const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
+const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
   const onClickClose = () => {
     setPreviewModalOpen(false);
   };
+
+  const { data: jobPostSingle } = useQuery(
+    ['jobPostSingle', jobPosts?.postId],
+    () => getCompanyJobpostSingle(jobPosts?.postId),
+    {
+      enabled: !!jobPosts?.postId,
+    },
+  );
+
+  console.log(jobPostSingle);
 
   return (
     <>
@@ -13,8 +26,8 @@ const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
         <ModalContainer>
           <PreviewModalHeader>
             <TitleBox>
-              <SiteTitle>MEDIMATCH</SiteTitle>
-              <PostingTitle>2023년도 정규직 간호사 모집공고</PostingTitle>
+              <SiteTitle>{jobPostSingle?.companyNm}</SiteTitle>
+              <PostingTitle>{jobPostSingle?.title}</PostingTitle>
             </TitleBox>
             <Close src={'/icons/close.png'} onClick={onClickClose} />
           </PreviewModalHeader>
@@ -22,13 +35,13 @@ const PreviewModal = ({ setPreviewModalOpen }: IPreviewModalProps) => {
           <ModalContentsBox>
             <QualificationsTitle>모집분야 및 지원자격</QualificationsTitle>
             <QualificationsBox>
-              <PostingContents title='직종' contents='간호직 &lt; 간호사' />
-              <PostingContents title='경력' contents='신입 / 인턴 경험' />
-              <PostingContents title='학력' contents='학력무관' />
+              <PostingContents title='직종' contents={jobPostSingle?.sector} />
+              <PostingContents title='경력' contents={jobPostSingle?.workExperience} />
+              <PostingContents title='학력' contents={jobPostSingle?.education} />
             </QualificationsBox>
             <QualificationsBox>
-              <PostingContents title='모집인원' contents='4명' />
-              <PostingContents title='마감일' contents='2023.04.12' />
+              <PostingContents title='모집인원' contents={jobPostSingle?.maxApplicants} />
+              <PostingContents title='마감일' contents={useDateToString(jobPostSingle?.dueDate)} />
             </QualificationsBox>
             <QualificationsBox>
               <ContentsBox>
