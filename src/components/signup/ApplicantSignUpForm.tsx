@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { ISignUpFormProps } from '../../@types/props';
 import DropDown from '../common/DropDown';
 import { applicantEmailCheck } from '@/api/applicantApi';
+import AlertModal from '../common/AlertModal';
 
 const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: ISignUpFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const emailInput = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState('');
 
   return (
     <Wrapper>
@@ -70,16 +71,22 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
             id='applicantEmail'
             type='text'
             placeholder='medi@match.com'
-            {...register('applicantEmail')}
-            ref={emailInput}
+            {...(register('applicantEmail'),
+            {
+              onChange: event => {
+                setEmail(event.currentTarget.value);
+                setValue('applicantEmail', event.currentTarget.value, { shouldValidate: true });
+              },
+            })}
           />
           <button
             className='applicantEmail'
             onClick={event => {
               event.preventDefault();
-              const applicantEmail = emailInput.current!.value;
-              console.log(applicantEmail);
-              applicantEmailCheck({ applicantEmail }).then(res => console.log(res));
+              applicantEmailCheck({ applicantEmail: email }).then(res => {
+                const message = res.message;
+                AlertModal({ message });
+              });
             }}
           >
             중복확인
@@ -103,7 +110,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
 
         <div className='inputBox password'>
           <Error>
-            {formState.errors.password?.message?.toString()}
+            {formState.errors.applicantPassword?.message?.toString()}
             {` `}
             {formState.errors.confirmPassword?.message?.toString()}
           </Error>

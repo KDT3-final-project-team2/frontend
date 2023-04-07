@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { instance, authInstance } from './instance';
+import AlertModal from '@/components/common/AlertModal';
 
 export const applicantSignUp = async ({
   applicantEmail,
@@ -35,6 +37,7 @@ export const applicantLogin = async (formData: FormData) => {
   return res.data;
 };
 
+// 이메일 중복확인
 export const applicantEmailCheck = async ({ applicantEmail }: { applicantEmail: string }) => {
   try {
     const res = await instance.post(`/applicant/checkemail`, {
@@ -42,6 +45,11 @@ export const applicantEmailCheck = async ({ applicantEmail }: { applicantEmail: 
     });
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      const message = error.message;
+      AlertModal({ message });
+    } else {
+      console.log(error);
+    }
   }
 };

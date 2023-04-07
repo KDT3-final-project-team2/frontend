@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import { ISignUpFormProps } from '../../@types/props';
 import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
+import { companyEmailCheck } from '@/api/companyApi';
+import AlertModal from '../common/AlertModal';
 
 const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISignUpFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const open = useDaumPostcodePopup(postcodeScriptUrl);
+  const [email, setEmail] = useState('');
 
   const handleComplete = (data: Address) => {
     let zoneCode = data.zonecode;
@@ -52,12 +55,26 @@ const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISig
         <div className='inputBox'>
           <label htmlFor='companyEmail'>이메일</label>
           <Error>{formState.errors.companyEmail?.message?.toString()}</Error>
-          <input type='email' id='companyEmail' placeholder='medi@match.com' {...register('companyEmail')} />
+          <input
+            type='email'
+            id='companyEmail'
+            placeholder='medi@match.com'
+            {...(register('companyEmail'),
+            {
+              onchange: (event: React.ChangeEvent<HTMLInputElement>) => {
+                setEmail(event.currentTarget.value);
+                setValue('companyEmail', event.currentTarget.value, { shouldValidate: true });
+              },
+            })}
+          />
           <button
             className='companyEmail'
             onClick={event => {
               event.preventDefault();
-              // 이메일중복확인 로직
+              companyEmailCheck({ companyEmail: email }).then(res => {
+                const message = res.message;
+                AlertModal({ message });
+              });
             }}
           >
             중복확인

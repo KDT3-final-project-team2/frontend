@@ -41,7 +41,7 @@ const PlanUserBox = ({ id, name, price, functions, year, month, today }: IPlanUs
 export default PlanUserBox;
 
 const Box = styled.div<{ id: string }>`
-  width: 427px;
+  width: 35%;
   height: 526px;
   background: #ffffff;
   box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
@@ -53,8 +53,8 @@ const Box = styled.div<{ id: string }>`
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translateX(-168px);
-    width: 336px;
+    transform: translateX(-50%);
+    width: 70%;
     height: 22px;
     border-radius: 0px 0px 20px 20px;
     background-color: ${({ id }) => (id === 'Basic' ? '#FFC847' : id === 'Standard' ? '#4357AC' : '#8294CD')};

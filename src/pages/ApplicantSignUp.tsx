@@ -26,7 +26,7 @@ const ApplicantSignUp = () => {
       applicantSignUpData['applicantWorkExperience'][data.applicantWorkExperience],
       applicantSignUpData['applicantSector'][data.applicantSector],
     ];
-
+    console.log(data);
     applicantSignUp({
       applicantEmail,
       applicantPassword,
