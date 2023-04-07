@@ -8,7 +8,7 @@ import { educationOptions, sectorOptions, workExperiencerOptions } from '@/const
 import { InputBox } from './InputBox';
 import { SelectBox } from './SelectBox';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCompanyJobpostSingle, postJobPosts } from '@/api/companyApi';
+import { getCompanyJobpostSingle, postJobPosts, putJobPosts } from '@/api/companyApi';
 
 const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }: IModalProps) => {
   const [selectedFile, setSelectedFile] = useState<File>();
@@ -16,6 +16,11 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
 
   const queryClient = useQueryClient();
   const { mutate: jobPostMutate } = useMutation(postJobPosts, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['jobPosts']);
+    },
+  });
+  const { mutate: jobPutMutate } = useMutation(putJobPosts, {
     onSuccess: () => {
       queryClient.invalidateQueries(['jobPosts']);
     },
@@ -60,7 +65,6 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
   }, [jobPostSingle, setValue]);
 
   const onSubmitPosting = (data: IPostingInput) => {
-    console.log('채용공고등록', data);
     const postData = Object.fromEntries(Object.entries(data).filter(([key]) => key !== 'file'));
     const formData = new FormData();
     formData.append('requestDTO', JSON.stringify(postData));
@@ -68,8 +72,17 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }
-    jobPostMutate(formData);
-    if (setIsModalOpen) setIsModalOpen(false);
+    if (saveBtnText === '등록하기') {
+      jobPostMutate(formData);
+      if (setIsModalOpen) setIsModalOpen(false);
+      return;
+    }
+    if (saveBtnText === '수정완료' && jobPosts) {
+      jobPutMutate({
+        jobpostId: jobPosts.postId,
+        jobPutData: formData,
+      });
+    }
   };
 
   const onClickFile = () => {

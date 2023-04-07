@@ -48,7 +48,7 @@ const jobposts = [
     dueDate: '2023-4-12',
     createDate: '2023-04-06',
     editDate: '2023-04-06',
-    status: 'USE',
+    status: '모집중',
   },
   {
     postId: 2,
@@ -57,7 +57,7 @@ const jobposts = [
     dueDate: '2023-4-12',
     createDate: '2023-04-06',
     editDate: '2023-04-06',
-    status: 'USE',
+    status: '모집중',
   },
   {
     postId: 3,
@@ -66,7 +66,7 @@ const jobposts = [
     dueDate: '2023-4-12',
     createDate: '2023-04-06',
     editDate: '2023-04-06',
-    status: 'USE',
+    status: '폐기',
   },
 ];
 

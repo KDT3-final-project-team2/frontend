@@ -150,4 +150,5 @@ export interface IJobPostingListProps {
   jobPosts: IGetCompanyJobPosts;
   setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
   saveBtnText: string;
+  JobDeleteMutate: UseMutateFunction<any, unknown, number, unknown>;
 }

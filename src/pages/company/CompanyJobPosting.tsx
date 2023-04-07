@@ -2,8 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import JobPostingList from '../../components/companyjobposting/JobPostingList';
 import PostEditModal from '../../components/companyjobposting/PostEditModal';
-import { useQuery } from '@tanstack/react-query';
-import { getCompanyJobposts } from '@/api/companyApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deleteJobPost, getCompanyJobposts } from '@/api/companyApi';
 import axios from 'axios';
 
 const CompanyJobPosting = () => {
@@ -16,6 +16,12 @@ const CompanyJobPosting = () => {
   };
 
   const { data: jobPosts } = useQuery(['jobPosts'], getCompanyJobposts);
+  const queryClient = useQueryClient();
+  const { mutate: JobDeleteMutate } = useMutation(deleteJobPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['jobPosts']);
+    },
+  });
 
   return (
     <MainContainer>
@@ -25,7 +31,13 @@ const CompanyJobPosting = () => {
         <RegistrationButton onClick={showRegistrationModal}>등록하기</RegistrationButton>
       </div>
       {jobPosts?.map((data: IGetCompanyJobPosts) => (
-        <JobPostingList key={data.postId} jobPosts={data} setSaveBtnText={setSaveBtnText} saveBtnText={saveBtnText} />
+        <JobPostingList
+          key={data.postId}
+          jobPosts={data}
+          setSaveBtnText={setSaveBtnText}
+          saveBtnText={saveBtnText}
+          JobDeleteMutate={JobDeleteMutate}
+        />
       ))}
       {isModalOpen && <PostEditModal setIsModalOpen={setIsModalOpen} saveBtnText={saveBtnText} />}
     </MainContainer>
