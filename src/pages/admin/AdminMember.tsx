@@ -1,38 +1,59 @@
+import { getCompanyMembers, getApplicantMembers } from '@/api/adminApi';
 import UserList from '@/components/member/UserList';
+import { useAppDispatch } from '@/hooks/useDispatchHooks';
+import { hideLoading, showLoading } from '@/store/loadingSlice';
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const AdminMember = () => {
+  const dispatch = useAppDispatch();
   const [userType, setUserType] = useState('병원');
 
-  return (
-    <Container>
-      <h1>회원 관리</h1>
-      <div className='search'>
-        <h4>회원 전체 조회</h4>
-        <form>
-          <input type='text' placeholder='검색어를 입력해주세요.' />
-          <img src='/icons/search.png' alt='검색' />
-          <div>
-            {['병원', '지원자'].map(typeName => (
-              <TypeButton
-                isUserType={typeName === userType}
-                onClick={event => {
-                  event.preventDefault();
-                  setUserType(typeName);
-                }}
-              >
-                {typeName}
-              </TypeButton>
-            ))}
-          </div>
-        </form>
-      </div>
-      {[1, 2, 3].map((user, index) => (
-        <UserList key={index} index={index} user={user} userType={userType} />
-      ))}
-    </Container>
-  );
+  const { data: companies, isLoading } = useQuery(['admin', 'companies'], getCompanyMembers);
+  const { data: applicants, isLoading: loading } = useQuery(['admin', 'applicants'], getApplicantMembers);
+
+  console.log(companies);
+  console.log(applicants);
+  if (isLoading || loading) {
+    dispatch(showLoading());
+    return null;
+  } else {
+    dispatch(hideLoading());
+    return (
+      <Container>
+        <h1>회원 관리</h1>
+        <div className='search'>
+          <h4>회원 전체 조회</h4>
+          <form>
+            <input type='text' placeholder='검색어를 입력해주세요.' />
+            <img src='/icons/search.png' alt='검색' />
+            <div>
+              {['병원', '지원자'].map(typeName => (
+                <TypeButton
+                  key={typeName}
+                  isUserType={typeName === userType}
+                  onClick={event => {
+                    event.preventDefault();
+                    setUserType(typeName);
+                  }}
+                >
+                  {typeName}
+                </TypeButton>
+              ))}
+            </div>
+          </form>
+        </div>
+        {userType === '병원'
+          ? companies.map((company: CompanyMemberData, index: number) => {
+              return <UserList key={index} index={index} user={company} userType={userType} />;
+            })
+          : applicants.map((applicant: ApplicantMemberData, index: number) => {
+              return <UserList key={index} index={index} user={applicant} userType={userType} />;
+            })}
+      </Container>
+    );
+  }
 };
 
 export default AdminMember;

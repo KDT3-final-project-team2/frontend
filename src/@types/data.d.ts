@@ -187,10 +187,24 @@ interface CompanyMainData {
   memo: string;
 }
 
-interface mailTypeCase {
-  기본: 기본;
-  서류합격: 서류합격;
-  서류불합격: 서류불합격;
-  면접합격: 면접합격;
-  면접불합격: 면접불합격;
+interface CompanyMemberData {
+  address: string;
+  companyId: string | number;
+  companyName: string;
+  companyType: string;
+  contact: string;
+  email: string;
+  regNum: string;
+  representativeName: string;
+}
+
+interface ApplicantMemberData {
+  applicantId: number | string;
+  birthDate: string;
+  contact: string;
+  education: string;
+  email: string;
+  name: string;
+  sector: string;
+  workExperience: string;
 }

@@ -13,7 +13,7 @@ export const authInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     Authorization: `Bearer ${accessToken}`,
-    'Content-type': 'application/json',
+    // 'Content-type': 'application/json',
   },
 });
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { instance } from './instance';
+import { authInstance, instance } from './instance';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const getAdminTermList = async () => {
@@ -56,4 +56,24 @@ export const useUpdateAdminTerm = () => {
   });
 
   return mutate;
+};
+
+// 병원회원 목록 조회하기
+export const getCompanyMembers = async () => {
+  try {
+    const res = await authInstance.get(`/admin/companies`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 지원자회원 목록 조회하기
+export const getApplicantMembers = async () => {
+  try {
+    const res = await authInstance.get(`/admin/applicants`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
 };

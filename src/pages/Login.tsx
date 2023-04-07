@@ -41,6 +41,7 @@ const Login = () => {
         const refreshToken = res.data.refreshToken;
         setCookie('accessToken', accessToken);
         setCookie('refreshToken', refreshToken);
+        console.log(userType.userType);
         userType.userType === '지원자' ? (location.pathname = '/applicant') : (location.pathname = '/company');
       }
     } catch (error) {
