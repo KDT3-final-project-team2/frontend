@@ -50,23 +50,23 @@ const Info = () => {
           <Error>{formState.errors.companyName?.message?.toString()}</Error>
           <input
             type='text'
-            id='companyNum'
+            id='companyRegNum'
             placeholder={`사업자등록번호 / '-'포함 10자리`}
-            {...register('companyNum')}
+            {...register('companyRegNum')}
           />
-          <Error>{formState.errors.companyNum?.message?.toString()}</Error>
+          <Error>{formState.errors.companyRegNum?.message?.toString()}</Error>
         </div>
         <div className='inputBox'>
           <label>대표정보</label>
-          <input type='text' id='representative' placeholder='대표자명' {...register('representative')} />
-          <Error>{formState.errors.representative?.message?.toString()}</Error>
-          <input type='tel' id='contact' placeholder='대표전화' {...register('contact')} />
-          <Error>{formState.errors.contact?.message?.toString()}</Error>
+          <input type='text' id='companyRepresentative' placeholder='대표자명' {...register('companyRepresentative')} />
+          <Error>{formState.errors.companyRepresentative?.message?.toString()}</Error>
+          <input type='tel' id='companyContact' placeholder='대표전화' {...register('companyContact')} />
+          <Error>{formState.errors.companyContact?.message?.toString()}</Error>
         </div>
         <div className='inputBox'>
           <label htmlFor='email'>이메일</label>
-          <Error>{formState.errors.email?.message?.toString()}</Error>
-          <input type='email' id='email' placeholder='medi@match.com' {...register('email')} />
+          <Error>{formState.errors.companyEmail?.message?.toString()}</Error>
+          <input type='email' id='email' placeholder='medi@match.com' {...register('companyEmail')} />
           <button
             className='email'
             onClick={event => {
@@ -81,9 +81,9 @@ const Info = () => {
           <label htmlFor='password'>비밀번호</label>
           <input
             type={showPassword ? 'string' : 'password'}
-            id='password'
+            id='companyPassword'
             placeholder='영문, 숫자 조합 8~15자리'
-            {...register('password')}
+            {...register('companyPassword')}
           />
           {showPassword ? (
             <img src='/icons/close-eye.png' alt='' onClick={() => setShowPassword(false)} />
