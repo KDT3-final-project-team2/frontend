@@ -13,9 +13,9 @@ export const getApplications = async () => {
 
 export const getCompanyJobposts = async () => {
   try {
-    const res = await axios.get('http://localhost:5173/company/jobposts');
-    console.log('res', res.data);
-    return res.data;
+    const res = await fetch('/data/jobPosting.json');
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -24,9 +24,9 @@ export const getCompanyJobposts = async () => {
 
 export const getCompanyJobpostSingle = async (jobpostId: number) => {
   try {
-    const res = await axios.get(`http://localhost:5173/company/jobposts/${jobpostId}`);
-    console.log('res', res.data);
-    return res.data;
+    const res = await fetch(`/data/jobPostingSingle.json`);
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log(error);
     throw error;

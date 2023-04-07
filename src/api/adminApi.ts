@@ -5,9 +5,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 export const useGetAdminTermList = () => {
   const getAdminTermList = async () => {
     try {
-      const res = await axios.get('http://localhost:5173/admin/term/list');
-      console.log('res', res.data);
-      return res.data;
+      const res = await fetch('/data/term.json');
+      const data = await res.json();
+      return data;
     } catch (error) {
       console.log(error);
       throw error;

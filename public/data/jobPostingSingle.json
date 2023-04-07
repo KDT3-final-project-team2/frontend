@@ -1,0 +1,16 @@
+{
+  "postId": 11,
+  "title": "공고테스트",
+  "sector": "간호사",
+  "education": "고졸",
+  "workExperience": "신입",
+  "companyNm": "메디메치",
+  "companyTel": "010-1111-3333",
+  "startDate": "2024-02-05T00:00:00",
+  "dueDate": "2024-02-05T00:00:00",
+  "createDate": null,
+  "editDate": null,
+  "maxApplicants": 10,
+  "filePath": "/home/ubuntu/server/final/files/jobpost/20230407075208_메디메치.pdf",
+  "status": "모집중"
+}
