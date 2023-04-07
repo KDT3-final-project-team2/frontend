@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
 import { useState } from 'react';
-import { useGetAdminTermList } from '@/api/adminApi';
+import { getAdminTermList } from '@/api/adminApi';
+import { useQuery } from '@tanstack/react-query';
 
 export const AdminTerm = () => {
   const [termModalOpen, setTermModalOpen] = useState(false);
@@ -14,7 +15,7 @@ export const AdminTerm = () => {
     setSaveBtnText('저장');
   };
 
-  const adminTerm = useGetAdminTermList();
+  const { data: adminTerm } = useQuery(['adminTerm'], getAdminTermList);
 
   return (
     <MainContainer>

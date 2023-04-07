@@ -185,7 +185,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 ref={fileRef}
                 onChange={handleFileSelect}
                 accept='.pdf'
-                defaultValue={jobPostSingle?.filePath}
+                // defaultValue={jobPostSingle?.filePath}
               />
               <FileTitleBox>
                 <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>

@@ -35,7 +35,7 @@ export const getCompanyJobpostSingle = async (jobpostId: number) => {
 
 export const postJobPosts = async (jobPostData: FormData) => {
   try {
-    const res = await axios.post('http://localhost:5173/company/jobposts', jobPostData, {
+    const res = await instance.post('/company/jobposts', jobPostData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -50,7 +50,7 @@ export const postJobPosts = async (jobPostData: FormData) => {
 
 export const putJobPosts = async ({ jobPutData, jobpostId }: { jobPutData: FormData; jobpostId: number }) => {
   try {
-    const res = await axios.post(`http://localhost:5173/company/jobposts/${jobpostId}`, jobPutData, {
+    const res = await instance.post(`/company/jobposts/${jobpostId}`, jobPutData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -65,7 +65,7 @@ export const putJobPosts = async ({ jobPutData, jobpostId }: { jobPutData: FormD
 
 export const deleteJobPost = async (jobpostId: number) => {
   try {
-    const res = await axios.delete(`http://localhost:5173/company/jobposts/${jobpostId}`);
+    const res = await instance.delete(`/company/jobposts/${jobpostId}`);
     console.log('res', res.data);
     return res.data;
   } catch (error) {
