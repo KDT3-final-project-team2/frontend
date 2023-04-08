@@ -1,16 +1,37 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { getCookie } from '@/utils/cookie';
+import { getCookie, removeCookie } from '@/utils/cookie';
 import AlertModal from '../common/AlertModal';
 import { ReactComponent as BookmarkFill } from '/public/icons/bookmarkFill.svg';
 import { ReactComponent as Logout } from '/public/icons/logout.svg';
+import { useAppDispatch } from '@/hooks/useDispatchHooks';
+import { showLoading, hideLoading } from '@/store/loadingSlice';
+import { userLogout } from '@/api/commonApi';
 
 const Header = ({ isAdminPage }: { isAdminPage: boolean }) => {
   const token = getCookie('accessToken');
+  const dispatch = useAppDispatch();
   const [searchTitle, setSearchTitle] = useState<string>('');
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { value } = e.target;
     setSearchTitle(value);
+  };
+
+  const handleLogout = async () => {
+    try {
+      dispatch(showLoading());
+      await userLogout();
+      removeCookie('accessToken');
+      removeCookie('refreshToken');
+      //location.pathname = '/';
+      console.log(token);
+    } catch (error) {
+      AlertModal({
+        message: '로그아웃이 정상적으로 처리되지 않았습니다. 다시 시도해주세요.',
+      });
+    } finally {
+      dispatch(hideLoading());
+    }
   };
 
   return (
@@ -52,7 +73,11 @@ const Header = ({ isAdminPage }: { isAdminPage: boolean }) => {
           <img src='/icons/notification.svg' width='20px' height='20px' />
         </span>
         {token ? (
-          <span>
+          <span
+            onClick={() => {
+              handleLogout();
+            }}
+          >
             <Logout width='20px' height='20px' fill='#4357AC' />
           </span>
         ) : null}
