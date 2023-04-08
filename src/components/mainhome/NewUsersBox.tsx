@@ -27,7 +27,7 @@ const NewUsersBox = () => {
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
         </div>
-        <div className='flex' style={{ height: '30px' }}>
+        <div className='flex' style={{ height: '30px', width: '100%' }}>
           {Array.from(Array(12).keys()).map((val, index) => (
             <div key={val} className='flex_month'>
               {index + 1}월
@@ -42,6 +42,7 @@ const NewUsersBox = () => {
 export default NewUsersBox;
 
 const Column = styled.div`
+  width: 65%;
   .year {
     font-weight: 700;
     font-size: 22px;
@@ -53,7 +54,7 @@ const Column = styled.div`
     margin-bottom: 19px;
   }
   .box {
-    width: 836px;
+    width: 100%;
     height: 309px;
     box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
     border-radius: 20px;
@@ -84,6 +85,9 @@ const Column = styled.div`
     .flex {
       display: flex;
       gap: 30px;
+      @media (max-width: 1600px) {
+        gap: 10px;
+      }
       justify-content: space-between;
       align-items: flex-end;
       padding: 10px;
@@ -95,10 +99,9 @@ const Column = styled.div`
         height: 100%;
       }
       .flex_month {
-        width: 132px;
         display: flex;
+        width: 132px;
         justify-content: center;
-        font-size: 14px;
       }
     }
   }
