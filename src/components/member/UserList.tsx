@@ -87,7 +87,7 @@ const ListComponent = styled.div`
 const Head = styled.div`
   width: 100%;
   height: ${({ open }: { open: boolean }) => {
-    return open ? '700px' : '70px';
+    return open ? '610px' : '70px';
   }};
   box-shadow: 2px 2px 10px 2px #4357ac26;
   background: #ffffff;

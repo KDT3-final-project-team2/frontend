@@ -1,3 +1,5 @@
+import { stepType } from '@/constants/steps';
+
 export interface ISearchAddressProps {
   onClose: () => void;
   setValue: UseFormSetValue<TFieldValues>;
@@ -151,4 +153,11 @@ export interface IJobPostingListProps {
   setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
   saveBtnText: string;
   JobDeleteMutate: UseMutateFunction<any, unknown, number, unknown>;
+}
+
+export interface IApplicantStepBoxProps {
+  stepName: stepType;
+  step: stepType;
+  setStep: React.Dispatch<React.SetStateAction<stepType>>;
+  num: number;
 }
