@@ -1,15 +1,9 @@
 import axios from 'axios';
 import { authInstance, instance } from './instance';
 
-const accessToken = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJ1c2VyRW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQURNSU4iLCJpZCI6MSwiaXNzdWVyIjoiZG5lZml0IiwiaWF0IjoxNjgwOTc1OTAzLCJleHAiOjE2ODA5NzYyMDN9.x0wA8Cqi8epzyJDlQ0NNjzAbrumRQyh7T8Zp8PL0Gvc`;
-
 export const getAdminTermList = async () => {
   try {
-    const res = await instance('/admin/term/list', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await authInstance('/admin/term/list');
     return res.data;
   } catch (error) {
     console.log(error);
@@ -19,11 +13,7 @@ export const getAdminTermList = async () => {
 
 export const getAdminTermSingle = async (termId: number) => {
   try {
-    const res = await instance(`/admin/term/${termId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await authInstance(`/admin/term/${termId}`);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -33,11 +23,7 @@ export const getAdminTermSingle = async (termId: number) => {
 
 export const postAdminTerm = async (termData: IAdminTermPostData) => {
   try {
-    const res = await instance.post('/admin/term', termData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await authInstance.post('/admin/term', termData);
     console.log('res', res.data);
     return res.data;
   } catch (error) {
@@ -48,11 +34,7 @@ export const postAdminTerm = async (termData: IAdminTermPostData) => {
 
 export const updateAdminTerm = async ({ termId, termData }: { termId: number; termData: IAdminTermPostData }) => {
   try {
-    const res = await instance.put(`/admin/term/${termId}`, termData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await authInstance.put(`/admin/term/${termId}`, termData);
     console.log('res', res.data);
     return res.data;
   } catch (error) {
