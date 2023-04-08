@@ -75,15 +75,12 @@ const Column = styled.div<{ user: string }>`
     span {
       font-size: 34px;
       line-height: 40px;
-      margin-left: 10px;
     }
   }
   .boxs {
-    display: flex;
-    gap: 16px;
-
     .box {
-      width: 189px;
+      width: 32%;
+      max-width: 189px;
       height: 98px;
       padding: 15px 22px;
       color: #ffffff;
@@ -99,7 +96,7 @@ const Column = styled.div<{ user: string }>`
         border-radius: 0px 20px 20px 0px;
       }
       span {
-        font-size: 30px;
+        font-size: 1.5rem;
         line-height: 36px;
         align-self: flex-end;
       }

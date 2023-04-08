@@ -89,7 +89,6 @@ const FlexBox = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  position: ;
 `;
 
 const DetailWrapper = styled.div`

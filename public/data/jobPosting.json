@@ -1,0 +1,29 @@
+[
+  {
+    "postId": 1,
+    "title": "2023년도 정규직 간호사 모집공고",
+    "startDate": "2023-04-06",
+    "dueDate": "2023-4-12",
+    "createDate": "2023-04-06",
+    "editDate": "2023-04-06",
+    "status": "모집중"
+  },
+  {
+    "postId": 2,
+    "title": "2023년도 정규직 의사 모집공고",
+    "startDate": "2023-04-06",
+    "dueDate": "2023-4-12",
+    "createDate": "2023-04-06",
+    "editDate": "2023-04-06",
+    "status": "모집중"
+  },
+  {
+    "postId": 3,
+    "title": "2023년도 정규직 간호조무사 모집공고",
+    "startDate": "2023-04-06",
+    "dueDate": "2023-4-12",
+    "createDate": "2023-04-06",
+    "editDate": "2023-04-06",
+    "status": "폐기"
+  }
+]

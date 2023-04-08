@@ -9,7 +9,7 @@ import AlertModal from '../common/AlertModal';
 const ApplicantList = ({ index, step, applicant }: { index: number; step: string; applicant: CompanyMainData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [emailModal, setEmailModal] = useState(false);
-  const [mailType, setMailType] = useState<keyof mailTypeCase>('서류합격');
+  const [mailType, setMailType] = useState<mailTypeCase>('서류합격');
   const {
     applicantId,
     applicantName,
@@ -76,8 +76,8 @@ const ApplicantList = ({ index, step, applicant }: { index: number; step: string
           <>
             <div className='horizonLine'></div>
             <div className='content'>
-              <div style={{ width: '210px', height: '297px', backgroundColor: '#ECECEC' }}>이력서</div>
-              <div>
+              <div style={{ minWidth: '210px', height: '297px', backgroundColor: '#ECECEC' }}>이력서</div>
+              <div style={{ width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
                   <div className='sector'>{applicantSector}</div>
                   <div className='tag'># {applicantEducation}</div>
@@ -231,7 +231,6 @@ const Body = styled.div`
   .horizonLine {
     width: 100%;
     border: 1px solid #ececec;
-    /* margin-bottom: 38px; */
   }
   .content {
     padding: 35px;
@@ -246,7 +245,7 @@ const Body = styled.div`
     margin: 23px 0 8px;
   }
   textarea {
-    width: 630px;
+    width: 100%;
     height: 148px;
     background: #eff6ff;
     border: none;

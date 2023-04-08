@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { IModalProps } from '../../@types/props';
+import { IJobPostingListProps } from '../../@types/props';
 import PreviewModal from './PreviewModal';
+import PostEditModal from './PostEditModal';
 
-const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>) => {
+const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText, JobDeleteMutate }: IJobPostingListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
 
   const onClickToggle = () => {
     setIsOpen(!isOpen);
@@ -17,6 +19,7 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
 
   const EditModalOpen = () => {
     setIsEditModal(true);
+    setSaveBtnText('수정완료');
   };
 
   const PreviewModalOpen = () => {
@@ -24,32 +27,35 @@ const JobPostingList = ({ setIsEditModal }: Pick<IModalProps, 'setIsEditModal'>)
   };
 
   const onClickDisCard = () => {
-    // put or delete /company/jobposts/{jobpostId}
+    JobDeleteMutate(jobPosts?.postId);
   };
 
   return (
     <>
-      <NoticeContainer onClick={onClickClose}>
-        <NoticeTitle>2023년도 정규직 간호사 모집공고</NoticeTitle>
-        <IconContainer>
-          <Preview onClick={PreviewModalOpen}>미리보기</Preview>
-          <Link src='/icons/link.png' />
-          <DropDown>
-            <Vertical src='/icons/more_vertical.png' onClick={onClickToggle} />
-            {isOpen && (
-              <DropDownBox>
-                <Edit onClick={EditModalOpen}>
-                  <p>수정</p>
-                </Edit>
-                <Delete onClick={onClickDisCard}>
-                  <p>폐기</p>
-                </Delete>
-              </DropDownBox>
-            )}
-          </DropDown>
-        </IconContainer>
-      </NoticeContainer>
-      {previewModalOpen && <PreviewModal setPreviewModalOpen={setPreviewModalOpen} />}
+      {jobPosts.status === '모집중' && (
+        <NoticeContainer onClick={onClickClose}>
+          <NoticeTitle>{jobPosts.title}</NoticeTitle>
+          <IconContainer>
+            <Preview onClick={PreviewModalOpen}>미리보기</Preview>
+            <Link src='/icons/link.png' />
+            <DropDown>
+              <Vertical src='/icons/more_vertical.png' onClick={onClickToggle} />
+              {isOpen && (
+                <DropDownBox>
+                  <Edit onClick={EditModalOpen}>
+                    <p>수정</p>
+                  </Edit>
+                  <Delete onClick={onClickDisCard}>
+                    <p>폐기</p>
+                  </Delete>
+                </DropDownBox>
+              )}
+            </DropDown>
+          </IconContainer>
+        </NoticeContainer>
+      )}
+      {previewModalOpen && <PreviewModal setPreviewModalOpen={setPreviewModalOpen} jobPosts={jobPosts} />}
+      {isEditModal && <PostEditModal setIsEditModal={setIsEditModal} jobPosts={jobPosts} saveBtnText={saveBtnText} />}
     </>
   );
 };

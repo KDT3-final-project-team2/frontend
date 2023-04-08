@@ -10,19 +10,20 @@ import Loading from '@components/common/Loading';
 
 const CompanyMain = () => {
   const [step, setStep] = useState('서류지원');
+  const status = employStepsToEng[step];
 
-  const { data, isLoading } = useQuery(['applications', step], getApplications);
+  // const { data, isLoading } = useQuery(['applications', step], () => getApplications({ status }));
+  // const { data, isLoading } = useQuery(['applications', step], getApplications);
 
-  console.log(data);
+  // console.log(data);
   // console.log(employStepsToEng[step]);
   // console.log(data[employStepsToEng[step]]);
 
-  if (isLoading) return <Loading />;
   return (
     <Container>
       <h1 id='h1'>채용 현황</h1>
       <div className='grid'>
-        {employSteps.map((stepName, index) => (
+        {/* {employSteps.map((stepName, index) => (
           <StepBox
             key={stepName}
             stepName={stepName}
@@ -30,14 +31,14 @@ const CompanyMain = () => {
             setStep={setStep}
             num={data[employStepsToEng[stepName]]?.length}
           />
-        ))}
+        ))} */}
       </div>
 
       <div>
         <h4>{step} 리스트</h4>
-        {data[employStepsToEng[step]].map((applicant: CompanyMainData, index: number) => (
+        {/* {data[employStepsToEng[step]].map((applicant: CompanyMainData, index: number) => (
           <ApplicantList key={applicant.applicationId} index={index} step={step} applicant={applicant}></ApplicantList>
-        ))}
+        ))} */}
       </div>
     </Container>
   );

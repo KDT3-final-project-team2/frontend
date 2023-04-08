@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 
 export const applicantSignUpSchema = yup.object({
-  email: yup
+  applicantEmail: yup
     .string()
     .required('이메일은 필수 입력입니다.')
     .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/, '이메일 형식에 맞지 않습니다.'),
-  password: yup
+  applicantPassword: yup
     .string()
     .required('비밀번호는 필수 입력입니다.')
     .matches(/^[a-zA-Z0-9]+$/, '영문자, 숫자를 조합하여 입력해주세요.')
@@ -14,52 +14,52 @@ export const applicantSignUpSchema = yup.object({
   confirmPassword: yup
     .string()
     .required('비밀번호 확인은 필수 입력입니다.')
-    .oneOf([yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
-  name: yup
+    .oneOf([yup.ref('applicantPassword')], '비밀번호가 일치하지 않습니다.'),
+  applicantName: yup
     .string()
     .required('이름은 필수 입력입니다.')
     .matches(/^[a-zA-Z가-힣]+$/, '영문자, 한글을 입력해주세요.'),
-  birthDate: yup
+  applicantBirthDate: yup
     .string()
     .required('생년월일은 필수 입력입니다.')
     .matches(
       /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/,
       'YYYY-MM-DD 형식에 맞춰 입력해주세요.',
     ),
-  phoneNumber: yup
+  applicantContact: yup
     .string()
     .required('전화번호는 필수 입력입니다.')
     .matches(/^\d{3}-\d{3,4}-\d{4}$/, '전화번호 형식에 알맞지 않습니다. -를 포함해서 입력하세요'),
-  gender: yup
+  applicantGender: yup
     .string()
     .required('성별을 입력해주세요.')
     .matches(/^남자$|^여자$/, '아래 목록에서 선택해 주세요.'),
-  sector: yup
+  applicantSector: yup
     .string()
     .required('직무를 입력해주세요.')
-    .matches(/^의사$|^간호사$|^간호조무사$|^의료기사$|^의료행정$/, '아래 목록에서 선택해 주세요.'),
-  education: yup
+    .matches(/^의사$|^간호사$|^간호조무사$|^원무과$|^의료기사$/, '아래 목록에서 선택해 주세요.'),
+  applicantEducation: yup
     .string()
     .required('학력을 입력해주세요.')
     .matches(/^고졸$|^초대졸$|^대졸$|^석박사$/, '아래 목록에서 선택해 주세요.'),
-  workExperience: yup
+  applicantWorkExperience: yup
     .string()
     .required('경력을 입력해주세요.')
-    .matches(/^신입$|^1년차$|^2년차$|^3년차$|^4년차$|^5년차$|^5년이상$/, '아래 목록에서 선택해 주세요.'),
+    .matches(/^신입$|^1년차$|^2년차$|^3년차$|^4년차$|^5년이상$/, '아래 목록에서 선택해 주세요.'),
 });
 
 export const companySignUpSchema = yup.object().shape({
   companyName: yup.string().required('기업명을 입력해 주세요.'),
-  representative: yup.string().required('대표자명을 입력해 주세요.'),
-  companyNum: yup
+  companyRepresentative: yup.string().required('대표자명을 입력해 주세요.'),
+  companyRegNum: yup
     .string()
     .required('사업자등록번호는 필수 입력입니다.')
     .matches(/^\d{3}-\d{2}-\d{5}$/, '사업자등록번호 형식에 알맞지 않습니다. -를 포함해서 입력하세요'),
-  email: yup
+  companyEmail: yup
     .string()
     .required('이메일은 필수 입력입니다.')
     .matches(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/, '이메일 형식에 맞지 않습니다.'),
-  password: yup
+  companyPassword: yup
     .string()
     .required('비밀번호는 필수 입력입니다.')
     .matches(/^[a-zA-Z0-9]+$/, '영문자, 숫자를 조합하여 입력해주세요.')
@@ -68,8 +68,8 @@ export const companySignUpSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required('비밀번호 확인은 필수 입력입니다.')
-    .oneOf([yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
-  contact: yup
+    .oneOf([yup.ref('companyPassword')], '비밀번호가 일치하지 않습니다.'),
+  companyContact: yup
     .string()
     .required('전화번호는 필수 입력입니다.')
     .matches(/^\d{2,3}-\d{3,4}-\d{4}$/, '전화번호 형식에 알맞지 않습니다. -를 포함해서 입력하세요'),
@@ -98,15 +98,16 @@ export const loginSchema = yup.object().shape({
 export const jobPostSchema = yup.object().shape({
   title: yup.string().required('공고명을 입력해주세요.'),
   sector: yup.string().required('직종을 입력해주세요.'),
-  experience: yup.string().required('경력을 입력해주세요.'),
+  workExperience: yup.string().required('경력을 입력해주세요.'),
   education: yup.string().required('학력을 입력해주세요.'),
-  maxapplicants: yup
+  recruitNum: yup
     .number()
     .required('모집인원을 입력해주세요.')
     .typeError('숫자만 입력 가능합니다.')
     .integer('정수만 입력 가능합니다.')
     .min(1, '1 이상의 숫자를 입력해주세요.'),
-  duedate: yup.string().required('마감일을 입력해주세요.'),
+  dueDate: yup.string().required('마감일을 입력해주세요.'),
+  startDate: yup.string().required('채용 시작일을 입력해주세요.'),
   file: yup.mixed().required('공고 PDF를 입력해주세요.'),
 });
 

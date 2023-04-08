@@ -1,3 +1,4 @@
+import AlertModal from '@/components/common/AlertModal';
 import { instance, authInstance } from './instance';
 
 export const getTerms = async () => {
