@@ -99,13 +99,13 @@ export interface ITermPostEditModalProps {
   setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setEditModalOpen?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
   saveBtnText: string;
-  defaultData?: adminTermData;
+  defaultData?: adminTermSingleData;
   editModalOpen?: boolean;
 }
 
 export interface ITermListProps {
   index: number;
-  adminTerm: adminTermData;
+  term: adminTermSingleData;
   setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
   setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   saveBtnText: string;

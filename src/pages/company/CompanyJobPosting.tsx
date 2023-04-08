@@ -48,7 +48,7 @@ export default CompanyJobPosting;
 
 export const MainContainer = styled.div`
   margin: 0 auto;
-  margin-top: 122px;
+  margin-top: 36px;
   .headerBox {
     width: 93%;
     margin: 0 auto;
