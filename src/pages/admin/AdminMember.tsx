@@ -49,10 +49,10 @@ const AdminMember = () => {
           </form>
         </div>
         {userType === '병원'
-          ? companies.map((company: CompanyMemberData, index: number) => {
+          ? companies?.map((company: CompanyMemberData, index: number) => {
               return <UserList key={index} index={index} user={company} userType={userType} />;
             })
-          : applicants.map((applicant: ApplicantMemberData, index: number) => {
+          : applicants?.map((applicant: ApplicantMemberData, index: number) => {
               return <UserList key={index} index={index} user={applicant} userType={userType} />;
             })}
       </Container>
