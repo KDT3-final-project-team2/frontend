@@ -2,15 +2,26 @@ import Avvvatars from 'avvvatars-react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const UserList = ({ index, user, userType }: { index: number; user: any; userType: string }) => {
+const UserList = ({
+  index,
+  user,
+  userType,
+}: {
+  index: number;
+  user: CompanyMemberData | ApplicantMemberData;
+  userType: string;
+}) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
 
   return (
     <ListComponent>
       <Head onClick={() => setOpen(!open)} open={open}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
-          <Avvvatars style='shape' value={'메디매치'}></Avvvatars>
-          <p className='name'>메디매치</p>
+          <Avvvatars
+            style='shape'
+            value={(user as CompanyMemberData).companyName || (user as ApplicantMemberData).name}
+          ></Avvvatars>
+          <p className='name'>{(user as CompanyMemberData).companyName || (user as ApplicantMemberData).name}</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', height: '32px' }}>
           <img src='/icons/edit.png' alt='수정' />
@@ -26,31 +37,36 @@ const UserList = ({ index, user, userType }: { index: number; user: any; userTyp
               <h5>{userType} 정보</h5>
               <div className='info'>
                 <div>
+                  <p>고유ID</p>
+                  <p className='border'>
+                    {(user as CompanyMemberData).companyId || (user as ApplicantMemberData).applicantId}
+                  </p>
+                </div>
+                <div>
                   <p>이메일</p>
-                  <p className='border'>{'qwer@naver.com'}</p>
+                  <p className='border'>{user.email}</p>
                 </div>
                 <div>
-                  <p>대표자명</p>
-                  <p className='border'>{'qwer@naver.com'}</p>
+                  <p>{userType === '병원' ? '대표자명' : '이름'}</p>
+                  <p className='border'>
+                    {(user as CompanyMemberData).representativeName || (user as ApplicantMemberData).name}
+                  </p>
                 </div>
                 <div>
-                  <p>사업자</p>
-                  <p className='border'>{'qwer@naver.com'}</p>
+                  <p>{userType === '병원' ? '사업자번호' : '생년월일'}</p>
+                  <p className='border'>
+                    {(user as CompanyMemberData).regNum || (user as ApplicantMemberData).birthDate}
+                  </p>
                 </div>
                 <div>
-                  <p>대표전화</p>
-                  <p className='border'>{'qwer@naver.com'}</p>
+                  <p>연락처</p>
+                  <p className='border'>{user.contact}</p>
                 </div>
                 <div>
-                  <p>주소</p>
-                  <p className='border'>{'qwer@naver.com'}</p>
-                </div>
-                <div>
-                  <p>가입일</p>
-                  <p className='border'>{'qwer@naver.com'}</p>
-                </div>
-                <div className='buttons'>
-                  <button>비밀번호 초기화</button>
+                  <p>{userType === '병원' ? '주소' : '직무'}</p>
+                  <p className='border'>
+                    {(user as CompanyMemberData).address || (user as ApplicantMemberData).sector}
+                  </p>
                 </div>
               </div>
             </div>
@@ -132,25 +148,10 @@ const Body = styled.div`
           color: #7b7b7b;
           width: 60%;
           height: 40px;
+          line-height: 15px;
           border: 1px solid #374151;
           border-radius: 30px;
         }
-      }
-    }
-    .buttons {
-      position: absolute;
-      right: 20px;
-      bottom: 10px;
-      display: flex;
-      gap: 16px;
-      button {
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 24px;
-        color: white;
-        background-color: #8294cd;
-        padding: 8px 20px;
       }
     }
   }

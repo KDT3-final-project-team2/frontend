@@ -7,8 +7,11 @@ import { termNames } from '../../constants/terms';
 import CheckBox from './CheckBox';
 import { useQuery } from '@tanstack/react-query';
 import { getTerms } from '@/api/commonApi';
+import { useAppDispatch } from '@/hooks/useDispatchHooks';
+import { hideLoading, showLoading } from '@/store/loadingSlice';
 
 const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setCheckedItems }: IStep1Props) => {
+  const dispatch = useAppDispatch();
   const handleAllChecks = (event: React.ChangeEvent) => {
     const target = event.target as HTMLInputElement;
     if (target.checked) {
@@ -21,45 +24,51 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
   };
 
   const { data: terms, isLoading } = useQuery(['terms'], getTerms);
-
-  return (
-    <>
-      <SignUpTitle member={member} />
-      <MainContainer>
-        <StepCheck step={step} />
-        <TermsContainer>
-          <header>
-            <div>
-              <input
-                type='checkbox'
-                checked={checkedItems.length === termNames.length ? true : false}
-                onChange={handleAllChecks}
-                id={'이용약관 전체 동의하기'}
-              />
-              <label htmlFor='이용약관 전체 동의하기'>
-                <img src='/icons/check.png' alt='체크' className='check' />
-                <div>이용약관 전체 동의하기</div>
-              </label>
-            </div>
-          </header>
-          <main>
-            <ul>
-              {termNames.map((termName, index) => (
-                <CheckBox
-                  key={termName}
-                  title={termName}
-                  checkedItems={checkedItems}
-                  setCheckedItems={setCheckedItems}
-                  index={index}
+  // console.log(terms, isLoading);
+  if (isLoading) {
+    dispatch(showLoading());
+    return null;
+  } else {
+    dispatch(hideLoading());
+    return (
+      <>
+        <SignUpTitle member={member} />
+        <MainContainer>
+          <StepCheck step={step} />
+          <TermsContainer>
+            <header>
+              <div>
+                <input
+                  type='checkbox'
+                  checked={checkedItems.length === termNames.length ? true : false}
+                  onChange={handleAllChecks}
+                  id={'이용약관 전체 동의하기'}
                 />
-              ))}
-            </ul>
-          </main>
-        </TermsContainer>
-        <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} step={step} />
-      </MainContainer>
-    </>
-  );
+                <label htmlFor='이용약관 전체 동의하기'>
+                  <img src='/icons/check.png' alt='체크' className='check' />
+                  <div>이용약관 전체 동의하기</div>
+                </label>
+              </div>
+            </header>
+            <main>
+              <ul>
+                {termNames.map((termName, index) => (
+                  <CheckBox
+                    key={termName}
+                    title={termName}
+                    checkedItems={checkedItems}
+                    setCheckedItems={setCheckedItems}
+                    index={index}
+                  />
+                ))}
+              </ul>
+            </main>
+          </TermsContainer>
+          <SignUpPaginationButton onClickNext={onClickNext} onClickBack={onClickBack} step={step} />
+        </MainContainer>
+      </>
+    );
+  }
 };
 
 const MainContainer = styled.div`

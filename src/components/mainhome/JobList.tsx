@@ -106,7 +106,7 @@ const Head = styled.div`
     margin-right: 20px;
   }
   .title {
-    width: 300px;
+    width: fit-content;
     line-height: 32px;
     margin-top: 3px;
     margin-right: 10px;

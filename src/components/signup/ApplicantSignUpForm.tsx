@@ -2,74 +2,91 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ISignUpFormProps } from '../../@types/props';
 import DropDown from '../common/DropDown';
+import { applicantEmailCheck } from '@/api/applicantApi';
+import AlertModal from '../common/AlertModal';
 
 const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: ISignUpFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
 
   return (
     <Wrapper>
       <Form onSubmit={() => handleSubmit()}>
         <div className='inputBox'>
           <label htmlFor=''>기본정보</label>
-          <input id='name' type='text' placeholder='이름' {...register('name')} />
-          <Error>{formState.errors.name?.message}</Error>
-          <input id='birthDate' type='text' placeholder='생년월일' {...register('birthDate')} />
-          <Error>{formState.errors.birthDate?.message}</Error>
+          <input id='applicantName' type='text' placeholder='이름' {...register('applicantName')} />
+          <Error>{formState.errors.applicantName?.message}</Error>
+          <input id='applicantBirthDate' type='text' placeholder='생년월일' {...register('applicantBirthDate')} />
+          <Error>{formState.errors.applicantBirthDate?.message}</Error>
         </div>
 
         <div className='inputBox'>
           <DropDown
             width='400px'
-            title='gender'
+            title='applicantGender'
             selections={['남자', '여자']}
             register={register}
             setValue={setValue}
           />
-          <Error>{formState.errors.gender?.message}</Error>
+          <Error>{formState.errors.applicantGender?.message}</Error>
           <DropDown
             width='400px'
-            title='sector'
-            selections={['의사', '간호사', '간호조무사', '의료기사', '의료행정']}
+            title='applicantSector'
+            selections={['의사', '간호사', '간호조무사', '원무과', '의료기사']}
             register={register}
             setValue={setValue}
           />
-          <Error>{formState.errors.sector?.message}</Error>
+          <Error>{formState.errors.applicantSector?.message}</Error>
         </div>
         <div className='inputBox'>
           <DropDown
             width='400px'
-            title='education'
+            title='applicantEducation'
             selections={['고졸', '초대졸', '대졸', '석박사']}
             register={register}
             setValue={setValue}
           />
-          <Error>{formState.errors.education?.message}</Error>
+          <Error>{formState.errors.applicantEducation?.message}</Error>
 
           <DropDown
             width='400px'
-            title='workExperience'
-            selections={['신입', '1년차', '2년차', '3년차', '4년차', '5년차', '5년이상']}
+            title='applicantWorkExperience'
+            selections={['신입', '1년차', '2년차', '3년차', '4년차', '5년차 이상']}
             register={register}
             setValue={setValue}
           />
-          <Error>{formState.errors.workExperience?.message}</Error>
+          <Error>{formState.errors.applicantWorkExperience?.message}</Error>
         </div>
 
         <div className='inputBox'>
-          <label htmlFor='phoneNumber'>휴대폰번호</label>
-          <Error>{formState.errors.phoneNumber?.message}</Error>
-          <input id='phoneNumber' type='tel' {...register('phoneNumber')} placeholder='010-1234-5678' />
+          <label htmlFor='applicantContact'>휴대폰번호</label>
+          <Error>{formState.errors.applicantContact?.message}</Error>
+          <input id='applicantContact' type='tel' {...register('applicantContact')} placeholder='010-1234-5678' />
         </div>
 
         <div className='inputBox'>
-          <label htmlFor='email'>이메일</label>
-          <Error>{formState.errors.email?.message}</Error>
-          <input id='email' type='text' placeholder='medi@match.com' {...register('email')} />
+          <label htmlFor='applicantEmail'>이메일</label>
+          <Error>{formState.errors.applicantEmail?.message}</Error>
+          <input
+            id='applicantEmail'
+            type='text'
+            placeholder='medi@match.com'
+            {...(register('applicantEmail'),
+            {
+              onChange: event => {
+                setEmail(event.currentTarget.value);
+                setValue('applicantEmail', event.currentTarget.value, { shouldValidate: true });
+              },
+            })}
+          />
           <button
-            className='email'
+            className='applicantEmail'
             onClick={event => {
               event.preventDefault();
-              // 이메일중복확인 로직
+              applicantEmailCheck({ applicantEmail: email }).then(res => {
+                const message = res.message;
+                AlertModal({ message });
+              });
             }}
           >
             중복확인
@@ -77,12 +94,12 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
         </div>
 
         <div className='inputBox '>
-          <label htmlFor='password'>비밀번호</label>
+          <label htmlFor='applicantPassword'>비밀번호</label>
           <input
             type={showPassword ? 'string' : 'password'}
-            id='password'
+            id='applicantPassword'
             placeholder='영문, 숫자 조합 8~15자리'
-            {...register('password')}
+            {...register('applicantPassword')}
           />
           {showPassword ? (
             <img src='/icons/close-eye.png' alt='' onClick={() => setShowPassword(false)} className='eye' />
@@ -93,7 +110,7 @@ const ApplicantSignUpForm = ({ register, handleSubmit, formState, setValue }: IS
 
         <div className='inputBox password'>
           <Error>
-            {formState.errors.password?.message?.toString()}
+            {formState.errors.applicantPassword?.message?.toString()}
             {` `}
             {formState.errors.confirmPassword?.message?.toString()}
           </Error>
@@ -174,13 +191,13 @@ const Form = styled.form`
     input.inactive {
       display: none;
     }
-    input#email {
+    input#applicantEmail {
       width: 70%;
     }
     input#zoneCode {
       width: 280px;
     }
-    input#password {
+    input#applicantPassword {
       border-radius: 20px 20px 0 0;
       border-bottom: none;
     }
@@ -209,7 +226,7 @@ const Form = styled.form`
       font-size: 13px;
       line-height: 24px;
       color: white;
-      &.email {
+      &.applicantEmail {
         left: 80%;
       }
     }

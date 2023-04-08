@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "companyName": "메디매치",
+      "jobpostTitle": "수술실 직원 모집",
+      "jogpostId": "1",
+      "applicationStatusType": "default",
+      "applicationInterviewTime": null,
+      "applicationApplyDate": "2023-03-25",
+      "applicationFilepath": "./박연진.pdf"
+    },
+    {
+      "companyName": "가나피부과",
+      "jobpostTitle": "간호팀 채용",
+      "jogpostId": "2",
+      "applicationStatusType": "default",
+      "applicationInterviewTime": null,
+      "applicationApplyDate": "2023-03-23",
+      "applicationFilepath": "./박연진.pdf"
+    },
+    {
+      "companyName": "다름성형외과",
+      "jobpostTitle": "수술팀 간호조무사 신규/경력 채용",
+      "jogpostId": "3",
+      "applicationStatusType": "default",
+      "applicationInterviewTime": null,
+      "applicationApplyDate": "2023-03-22",
+      "applicationFilepath": "./박연진.pdf"
+    },
+    {
+      "companyName": "킴 이비인후과",
+      "jobpostTitle": "간호조무사 채용",
+      "jogpostId": "4",
+      "applicationStatusType": "resume-pass",
+      "applicationInterviewTime": null,
+      "applicationApplyDate": "2023-03-20",
+      "applicationFilepath": "./박연진.pdf"
+    },
+    {
+      "companyName": "문래 이비인후과",
+      "jobpostTitle": "간호부문 대규모 채용",
+      "jogpostId": "4",
+      "applicationStatusType": "resume-pass",
+      "applicationInterviewTime": null,
+      "applicationApplyDate": "2023-03-20",
+      "applicationFilepath": "./박연진.pdf"
+    },
+    {
+      "companyName": "문래 이비인후과",
+      "jobpostTitle": "간호부문 대규모 채용",
+      "jogpostId": "4",
+      "applicationStatusType": "interview-pass",
+      "applicationInterviewTime": null,
+      "applicationApplyDate": "2023-03-20",
+      "applicationFilepath": "./박연진.pdf"
+    }
+  ]
+}
