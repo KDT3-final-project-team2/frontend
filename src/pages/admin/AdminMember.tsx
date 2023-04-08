@@ -10,8 +10,12 @@ const AdminMember = () => {
   const dispatch = useAppDispatch();
   const [userType, setUserType] = useState('병원');
 
-  const { data: companies, isLoading } = useQuery(['admin', 'companies'], getCompanyMembers);
-  const { data: applicants, isLoading: loading } = useQuery(['admin', 'applicants'], getApplicantMembers);
+  const { data: companies, isLoading } = useQuery(['admin', 'companies'], getCompanyMembers, {
+    staleTime: 1000 * 60 * 60,
+  });
+  const { data: applicants, isLoading: loading } = useQuery(['admin', 'applicants'], getApplicantMembers, {
+    staleTime: 1000 * 60 * 60,
+  });
 
   console.log(companies);
   console.log(applicants);
