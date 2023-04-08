@@ -20,8 +20,14 @@ import ApplicantResume from './pages/applicant/ApplicantResume';
 import ApplicantSetting from './pages/applicant/ApplicantSetting';
 import ApplicantJobSearching from './pages/applicant/ApplicantJobSearching';
 import CompanyTerm from './pages/company/CompanyTerm';
+import { getCookie } from '@/utils/cookie';
 
 function App() {
+  const token = getCookie('accessToken');
+  const refreshtoken = getCookie('accessToken');
+  console.log(token);
+  console.log(refreshtoken);
+
   return (
     <BrowserRouter>
       <GlobalStyle />
