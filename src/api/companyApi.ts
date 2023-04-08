@@ -126,3 +126,9 @@ export const companyEmailCheck = async ({ companyEmail }: { companyEmail: string
     }
   }
 };
+
+// 유저 정보
+export const companyInfo = async () => {
+  const res = await authInstance.get('/company/me');
+  return res.data.data;
+};
