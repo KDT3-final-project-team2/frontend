@@ -5,35 +5,73 @@ import { IconContainer, NoticeContainer } from '../companyjobposting/JobPostingL
 import { NoticeTitle } from './../companyjobposting/JobPostingList';
 import TermPostEditModal from './TermPostEditModal';
 import ConfirmModal from '../common/ConfirmModal';
-import { useUpdateAdminTerm } from '@/api/adminApi';
+import { getAdminTermSingle, updateAdminTerm } from '@/api/adminApi';
+import { UseMutateFunction, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useDateToString } from '@/hooks/useDateToString';
+import { useTermChangeToEnglish } from '@/hooks/useTermChangeToEnglish';
+import { useLocation } from 'react-router-dom';
+import { getCompanyTermSingle, updateCompanyTerm } from '@/api/companyApi';
 
-const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnText }: ITermListProps) => {
+const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }: ITermListProps) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  const updateAdminTerm = useUpdateAdminTerm();
+  let termSingle: any;
+
+  if (location.pathname === '/admin/term') {
+    const { data } = useQuery(
+      ['adminTerm', term?.termId],
+      () => {
+        if (term) return getAdminTermSingle(term?.termId);
+      },
+      {
+        enabled: !!term?.termId,
+      },
+    );
+    termSingle = data;
+  } else {
+    const { data } = useQuery(
+      ['companyTerm', term?.termId],
+      () => {
+        if (term) return getCompanyTermSingle(term?.termId);
+      },
+      {
+        enabled: !!term?.termId,
+      },
+    );
+    termSingle = data;
+  }
+
+  const queryClient = useQueryClient();
+
+  let termEditMutate: UseMutateFunction<
+    any,
+    unknown,
+    {
+      termId: number;
+      termData: IAdminTermPostData;
+    },
+    unknown
+  >;
+  if (location.pathname === '/admin/term') {
+    const { mutate } = useMutation(updateAdminTerm, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['adminTerm']);
+      },
+    });
+    termEditMutate = mutate;
+  } else {
+    const { mutate } = useMutation(updateCompanyTerm, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['companyTerm']);
+      },
+    });
+    termEditMutate = mutate;
+  }
 
   const onClickListOpen = () => {
     setOpen(!open);
   };
-
-  let type = '';
-  switch (adminTerm?.type) {
-    case 'SERVICE':
-      type = '서비스이용약관';
-      break;
-    case 'PRIVACY':
-      type = '개인정보처리방침';
-      break;
-    case 'THIRD_PARTY':
-      type = '제3자정보제공';
-      break;
-    case 'MARKETING':
-      type = '개인정보마케팅이용';
-      break;
-    default:
-      type = adminTerm?.type;
-  }
 
   const onClickTermEdit = (event: MouseEvent<HTMLImageElement>) => {
     event?.stopPropagation();
@@ -44,13 +82,13 @@ const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnT
   const onClickDeleteTerm = (event: MouseEvent<HTMLImageElement>) => {
     event?.stopPropagation();
     const update = () => {
-      updateAdminTerm({
-        termId: adminTerm?.termId,
-        data: {
-          type: adminTerm?.type,
-          version: adminTerm?.version,
+      termEditMutate({
+        termId: termSingle.data.termId,
+        termData: {
+          type: useTermChangeToEnglish(termSingle.data.type),
+          version: termSingle.data.version,
           status: 'DISCARD',
-          content: adminTerm?.content,
+          content: termSingle.data.content,
         },
       });
     };
@@ -60,12 +98,12 @@ const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnT
 
   return (
     <>
-      {adminTerm.status === 'USE' && (
+      {term?.status === '사용' && (
         <TermListContainer open={open}>
           <div className='termBox' onClick={onClickListOpen}>
-            <TermType>{type}</TermType>
+            <TermType>{term?.type}</TermType>
             <IconContainer>
-              <CreateDate>{adminTerm?.createDate}</CreateDate>
+              <CreateDate>{useDateToString(term?.editDate)}</CreateDate>
               <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
               <Icon src='/icons/trashcan.png' onClick={onClickDeleteTerm} />
             </IconContainer>
@@ -74,11 +112,11 @@ const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnT
             <>
               <Border></Border>
               <TermContentsBox>
-                <Date>{adminTerm?.createDate}</Date>
+                <Date>{useDateToString(term?.editDate)}</Date>
                 <div className='contentsborder'>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: adminTerm?.content,
+                      __html: termSingle?.data.content,
                     }}
                   ></p>
                 </div>
@@ -92,7 +130,7 @@ const TermList = ({ index, adminTerm, setSaveBtnText, setTermModalOpen, saveBtnT
           setTermModalOpen={setTermModalOpen}
           saveBtnText={saveBtnText}
           setEditModalOpen={setEditModalOpen}
-          defaultData={adminTerm}
+          defaultData={termSingle.data}
         />
       )}
     </>
