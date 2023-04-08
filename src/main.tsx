@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
@@ -11,7 +11,7 @@ import { CookiesProvider } from 'react-cookie';
 let persistor = persistStore(store);
 const queryClient = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.render(
   <CookiesProvider>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -22,4 +22,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </PersistGate>
     </Provider>
   </CookiesProvider>,
+  document.getElementById('root'),
 );

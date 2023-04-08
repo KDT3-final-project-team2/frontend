@@ -5,6 +5,7 @@ import { navigations } from '../../constants/navigation';
 import LeftBar from './LeftBar';
 import RightBar from './RightBar';
 import Calendar from '../../pages/Calendar';
+import Header from './Header';
 
 const Layout = () => {
   const path = useLocation().pathname;
@@ -23,6 +24,7 @@ const Layout = () => {
     <div style={{ position: 'relative', height: '100%' }}>
       {isAdminLogin ? null : <LeftBar isSignUpPage={isSignUpPage} />}
       <MainSection isSignUpPage={isSignUpPage} isAdminLogin={isAdminLogin} isAdminPage={isAdminPage}>
+        {isSignUpPage ? null : isAdminLogin ? null : <Header isAdminPage={isAdminPage} />}
         <Outlet />
         <ScrollTop onClick={() => scrollToTop()} isSignUpPage={isSignUpPage} isAdminPage={isAdminPage}>
           <img src='/images/scroll_top.png' alt='스크롤' />
