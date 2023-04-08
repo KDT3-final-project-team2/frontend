@@ -76,6 +76,7 @@ const Container = styled.div`
     }
     .boxs {
       display: flex;
+      width: 100%;
       gap: 30px;
       justify-content: center;
     }

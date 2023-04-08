@@ -38,7 +38,7 @@ export const getMailSample = ({
   jobpostTitle,
 }: {
   applicantName: string;
-  mailType: keyof mailTypeCase;
+  mailType: mailTypeCase;
   jobpostTitle: string;
 }) => {
   const companyName = getCookie('companyName') || '메디매치';
