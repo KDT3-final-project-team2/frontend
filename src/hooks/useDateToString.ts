@@ -1,4 +1,4 @@
-export const useDateToString = (date: string) => {
+export const useDateToString = (date: string | Date) => {
   const dateObj = new Date(date);
 
   const year = dateObj.getFullYear();

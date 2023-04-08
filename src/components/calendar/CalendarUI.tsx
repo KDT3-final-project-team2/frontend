@@ -1,15 +1,20 @@
 import { days } from '@/constants/dayOfWeek';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { StyledCalendar, DayBox, DayGrayBox, DayWrapper, InputWrapper, AddSchedule } from './CalendarUI.styles';
 import 'react-calendar/dist/Calendar.css';
 import ScheduleElement from './ScheduleElement';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ScheduleSchema } from '@/utils/validationSchema';
+import { postSchedule } from '@/api/commonApi';
+import { useDateToString } from '@/hooks/useDateToString';
 
-const CalendarUI = () => {
+// type 나중에
+const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any) => {
   const [addSchedule, setAddSchedule] = useState(false);
   const [value, setValue] = useState(new Date());
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const contentInputRef = useRef<HTMLInputElement>(null);
 
   const { register, handleSubmit, formState } = useForm<IScheduleData>({
     resolver: yupResolver(ScheduleSchema),
@@ -19,6 +24,8 @@ const CalendarUI = () => {
   const onChangeDate = (value: Date) => {
     setValue(value);
   };
+
+  const filterSchedule = schedule?.filter((selectDate: any) => selectDate.title === useDateToString(value));
 
   const tileClassName = ({ date }: { date: Date }) => {
     const year = date.getFullYear();
@@ -75,7 +82,14 @@ const CalendarUI = () => {
 
   const onSubmitSchedule = (data: IScheduleData) => {
     console.log(data);
+    schedulePostMutate({ title: useDateToString(value) });
     setAddSchedule(false);
+    if (nameInputRef.current) {
+      nameInputRef.current.value = '';
+    }
+    if (contentInputRef.current) {
+      contentInputRef.current.value = '';
+    }
   };
 
   return (
@@ -106,14 +120,15 @@ const CalendarUI = () => {
         ))}
       </DayWrapper>
       <InputWrapper>
-        {[1, 2, 3].map((data, index) => (
-          <ScheduleElement key={index} index={index} />
+        {filterSchedule?.map((data, index) => (
+          <ScheduleElement key={index} index={index} schedule={data} scheduleDeleteMutate={scheduleDeleteMutate} />
         ))}
         {addSchedule && (
           <form onSubmit={handleSubmit(onSubmitSchedule)}>
             <AddSchedule>
-              <span>이름</span> <input type='text' className='nameInput' {...register('name')} />
-              <span>내용</span> <input type='text' className='contentInput' {...register('content')} />
+              <span>제목</span> <input type='text' className='nameInput' {...register('name')} ref={nameInputRef} />
+              <span>내용</span>{' '}
+              <input type='text' className='contentInput' {...register('content')} ref={contentInputRef} />
               <button style={{ backgroundColor: formState.isValid ? 'var(--color-primary-100)' : '' }}>저장</button>
             </AddSchedule>
           </form>
