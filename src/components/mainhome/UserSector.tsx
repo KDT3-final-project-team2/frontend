@@ -26,17 +26,19 @@ const UserSector = () => {
     <Column>
       <h5>지원자 직무</h5>
       <div className='container'>
-        <DonutChart
-          className='chart'
-          data={data}
-          width={300}
-          height={400}
-          innerRadius={0.4}
-          strokeColor={'none'}
-          selectedOffset={0}
-          interactive={false}
-          colors={colors}
-        />
+        <div className='chart-container'>
+          <DonutChart
+            className='chart'
+            data={data}
+            width={250}
+            height={300}
+            innerRadius={0.4}
+            strokeColor={'none'}
+            selectedOffset={0}
+            interactive={false}
+            colors={colors}
+          />
+        </div>
 
         <div className='tags'>
           <div className='tag'>
@@ -68,12 +70,12 @@ const UserSector = () => {
 export default UserSector;
 
 const Column = styled.div`
-  width: 836px;
+  width: 35%;
   height: 309px;
   box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
   border-radius: 20px;
   padding: 20px 30px;
-  position: relative;
+  /* position: relative; */
   h5 {
     color: #374151;
     font-weight: 700;
@@ -81,13 +83,21 @@ const Column = styled.div`
     line-height: 32px;
     margin-bottom: 20px;
   }
+  .chart-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+  }
   .container {
+    width: 100%;
     padding-left: 10px;
     display: flex;
     position: relative;
-    height: 100px;
+    height: 100%;
   }
-
+  .chart {
+    margin-top: 5%;
+  }
   .chart-innertext {
     display: none;
   }
@@ -96,12 +106,14 @@ const Column = styled.div`
   }
   .tags {
     position: absolute;
+    height: 100%;
+    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
     justify-content: space-between;
-    top: 35%;
-    right: 70px;
+    top: 15%;
+    right: 30px;
     height: 100px;
     width: 100px;
     .tag {
@@ -112,14 +124,18 @@ const Column = styled.div`
       font-size: 15px;
 
       .color {
-        width: 14px;
-        height: 14px;
+        width: 15px;
+        height: 15px;
         background-color: #ffc847;
         border-radius: 100%;
       }
+
       div {
         position: absolute;
-        left: 100px;
+        right: -10%;
+        @media (max-width: 1600px) {
+          display: none;
+        }
       }
     }
   }

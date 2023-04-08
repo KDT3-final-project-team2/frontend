@@ -57,6 +57,7 @@ const Container = styled.div`
     margin-bottom: 40px;
   }
   .body {
+    width: 100%;
     padding: 40px;
     h3 {
       font-weight: 700;
@@ -67,17 +68,19 @@ const Container = styled.div`
     }
     .first-row {
       display: flex;
+      width: 100%;
       gap: 33px;
       margin-bottom: 60px;
     }
     .second-row {
+      width: 100%;
       display: flex;
       gap: 24px;
     }
     .boxs {
       display: flex;
       width: 100%;
-      gap: 30px;
+      gap: 16px;
       justify-content: center;
     }
   }
