@@ -13,8 +13,6 @@ import { useDateToString } from '@/hooks/useDateToString';
 const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any) => {
   const [addSchedule, setAddSchedule] = useState(false);
   const [value, setValue] = useState(new Date());
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const contentInputRef = useRef<HTMLInputElement>(null);
 
   const { register, handleSubmit, formState } = useForm<IScheduleData>({
     resolver: yupResolver(ScheduleSchema),
@@ -27,17 +25,38 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
 
   const filterSchedule = schedule?.filter((selectDate: any) => selectDate.title === useDateToString(value));
 
+  const scheduleArr: number[][] = [];
+
+  if (schedule) {
+    for (const data of schedule) {
+      const arr = [];
+      const selectyear = parseInt(data.title.substring(0, 4));
+      arr.push(selectyear);
+      const selectmonth = parseInt(data.title.substring(6, 7));
+      arr.push(selectmonth);
+      const selectday = parseInt(data.title.substring(9, 11));
+      arr.push(selectday);
+      scheduleArr.push(arr);
+    }
+  }
+
+  console.log(scheduleArr);
+
   const tileClassName = ({ date }: { date: Date }) => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    if (
-      (year === 2023 && month === 4 && day === 1) ||
-      (year === 2023 && month === 4 && day === 11) ||
-      (year === 2023 && month === 4 && day === 17) ||
-      (year === 2023 && month === 4 && day === 12)
-    ) {
+    let isHighlighted = false;
+
+    for (const scheduleDate of scheduleArr) {
+      if (year === scheduleDate[0] && month === scheduleDate[1] && day === scheduleDate[2]) {
+        isHighlighted = true;
+        break;
+      }
+    }
+
+    if (isHighlighted) {
       return 'highlighted';
     }
 
@@ -46,19 +65,6 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
     }
 
     return null;
-
-    // const highlightDates = res
-    //   .filter(
-    //     data =>
-    //       year === data.calendarDateTime.getFullYear() &&
-    //       month === data.calendarDateTime.getMonth() + 1 &&
-    //       day === data.calendarDateTime.getDate(),
-    //   )
-    //   .map(_ => 'highlighted');
-
-    // const selectedDate = date.getTime() === value.getTime() ? 'selected' : '';
-
-    // return [highlightDates.join(' '), selectedDate].join(' ');
   };
 
   const formatDay = (locale: any, date: Date) =>
@@ -84,12 +90,6 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
     console.log(data);
     schedulePostMutate({ title: useDateToString(value) });
     setAddSchedule(false);
-    if (nameInputRef.current) {
-      nameInputRef.current.value = '';
-    }
-    if (contentInputRef.current) {
-      contentInputRef.current.value = '';
-    }
   };
 
   return (
@@ -126,9 +126,8 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
         {addSchedule && (
           <form onSubmit={handleSubmit(onSubmitSchedule)}>
             <AddSchedule>
-              <span>제목</span> <input type='text' className='nameInput' {...register('name')} ref={nameInputRef} />
-              <span>내용</span>{' '}
-              <input type='text' className='contentInput' {...register('content')} ref={contentInputRef} />
+              <span>제목</span> <input type='text' className='nameInput' {...register('name')} />
+              <span>내용</span> <input type='text' className='contentInput' {...register('content')} />
               <button style={{ backgroundColor: formState.isValid ? 'var(--color-primary-100)' : '' }}>저장</button>
             </AddSchedule>
           </form>
