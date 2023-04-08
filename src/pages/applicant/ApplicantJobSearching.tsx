@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
+import { searchingOptions, sectorOptions } from '@/constants/jobPostingOptions';
 
 const ApplicantJobSearching = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -38,16 +39,30 @@ const ApplicantJobSearching = () => {
             <option value='직무'>직무</option>
             <option value='학력'>학력</option>
             <option value='경력'>경력</option>
-            <option value='공고 제목'>공고 제목</option>
+            <option value='공고제목'>공고제목</option>
             <option value='회사'>회사</option>
           </SelectBox>
-          <form onSubmit={onSubmitSearch}>
-            <SearchInputWrapper>
-              <img src='/icons/search.png' />
-              <SearchInput placeholder='검색어를 입력해주세요.'></SearchInput>
-            </SearchInputWrapper>
-            <button style={{ display: 'none' }}></button>
-          </form>
+          {(selectedOption === '직무' || selectedOption === '학력' || selectedOption === '경력') && (
+            <>
+              <SelectBox>
+                {searchingOptions?.[selectedOption].map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </SelectBox>
+              <SearchBtn>검색</SearchBtn>
+            </>
+          )}
+          {(selectedOption === '공고제목' || selectedOption === '회사') && (
+            <form onSubmit={onSubmitSearch}>
+              <SearchInputWrapper>
+                <img src='/icons/search.png' />
+                <SearchInput placeholder='검색어를 입력해주세요.'></SearchInput>
+              </SearchInputWrapper>
+              <button style={{ display: 'none' }}></button>
+            </form>
+          )}
         </SearchBox>
         <ListHeader>공고 리스트</ListHeader>
       </div>
@@ -83,7 +98,6 @@ const Content = styled.p`
   font-size: 18px;
   color: #ffffff;
   line-height: 22px;
-  width: ;
 `;
 
 const YellowBox = styled.div`
@@ -158,4 +172,12 @@ const ListHeader = styled.p`
   font-size: 18px;
   margin-top: 36px;
   margin-bottom: 20px;
+`;
+
+const SearchBtn = styled.button`
+  background: var(--color-primary-100);
+  border-radius: 20px;
+  color: #ffffff;
+  width: 90px;
+  height: 30px;
 `;
