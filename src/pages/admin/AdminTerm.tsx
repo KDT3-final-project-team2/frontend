@@ -5,17 +5,30 @@ import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
 import { useState } from 'react';
 import { getAdminTermList } from '@/api/adminApi';
 import { useQuery } from '@tanstack/react-query';
+import { getCompanyTermList } from '@/api/companyApi';
+import { useLocation } from 'react-router-dom';
 
 export const AdminTerm = () => {
   const [termModalOpen, setTermModalOpen] = useState(false);
   const [saveBtnText, setSaveBtnText] = useState('저장');
+  const location = useLocation();
 
   const onClickTermPost = () => {
     setTermModalOpen(true);
     setSaveBtnText('저장');
   };
 
-  const { data: adminTerm } = useQuery(['adminTerm'], getAdminTermList);
+  let term;
+
+  if (location.pathname === '/admin/term') {
+    const { data } = useQuery(['adminTerm'], getAdminTermList);
+    term = data;
+  } else {
+    const { data } = useQuery(['companyTerm'], getCompanyTermList);
+    term = data;
+  }
+
+  console.log(term);
 
   return (
     <MainContainer>
@@ -24,9 +37,9 @@ export const AdminTerm = () => {
         <ViewTerms>약관 조회</ViewTerms>
         <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
       </div>
-      {adminTerm?.map((data: adminTermData, index: number) => (
+      {term?.data.map((data: adminTermSingleData, index: number) => (
         <TermList
-          adminTerm={data}
+          term={data}
           key={data?.termId}
           index={index}
           setTermModalOpen={setTermModalOpen}

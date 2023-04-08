@@ -126,3 +126,66 @@ export const companyEmailCheck = async ({ companyEmail }: { companyEmail: string
     }
   }
 };
+
+const accessToken = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuaWtla2VAbmF2ZXIuY29tIiwidXNlckVtYWlsIjoibmlrZWtlQG5hdmVyLmNvbSIsInJvbGUiOiJDT01QQU5ZIiwiaWQiOjQsImlzc3VlciI6ImRuZWZpdCIsImlhdCI6MTY4MDk3NTk4OCwiZXhwIjoxNjgwOTc2Mjg4fQ.CPP7nT2J1ewYBkg6TqSX9E23HT_Ya2aqN3pMoUB6d2A`;
+
+// 약관 관련 api
+export const getCompanyTermList = async () => {
+  try {
+    const res = await instance('/company/term/list', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getCompanyTermSingle = async (termId: number) => {
+  try {
+    const res = await instance(`/company/term/${termId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const postCompanyTerm = async (termData: IAdminTermPostData) => {
+  try {
+    const res = await instance.post('/company/term', termData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateCompanyTerm = async ({ termId, termData }: { termId: number; termData: IAdminTermPostData }) => {
+  try {
+    const res = await instance.put(`/company/term/${termId}`, termData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

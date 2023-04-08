@@ -90,16 +90,6 @@ interface Props {
   fileUrl: string | undefined;
 }
 
-interface adminTermData {
-  termId: number;
-  type: string;
-  version: string;
-  createDate: string;
-  editDate: string;
-  status: string;
-  content: string;
-}
-
 interface IAdminTermPostData {
   type: string;
   version: string;
@@ -151,7 +141,7 @@ interface applicantSignUpData {
   applicantSector: string;
 }
 
-interface adminTermData {
+interface adminTermSingleData {
   termId: number;
   type: string;
   version: string;

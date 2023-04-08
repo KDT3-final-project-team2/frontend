@@ -1,61 +1,64 @@
 import axios from 'axios';
 import { authInstance, instance } from './instance';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+const accessToken = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJ1c2VyRW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQURNSU4iLCJpZCI6MSwiaXNzdWVyIjoiZG5lZml0IiwiaWF0IjoxNjgwOTc1OTAzLCJleHAiOjE2ODA5NzYyMDN9.x0wA8Cqi8epzyJDlQ0NNjzAbrumRQyh7T8Zp8PL0Gvc`;
 
 export const getAdminTermList = async () => {
   try {
-    const res = await fetch('/data/term.json');
-    const data = await res.json();
-    return data;
+    const res = await instance('/admin/term/list', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-// type 변경해주기
-export const usePostAdminTerm = () => {
-  const queryClient = useQueryClient();
-  const postAdminTerm = async (termData: any) => {
-    try {
-      const res = await instance.post('/admin/term', { termData });
-      console.log('res', res.data);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
-
-  const { mutate } = useMutation(postAdminTerm, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminTerm']);
-    },
-  });
-
-  return mutate;
+export const getAdminTermSingle = async (termId: number) => {
+  try {
+    const res = await instance(`/admin/term/${termId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
-export const useUpdateAdminTerm = () => {
-  const queryClient = useQueryClient();
-  const updateAdminTerm = async ({ termId, data }: { termId: number; data: IAdminTermPostData }) => {
-    try {
-      const res = await instance.put(`/admin/term/${termId}`, { data });
-      console.log('res', res.data);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
+export const postAdminTerm = async (termData: IAdminTermPostData) => {
+  try {
+    const res = await instance.post('/admin/term', termData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
-  const { mutate } = useMutation(updateAdminTerm, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminTerm']);
-    },
-  });
-
-  return mutate;
+export const updateAdminTerm = async ({ termId, termData }: { termId: number; termData: IAdminTermPostData }) => {
+  try {
+    const res = await instance.put(`/admin/term/${termId}`, termData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 // 병원회원 목록 조회하기
