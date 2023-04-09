@@ -18,7 +18,7 @@ const ApplicantJobSearching = () => {
     setSelectedOption(event.target.value);
   };
 
-  const onChangeSearchData = (event: ChangeEvent<HTMLSelectElement>) => {
+  const onChangeSearchData = (event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
     setSearchingData(event.target.value);
   };
 
@@ -29,6 +29,7 @@ const ApplicantJobSearching = () => {
       enabled: !!selectedOption && !!searchingData,
     },
   );
+
   console.log('searchData', searchData);
 
   const onSubmitSearch = (event: FormEvent<HTMLFormElement>) => {
@@ -77,14 +78,13 @@ const ApplicantJobSearching = () => {
                   </option>
                 ))}
               </SelectBox>
-              <SearchBtn>검색</SearchBtn>
             </Form>
           )}
           {(selectedOption === '공고제목' || selectedOption === '회사') && (
             <form onSubmit={onSubmitSearch}>
               <SearchInputWrapper>
                 <img src='/icons/search.png' />
-                <SearchInput placeholder='검색어를 입력해주세요.'></SearchInput>
+                <SearchInput placeholder='검색어를 입력해주세요.' onChange={onChangeSearchData}></SearchInput>
               </SearchInputWrapper>
               <button style={{ display: 'none' }}></button>
             </form>
@@ -92,14 +92,25 @@ const ApplicantJobSearching = () => {
         </SearchBox>
         <ListHeader>공고 리스트</ListHeader>
       </div>
-      {[1, 2, 3].map((data, index) => (
-        <JobSearchingList key={index} index={index} />
+      {searchData?.content?.map((data: JobPostsSearchData, index: number) => (
+        <JobSearchingList key={data.jobpostId} index={index} searchData={data} />
       ))}
+      {(searchData?.content?.length === 0 || !searchData || searchData?.errorMessage) && (
+        <Nothing>리스트가 없습니다.</Nothing>
+      )}
     </MainContainer>
   );
 };
 
 export default ApplicantJobSearching;
+
+const Nothing = styled.p`
+  margin: auto;
+  width: fit-content;
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: bold;
+`;
 
 const Form = styled.form`
   display: flex;

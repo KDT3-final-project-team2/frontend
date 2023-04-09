@@ -236,3 +236,16 @@ interface GetCalendarData {
   calendarContent: string;
   calendarDate: string;
 }
+
+interface JobPostsSearchData {
+  jobpostId: number;
+  jobpostTitle: string;
+  jobpostSector: string;
+  jobpostEducation: string;
+  jobpostWorkExperience: string;
+  jobpostRecruitNum: number;
+  jobpostDueDate: string;
+  jobpostStatus: string;
+  jobpostFilePath: string;
+  companyName: string;
+}

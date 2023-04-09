@@ -3,7 +3,7 @@ import { Close, ModalBackground, ModalContainer, ModalContentsBox, Qualification
 import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
 import { useQuery } from '@tanstack/react-query';
 import { getCompanyJobpostSingle } from '@/api/companyApi';
-import { useDateToString } from '@/hooks/useDateToString';
+import { dateToString } from '@/utils/dateToSTring';
 
 const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
   const onClickClose = () => {
@@ -38,7 +38,7 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
             </QualificationsBox>
             <QualificationsBox>
               <PostingContents title='모집인원' contents={jobPostSingle?.data.maxApplicants} />
-              <PostingContents title='마감일' contents={useDateToString(jobPostSingle?.data.dueDate)} />
+              <PostingContents title='마감일' contents={dateToString(jobPostSingle?.data.dueDate)} />
             </QualificationsBox>
             <QualificationsBox>
               <ContentsBox>
