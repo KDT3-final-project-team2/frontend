@@ -2,11 +2,11 @@ import axios from 'axios';
 import AlertModal from '@/components/common/AlertModal';
 import { instance, authInstance } from './instance';
 
+// 회원가입전 약관 보여주기
 export const getTerms = async () => {
   try {
     const res = await instance.get(`/terms/1`);
-    console.log(res);
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }

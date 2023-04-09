@@ -1,18 +1,18 @@
 export const termsOptions = [
   {
     value: 'SERVICE',
-    label: '서비스 이용약관',
+    label: '서비스이용약관',
   },
   {
     value: 'PRIVACY',
-    label: '개인정보 정리방침',
+    label: '개인정보처리방침',
   },
   {
     value: 'THIRD_PARTY',
-    label: '제 3자 정보제공',
+    label: '제3자정보제공',
   },
   {
     value: 'MARKETING',
-    label: '개인정보 마케팅 이용',
+    label: '개인정보마케팅이용',
   },
 ];

@@ -126,3 +126,54 @@ export const companyEmailCheck = async ({ companyEmail }: { companyEmail: string
     }
   }
 };
+
+// 유저 정보
+export const companyInfo = async () => {
+  const res = await authInstance.get('/company/me');
+  return res.data.data;
+};
+
+// 약관 관련 api
+export const getCompanyTermList = async () => {
+  try {
+    const res = await authInstance('/company/term/list');
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getCompanyTermSingle = async (termId: number) => {
+  try {
+    const res = await authInstance(`/company/term/${termId}`);
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const postCompanyTerm = async (termData: IAdminTermPostData) => {
+  try {
+    const res = await authInstance.post('/company/term', termData);
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateCompanyTerm = async ({ termId, termData }: { termId: number; termData: IAdminTermPostData }) => {
+  try {
+    const res = await authInstance.put(`/company/term/${termId}`, termData);
+    console.log('res', res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

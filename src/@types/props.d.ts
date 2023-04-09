@@ -1,3 +1,6 @@
+import { stepType } from '@/constants/steps';
+import { ReactHTMLElement } from 'react';
+
 export interface ISearchAddressProps {
   onClose: () => void;
   setValue: UseFormSetValue<TFieldValues>;
@@ -53,6 +56,7 @@ export interface ICheckBoxProps {
   checkedItems: string[];
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   index: number;
+  text: ReactHTMLElement;
 }
 
 export interface IinputBoxProps {
@@ -99,13 +103,13 @@ export interface ITermPostEditModalProps {
   setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setEditModalOpen?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
   saveBtnText: string;
-  defaultData?: adminTermData;
+  defaultData?: adminTermSingleData;
   editModalOpen?: boolean;
 }
 
 export interface ITermListProps {
   index: number;
-  adminTerm: adminTermData;
+  term: adminTermSingleData;
   setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
   setTermModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   saveBtnText: string;
@@ -151,4 +155,11 @@ export interface IJobPostingListProps {
   setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
   saveBtnText: string;
   JobDeleteMutate: UseMutateFunction<any, unknown, number, unknown>;
+}
+
+export interface IApplicantStepBoxProps {
+  stepName: stepType;
+  step: stepType;
+  setStep: React.Dispatch<React.SetStateAction<stepType>>;
+  num: number;
 }
