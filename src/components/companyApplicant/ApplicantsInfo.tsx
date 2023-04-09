@@ -86,6 +86,15 @@ export const Inner = styled.div`
   padding: 20px 0 50px;
 `;
 
-export const NoList = styled.div``;
+export const NoList = styled.div`
+  background: var(--color-gray-100);
+  height: 200px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  padding: 3px 0 0;
+`;
 
 export default ApplicantsInfo;
