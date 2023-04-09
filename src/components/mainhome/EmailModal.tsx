@@ -12,14 +12,14 @@ const EmailModal = ({
   email,
   applicantName,
   mailType,
-  jobpostTitle,
+  jobpostTitle = '',
   applicationId,
 }: {
   setEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
   email: string;
   applicantName: string;
   mailType: mailTypeCase;
-  jobpostTitle: string;
+  jobpostTitle?: string;
   applicationId: number;
 }) => {
   const QuillRef = useRef<ReactQuill>();
