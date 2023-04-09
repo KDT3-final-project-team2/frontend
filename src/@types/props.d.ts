@@ -1,4 +1,4 @@
-import { stepType } from '@/constants/steps';
+import { employStepType, stepType } from '@/constants/steps';
 import { ReactHTMLElement } from 'react';
 
 export interface ISearchAddressProps {
@@ -76,12 +76,12 @@ export interface IModalProps {
   saveBtnText: string;
 }
 
-export interface IStepBoxProps {
-  stepName: string;
-  step: string;
-  setStep: React.Dispatch<React.SetStateAction<string>>;
-  num: number;
-}
+// export interface IStepBoxProps {
+//   stepName: stepType | employStepType;
+//   step: stepType | employStepType;
+//   setStep: React.Dispatch<React.SetStateAction<stepType | employStepType>>;
+//   num: number;
+// }
 
 export interface IPostingContensProps {
   title: string;
@@ -158,8 +158,15 @@ export interface IJobPostingListProps {
 }
 
 export interface IApplicantStepBoxProps {
-  stepName: stepType;
-  step: stepType;
-  setStep: React.Dispatch<React.SetStateAction<stepType>>;
+  stepName: string;
+  step: applicantStepType;
+  setStep: React.Dispatch<React.SetStateAction<applicantStepType>>;
+  num: number;
+}
+
+export interface ICompanyStepBoxProps {
+  stepName: employStepType;
+  step: employStepType;
+  setStep: React.Dispatch<React.SetStateAction<employStepType>>;
   num: number;
 }

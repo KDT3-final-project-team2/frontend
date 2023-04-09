@@ -223,3 +223,33 @@ interface MyApplicationData {
   applicationApplyDate: string;
   applicationFilepath: string;
 }
+
+interface ApplicationData {
+  applicantId: number;
+  name: string;
+  email: string;
+  birth: string;
+  gender: string;
+  contact: string;
+  filePath: string;
+  education: string;
+  workExperience: string;
+  sector: string;
+  jobpostId: number;
+  jobpostStatus: string;
+  jobpostTitle: string;
+  jobpostDueDate: string;
+  memo: any;
+  applicationStatus: string;
+  applyDate: string;
+  interviewDate: any;
+  applicationId: number;
+}
+
+interface ApplicationEditData {
+  applicationId: number;
+  status?: string | null;
+  interviewDate?: string | null;
+  passDate?: string | null;
+  memo?: string | null;
+}

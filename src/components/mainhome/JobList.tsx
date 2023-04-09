@@ -5,6 +5,7 @@ import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/re
 import Avvvatars from 'avvvatars-react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import ConfirmModal from '../common/ConfirmModal';
 
 const JobList = ({ index, application }: { index: number; application: MyApplicationData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
@@ -24,7 +25,7 @@ const JobList = ({ index, application }: { index: number; application: MyApplica
     staleTime: 1000 * 60 * 60 * 8,
   });
   const queryClient = useQueryClient();
-  const cancelApplicationMutation = useMutation(() => cancelApplication(jobpostId), {
+  const { mutate: deleteApplication } = useMutation(cancelApplication, {
     onSuccess: () => queryClient.invalidateQueries(['myApplications']),
   });
 
@@ -62,7 +63,16 @@ const JobList = ({ index, application }: { index: number; application: MyApplica
                 <p>제출 이력서</p>
                 <div>{applicationFilepath}</div>
                 <div className='buttons'>
-                  <button onClick={() => cancelApplicationMutation.mutate()}>지원취소</button>
+                  <button
+                    onClick={() => {
+                      ConfirmModal({
+                        message: '지원취소 후 재지원이 불가할 수 있습니다. 취소하시겠습니까?',
+                        action: () => deleteApplication(jobpostId),
+                      });
+                    }}
+                  >
+                    지원취소
+                  </button>
                 </div>
               </div>
             </div>

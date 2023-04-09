@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import WebEditor from '@components/common/WebEditor';
 import ReactQuill from 'react-quill';
 import { getMailSample } from '@/constants/mailSample';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { EditApplication, SendEmailApi } from '@/api/companyApi';
+import AlertModal from '../common/AlertModal';
 
 const EmailModal = ({
   setEmailModal,
@@ -10,26 +13,68 @@ const EmailModal = ({
   applicantName,
   mailType,
   jobpostTitle,
+  applicationId,
 }: {
   setEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
   email: string;
   applicantName: string;
   mailType: mailTypeCase;
-  jobpostTitle?: string;
+  jobpostTitle: string;
+  applicationId: number;
 }) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState(getMailSample({ applicantName, mailType, jobpostTitle: '' }));
+  const [content, setContent] = useState(getMailSample({ applicantName, mailType, jobpostTitle }));
   const [receiver, setReceiver] = useState('');
   const [title, setTitle] = useState('');
+  const [interviewDate, setInterviewDate] = useState('');
 
-  const sendEmail = () => {
-    console.log(contents, email);
+  const queryClient = useQueryClient();
+  const { mutate: PostApplication } = useMutation(EditApplication, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['applications']);
+    },
+  });
+  // console.log(email, title, content);
+  const sendEmail = async () => {
+    switch (mailType) {
+      case '서류합격':
+        if (!interviewDate) {
+          AlertModal({ message: '면접일시를 선택해주세요.' });
+          return;
+        }
+        const res1 = await SendEmailApi({ email, title, content });
+        if (res1) {
+          PostApplication({ applicationId, interviewDate, status: 'INTERVIEW' });
+          setEmailModal(false);
+        }
+        break;
+      case '면접합격':
+        const res2 = await SendEmailApi({ email, title, content });
+        if (res2) {
+          PostApplication({ applicationId, passDate: new Date().toISOString(), status: 'PASS' });
+          setEmailModal(false);
+        }
+        break;
+      case '서류불합격' || '면접불합격':
+        const res3 = await SendEmailApi({ email, title, content });
+        if (res3) {
+          PostApplication({ applicationId, status: 'FAIL' });
+          setEmailModal(false);
+        }
+        break;
+      case '기본':
+        const res4 = await SendEmailApi({ email, title, content });
+        if (res4) {
+          setEmailModal(false);
+        }
+        break;
+    }
   };
 
   useEffect(() => {
     setReceiver(`${applicantName}, ${email}`);
     if (jobpostTitle) {
-      setTitle(`${jobpostTitle}관련 안내`);
+      setTitle(`${jobpostTitle} 관련 안내`);
     } else {
       setTitle('');
     }
@@ -58,7 +103,18 @@ const EmailModal = ({
               <label htmlFor='title'>제목</label>
               <input type='text' id='title' value={title} onChange={event => setTitle(event.target.value)} />
             </div>
-            <WebEditor QuillRef={QuillRef} contents={contents} setContents={setContents}></WebEditor>
+            {mailType === '서류합격' ? (
+              <div className='space-between flex-start'>
+                <label htmlFor='interviewDate'>면접일시</label>
+                <input
+                  type='datetime-local'
+                  id='interviewDate'
+                  value={interviewDate}
+                  onChange={event => setInterviewDate(event.target.value)}
+                />
+              </div>
+            ) : null}
+            <WebEditor QuillRef={QuillRef} content={content} setContent={setContent}></WebEditor>
           </form>
         </div>
         <div id='buttons'>
@@ -119,6 +175,13 @@ export const ModalBackground = styled.section`
           display: flex;
           justify-content: space-between;
           align-items: center;
+          &.flex-start {
+            justify-content: flex-start;
+            input {
+              width: 30%;
+              padding-right: 10px;
+            }
+          }
           label {
             width: 90px;
             font-size: 16px;

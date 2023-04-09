@@ -1,8 +1,8 @@
 import { getMyApplications } from '@/api/applicantApi';
 import AlertModal from '@/components/common/AlertModal';
+import ApplicantStepBox from '@/components/mainhome/ApplicantStepBox';
 import JobList from '@/components/mainhome/JobList';
-import StepBox from '@/components/mainhome/StepBox';
-import { applySteps, stepType } from '@/constants/steps';
+import { ApplicantSteps, applicantStepType } from '@/constants/steps';
 import { useAppSelector } from '@/hooks/useDispatchHooks';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 const ApplicantMain = () => {
   const applicantName = useAppSelector(state => state.applicantUser.applicantName);
-  const [step, setStep] = useState<stepType>('서류지원');
+  const [step, setStep] = useState<applicantStepType>('서류지원');
   const { data: allApplications, isLoading } = useQuery(['myApplications'], getMyApplications, {
     staleTime: 1000 * 60 * 60 * 5,
   });
@@ -41,8 +41,8 @@ const ApplicantMain = () => {
     <Container>
       <h1 id='h1'>지원 현황</h1>
       <div className='grid'>
-        {applySteps.map((stepName, index) => (
-          <StepBox key={index} stepName={stepName} step={step} setStep={setStep} num={tabs[stepName].num} />
+        {ApplicantSteps.map((stepName, index) => (
+          <ApplicantStepBox key={index} stepName={stepName} step={step} setStep={setStep} num={tabs[stepName].num} />
         ))}
       </div>
       {step === '서류통과' ? (
