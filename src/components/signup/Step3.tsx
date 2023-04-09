@@ -14,7 +14,7 @@ const Step3 = ({ member, step }: IStep3Props) => {
           <img src='/images/welcome.png' alt='welcome' width={500} />
         </div>
         {/* <div style={{ fontSize: '30px' }}>가입성공!</div> */}
-        <Link to='/login'>
+        <Link to='/login' state={{ userType: member === '개인' ? '지원자' : '병원' }}>
           <LoginPageBtn>{member} 회원 로그인 </LoginPageBtn>
         </Link>
       </MainContainer>
