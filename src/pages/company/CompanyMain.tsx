@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import ApplicantList from '@components/mainhome/ApplicantList';
@@ -10,14 +10,8 @@ import Loading from '@components/common/Loading';
 
 const CompanyMain = () => {
   const [step, setStep] = useState('서류지원');
-  const status = employStepsToEng[step];
 
-  // const { data, isLoading } = useQuery(['applications', step], () => getApplications({ status }));
-  // const { data, isLoading } = useQuery(['applications', step], getApplications);
-
-  // console.log(data);
-  // console.log(employStepsToEng[step]);
-  // console.log(data[employStepsToEng[step]]);
+  const { data: applications, isLoading } = useQuery(['applications'], getApplications);
 
   return (
     <Container>

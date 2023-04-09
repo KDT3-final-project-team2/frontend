@@ -1,7 +1,7 @@
 import { cancelApplication } from '@/api/applicantApi';
 import { getJobpostDetail } from '@/api/applicantApi';
 import { getDday } from '@/utils/getDday';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Avvvatars from 'avvvatars-react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -23,7 +23,11 @@ const JobList = ({ index, application }: { index: number; application: MyApplica
   const { data } = useQuery(['applicationDetail', jobpostId], () => getJobpostDetail(jobpostId), {
     staleTime: 1000 * 60 * 60 * 8,
   });
-  console.log(application);
+  const queryClient = useQueryClient();
+  const cancelApplicationMutation = useMutation(() => cancelApplication(jobpostId), {
+    onSuccess: () => queryClient.invalidateQueries(['myApplications']),
+  });
+
   return (
     <ListComponent>
       <Head onClick={() => setOpen(!open)} open={open}>
@@ -58,7 +62,7 @@ const JobList = ({ index, application }: { index: number; application: MyApplica
                 <p>제출 이력서</p>
                 <div>{applicationFilepath}</div>
                 <div className='buttons'>
-                  <button onClick={() => cancelApplication(jobpostId)}>지원취소</button>
+                  <button onClick={() => cancelApplicationMutation.mutate()}>지원취소</button>
                 </div>
               </div>
             </div>

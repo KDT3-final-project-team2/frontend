@@ -69,6 +69,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     const formData = new FormData();
     formData.append('requestDTO', JSON.stringify(postData));
     formData.append('jobpostFile', data.file);
+    console.log('dd');
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }

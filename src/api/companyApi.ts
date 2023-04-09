@@ -2,13 +2,10 @@ import axios, { AxiosError } from 'axios';
 import { instance, authInstance } from './instance';
 import AlertModal from '@/components/common/AlertModal';
 
-export const getApplications = async ({ status }: { status: string }) => {
+export const getApplications = async () => {
   try {
-    const res = await authInstance.get(`/company/applications`, {
-      data: {
-        status,
-      },
-    });
+    console.log(status);
+    const res = await authInstance.get(`/company/applications`);
     return res.data;
   } catch (error) {
     console.log(error);
