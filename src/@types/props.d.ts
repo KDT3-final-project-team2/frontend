@@ -1,4 +1,5 @@
 import { stepType } from '@/constants/steps';
+import { ReactHTMLElement } from 'react';
 
 export interface ISearchAddressProps {
   onClose: () => void;
@@ -55,6 +56,7 @@ export interface ICheckBoxProps {
   checkedItems: string[];
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   index: number;
+  text: ReactHTMLElement;
 }
 
 export interface IinputBoxProps {

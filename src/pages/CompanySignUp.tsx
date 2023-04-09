@@ -59,6 +59,7 @@ const CompanySignUp = () => {
   };
 
   const onClickNext = () => {
+    console.log(checkedItems);
     if (step === 1 && checkedItems.length !== 4) {
       AlertModal({
         message: '약관에 동의해 주세요.',

@@ -32,9 +32,9 @@ const ApplicantMain = () => {
 
   const tabs = {
     서류지원: { index: 1, content: apply, num: apply?.length },
-    서류통과: { index: 1, content: resumePass, num: resumePass?.length },
-    최종합격: { index: 1, content: interviewPass, num: interviewPass?.length },
-    전체: { index: 1, content: allApplications, num: allApplications?.length },
+    서류통과: { index: 2, content: resumePass, num: resumePass?.length },
+    최종합격: { index: 3, content: interviewPass, num: interviewPass?.length },
+    전체: { index: 4, content: allApplications || [], num: allApplications?.length || 0 },
   };
 
   return (
