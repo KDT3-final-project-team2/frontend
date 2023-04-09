@@ -9,6 +9,7 @@ import { InputBox } from './InputBox';
 import { SelectBox } from './SelectBox';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCompanyJobpostSingle, postJobPosts, putJobPosts } from '@/api/companyApi';
+import { optionChangeToEnglish } from '@/utils/optionChangeToEnglish';
 
 const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }: IModalProps) => {
   const [selectedFile, setSelectedFile] = useState<File>();
@@ -26,6 +27,8 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     },
   });
 
+  console.log(jobPosts);
+
   const { data: jobPostSingle } = useQuery(
     ['jobPostSingle', jobPosts?.postId],
     () => {
@@ -38,30 +41,32 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     },
   );
 
+  console.log(jobPostSingle);
+
   const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
     resolver: yupResolver(jobPostSchema),
     mode: 'onChange',
     defaultValues: {
-      title: jobPostSingle?.title,
-      sector: jobPostSingle?.sector,
-      workExperience: jobPostSingle?.workExperience,
-      education: jobPostSingle?.education,
-      recruitNum: jobPostSingle?.maxApplicants,
-      dueDate: jobPostSingle?.dueDate,
-      file: jobPostSingle?.file,
-      startDate: jobPostSingle?.startDate,
+      title: jobPostSingle?.data.title,
+      sector: optionChangeToEnglish(jobPostSingle?.data.sector),
+      workExperience: optionChangeToEnglish(jobPostSingle?.data.workExperience),
+      education: optionChangeToEnglish(jobPostSingle?.data.education),
+      recruitNum: jobPostSingle?.data.maxApplicants,
+      dueDate: jobPostSingle?.data.dueDate,
+      file: jobPostSingle?.data.file,
+      startDate: jobPostSingle?.data.startDate,
     },
   });
 
   useEffect(() => {
-    setValue('title', jobPostSingle?.title);
-    setValue('sector', jobPostSingle?.sector);
-    setValue('workExperience', jobPostSingle?.workExperience);
-    setValue('education', jobPostSingle?.education);
-    setValue('recruitNum', jobPostSingle?.maxApplicants);
-    setValue('dueDate', jobPostSingle?.dueDate);
-    setValue('file', jobPostSingle?.file);
-    setValue('startDate', jobPostSingle?.startDate);
+    setValue('title', jobPostSingle?.data.title);
+    setValue('sector', optionChangeToEnglish(jobPostSingle?.data.sector));
+    setValue('workExperience', optionChangeToEnglish(jobPostSingle?.data.workExperience));
+    setValue('education', optionChangeToEnglish(jobPostSingle?.data.education));
+    setValue('recruitNum', jobPostSingle?.data.maxApplicants);
+    setValue('dueDate', jobPostSingle?.data.dueDate);
+    setValue('file', jobPostSingle?.data.file);
+    setValue('startDate', jobPostSingle?.data.startDate);
   }, [jobPostSingle, setValue]);
 
   const onSubmitPosting = (data: IPostingInput) => {
@@ -83,6 +88,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
         jobpostId: jobPosts.postId,
         jobPutData: formData,
       });
+      if (setIsEditModal) setIsEditModal(false);
     }
   };
 
@@ -118,7 +124,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
               register={register}
               placeholder='2023년도 정규직 간호사 채용 공고'
               formState={formState}
-              defaultValue={jobPostSingle?.title}
+              defaultValue={jobPostSingle?.data.title}
             >
               <PostingButton>{saveBtnText}</PostingButton>
             </InputBox>
@@ -130,7 +136,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 setValue={setValue}
                 trigger={trigger}
                 property='sector'
-                defaultValue={jobPostSingle?.sector}
+                defaultValue={jobPostSingle?.data.sector}
               />
               <SelectBox
                 label='경력'
@@ -138,7 +144,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 setValue={setValue}
                 trigger={trigger}
                 property='workExperience'
-                defaultValue={jobPostSingle?.workExperience}
+                defaultValue={jobPostSingle?.data.workExperience}
               />
               <SelectBox
                 label='학력'
@@ -146,7 +152,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 setValue={setValue}
                 trigger={trigger}
                 property='education'
-                defaultValue={jobPostSingle?.education}
+                defaultValue={jobPostSingle?.data.education}
               />
             </QualificationsBox>
             <InputBox
@@ -155,7 +161,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
               register={register}
               placeholder='4'
               formState={formState}
-              defaultValue={jobPostSingle?.maxApplicants}
+              defaultValue={jobPostSingle?.data.maxApplicants}
             />
             <PostingTitleBox>
               <Label htmlFor='startData'>모집시작일</Label>
@@ -163,7 +169,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 id='startDate'
                 type='datetime-local'
                 {...register('startDate')}
-                defaultValue={jobPostSingle?.startDate}
+                defaultValue={jobPostSingle?.data.startDate}
               />
               <ErrorMessage>{formState.errors.startDate?.message}</ErrorMessage>
             </PostingTitleBox>
@@ -173,7 +179,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 id='dueDate'
                 type='datetime-local'
                 {...register('dueDate')}
-                defaultValue={jobPostSingle?.dueDate}
+                defaultValue={jobPostSingle?.data.dueDate}
               />
               <ErrorMessage>{formState.errors.dueDate?.message}</ErrorMessage>
             </PostingTitleBox>
@@ -186,7 +192,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 ref={fileRef}
                 onChange={handleFileSelect}
                 accept='.pdf'
-                // defaultValue={jobPostSingle?.filePath}
+                // defaultValue={jobPostSingle?.data.filePath}
               />
               <FileTitleBox>
                 <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>

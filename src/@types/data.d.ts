@@ -224,6 +224,19 @@ interface MyApplicationData {
   applicationFilepath: string;
 }
 
+interface PostCalendarData {
+  calendarTitle: string;
+  calendarContent: string;
+  calendarDate: string;
+}
+
+interface GetCalendarData {
+  calendarId: number;
+  calendarTitle: string;
+  calendarContent: string;
+  calendarDate: string;
+}
+
 interface ApplicationData {
   applicantId: number;
   name: string;

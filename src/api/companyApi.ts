@@ -42,9 +42,8 @@ export const companySignUp = async ({
 
 export const getCompanyJobposts = async () => {
   try {
-    const res = await fetch('/data/jobPosting.json');
-    const data = await res.json();
-    return data;
+    const res = await authInstance('/company/jobposts');
+    return res.data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -53,9 +52,8 @@ export const getCompanyJobposts = async () => {
 
 export const getCompanyJobpostSingle = async (jobpostId: number) => {
   try {
-    const res = await fetch(`/data/jobPostingSingle.json`);
-    const data = await res.json();
-    return data;
+    const res = await authInstance(`/company/jobposts/${jobpostId}`);
+    return res.data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -64,7 +62,7 @@ export const getCompanyJobpostSingle = async (jobpostId: number) => {
 
 export const postJobPosts = async (jobPostData: FormData) => {
   try {
-    const res = await instance.post('/company/jobposts', jobPostData, {
+    const res = await authInstance.post('/company/jobposts', jobPostData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -79,11 +77,7 @@ export const postJobPosts = async (jobPostData: FormData) => {
 
 export const putJobPosts = async ({ jobPutData, jobpostId }: { jobPutData: FormData; jobpostId: number }) => {
   try {
-    const res = await instance.post(`/company/jobposts/${jobpostId}`, jobPutData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const res = await authInstance.put(`/company/jobposts/${jobpostId}`, jobPutData);
     console.log('res', res.data);
     return res.data;
   } catch (error) {
@@ -94,7 +88,7 @@ export const putJobPosts = async ({ jobPutData, jobpostId }: { jobPutData: FormD
 
 export const deleteJobPost = async (jobpostId: number) => {
   try {
-    const res = await instance.delete(`/company/jobposts/${jobpostId}`);
+    const res = await authInstance.delete(`/company/jobposts/${jobpostId}`);
     console.log('res', res.data);
     return res.data;
   } catch (error) {

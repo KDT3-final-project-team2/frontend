@@ -4,8 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ScheduleSchema } from '@/utils/validationSchema';
 import { IScheduleElementProps } from '@/@types/props';
 import { AddSchedule, InputWrapper } from './CalendarUI.styles';
+import ConfirmModal from '../common/ConfirmModal';
 
-const ScheduleElement = ({ index }: IScheduleElementProps) => {
+const ScheduleElement = ({ schedule, scheduleDeleteMutate, schedulePutMutate }: IScheduleElementProps) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<IScheduleData>({
@@ -19,7 +20,24 @@ const ScheduleElement = ({ index }: IScheduleElementProps) => {
 
   const onSubmitEditSchedule = (data: IScheduleData) => {
     console.log(data);
+    schedulePutMutate({
+      todoId: schedule?.calendarId,
+      schedule: {
+        calendarTitle: data?.name,
+        calendarContent: data?.content,
+        calendarDate: schedule?.calendarDate,
+      },
+    });
     setIsEdit(false);
+  };
+
+  const onClickDeleteSchedule = () => {
+    ConfirmModal({
+      message: '삭제하시겠습니까?',
+      action: () => {
+        scheduleDeleteMutate(schedule.calendarId);
+      },
+    });
   };
 
   return (
@@ -27,18 +45,25 @@ const ScheduleElement = ({ index }: IScheduleElementProps) => {
       {isEdit ? (
         <form onSubmit={handleSubmit(onSubmitEditSchedule)}>
           <AddSchedule>
-            <span>이름</span> <input type='text' className='nameInput' {...register('name')} />
-            <span>내용</span> <input type='text' className='contentInput' {...register('content')} />
+            <span>제목</span>{' '}
+            <input type='text' className='nameInput' {...register('name')} defaultValue={schedule?.calendarTitle} />
+            <span>내용</span>{' '}
+            <input
+              type='text'
+              className='contentInput'
+              {...register('content')}
+              defaultValue={schedule?.calendarContent}
+            />
             <button style={{ backgroundColor: formState.isValid ? 'var(--color-primary-100)' : '' }}>수정</button>
             <img src='/icons/close.png' className='close' onClick={onClickEditIcon} />
           </AddSchedule>
         </form>
       ) : (
-        <div className='schedule' key={index}>
-          <p className='name'>박지원</p>
-          <p className='content'>서류 통과 안내 및 면접 일정 보내기</p>
+        <div className='schedule' key={schedule.calendarId}>
+          <p className='name'>{schedule?.calendarTitle}</p>
+          <p className='content'>{schedule?.calendarContent}</p>
           <img src='/icons/edit.png' onClick={onClickEditIcon}></img>
-          <img src='/icons/trashcan.png'></img>
+          <img src='/icons/trashcan.png' onClick={onClickDeleteSchedule}></img>
         </div>
       )}
     </>
