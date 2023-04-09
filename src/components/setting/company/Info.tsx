@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { companySignUpSchema } from '@/utils/validationSchema';
 import { SubmitButton } from '../applicant/Info';
+import { useAppSelector } from '@/hooks/useDispatchHooks';
 
 const Info = () => {
   const { register, handleSubmit, formState, setValue } = useForm<ICompanySignUpData>({
@@ -41,12 +42,21 @@ const Info = () => {
     setValue('address', fullAddress, { shouldValidate: true });
   };
 
+  // 유저 정보
+  const ceoName = useAppSelector(state => state.companyUser.ceoName);
+
   return (
     <Wrapper>
       <Form onSubmit={() => handleSubmit(onValid)}>
         <div className='inputBox'>
           <label>병원정보</label>
-          <input type='text' id='companyName' placeholder='병원(기업)명' {...register('companyName')} />
+          <input
+            type='text'
+            id='companyName'
+            placeholder='병원(기업)명'
+            defaultValue={ceoName}
+            {...register('companyName')}
+          />
           <Error>{formState.errors.companyName?.message?.toString()}</Error>
           <input
             type='text'

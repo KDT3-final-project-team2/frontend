@@ -13,7 +13,7 @@ export const ViewPDF = ({ fileUrl }: Props) => {
   const Inner = styled.div`
     width: 1200px;
     height: 700px;
-    overflow: hidden;
+    overflow: auto;
     position: relative;
     .react-pdf__Page__textContent {
       display: none !important;

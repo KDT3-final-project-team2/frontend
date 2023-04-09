@@ -63,5 +63,13 @@ export const getApplicantResume = async () => {
 // 유저 정보
 export const applicantInfo = async () => {
   const res = await authInstance.get('/applicant/info');
-  return res.data.data;
+  return res.data;
+};
+
+// 이력서 등록
+export const requestResume = async (formData: FormData) => {
+  console.log(formData);
+  const res = await instance.post('/applicant/resume', formData);
+  console.log(res);
+  return res.data;
 };
