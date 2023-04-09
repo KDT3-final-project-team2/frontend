@@ -7,6 +7,12 @@ import { ReactComponent as Logout } from '/public/icons/logout.svg';
 import { useAppDispatch } from '@/hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '@/store/loadingSlice';
 import { userLogout } from '@/api/commonApi';
+import { useEffect, useCallback } from 'react';
+import { applicantUserInfo, applicantUserInit } from '@/store/applicantUserSlice';
+import { companyUserInfo, companyUserInit } from '@/store/companyUserSlice';
+import { useLocation } from 'react-router-dom';
+import { applicantInfo } from '@/api/applicantApi';
+import { companyInfo } from '@/api/companyApi';
 
 const Header = ({ isAdminPage }: { isAdminPage: boolean }) => {
   const token = getCookie('accessToken');
@@ -16,6 +22,64 @@ const Header = ({ isAdminPage }: { isAdminPage: boolean }) => {
     let { value } = e.target;
     setSearchTitle(value);
   };
+  const location = useLocation();
+  const path = useLocation().pathname;
+  const isCompanyPage = path.includes('company');
+  const isApplicantPage = path.includes('applicant');
+
+  const companyIsLogin = useCallback(async () => {
+    const res = await companyInfo();
+    console.log(res);
+    if (res) {
+      dispatch(
+        companyUserInfo({
+          companyId: res.companyId,
+          email: res.email,
+          companyNm: res.companyNm,
+          contact: res.contact,
+          regNum: res.regNum,
+          companyAddr: res.companyAddr,
+          ceoName: res.ceoName,
+          url: res.url,
+        }),
+      );
+    }
+  }, [location]);
+
+  const applicantIsLogin = useCallback(async () => {
+    const res = await applicantInfo();
+    console.log(res);
+    if (res) {
+      dispatch(
+        applicantUserInfo({
+          applicantId: res.applicantId,
+          applicantEmail: res.applicantEmail,
+          applicantName: res.applicantName,
+          applicantBirthDate: res.applicantBirthDate,
+          applicantGender: res.applicantGender,
+          applicantContact: res.applicantContact,
+          applicantEducation: res.applicantEducation,
+          applicantWorkExperience: res.applicantWorkExperience,
+          applicantSector: res.applicantSector,
+          applicant_file_path: res.applicant_file_path,
+        }),
+      );
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (isCompanyPage && token) {
+      dispatch(applicantUserInit());
+      companyIsLogin();
+    }
+    if (isApplicantPage && token) {
+      dispatch(companyUserInit());
+      applicantIsLogin();
+    }
+  }, [companyIsLogin, applicantIsLogin]);
+
+  // useEffect(() => {
+  // }, []);
 
   const handleLogout = async () => {
     try {
