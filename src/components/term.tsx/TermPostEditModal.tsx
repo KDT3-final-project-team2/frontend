@@ -18,7 +18,11 @@ import { Editor } from '../common/WebEditor';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { termPostSchema } from '@/utils/validationSchema';
 import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
-import { usePostAdminTerm, useUpdateAdminTerm } from '@/api/adminApi';
+import { postAdminTerm, updateAdminTerm } from '@/api/adminApi';
+import { UseMutateFunction, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTermChangeToEnglish } from '@/hooks/useTermChangeToEnglish';
+import { useLocation } from 'react-router-dom';
+import { postCompanyTerm, updateCompanyTerm } from '@/api/companyApi';
 
 const TermPostEditModal = ({
   setTermModalOpen,
@@ -36,8 +40,49 @@ const TermPostEditModal = ({
     },
   });
 
-  const postAdminTerm = usePostAdminTerm();
-  const updateAdminTerm = useUpdateAdminTerm();
+  const queryClient = useQueryClient();
+  const location = useLocation();
+  let termPostMutate: UseMutateFunction<any, unknown, IAdminTermPostData, unknown>;
+  if (location.pathname === '/admin/term') {
+    const { mutate } = useMutation(postAdminTerm, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['adminTerm']);
+      },
+    });
+    termPostMutate = mutate;
+  } else {
+    const { mutate } = useMutation(postCompanyTerm, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['companyTerm']);
+      },
+    });
+    termPostMutate = mutate;
+  }
+
+  let termEditMutate: UseMutateFunction<
+    any,
+    unknown,
+    {
+      termId: number;
+      termData: IAdminTermPostData;
+    },
+    unknown
+  >;
+  if (location.pathname === '/admin/term') {
+    const { mutate } = useMutation(updateAdminTerm, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['adminTerm']);
+      },
+    });
+    termEditMutate = mutate;
+  } else {
+    const { mutate } = useMutation(updateCompanyTerm, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['companyTerm']);
+      },
+    });
+    termEditMutate = mutate;
+  }
 
   const onChangeContents = (value: string) => {
     setValue('contents', value === '<p><br><p>' ? '' : value);
@@ -52,22 +97,19 @@ const TermPostEditModal = ({
   const onClickSubmit = (data: ITermDataProps) => {
     console.log('저장', data);
     if (saveBtnText === '저장') {
-      postAdminTerm({
-        termId: Math.random() * 10, // 삭제
-        type: data.selectedOption,
-        version: data.version,
-        createDate: '2023-12-25', // 삭제
-        editDate: '2023-12-25', // 삭제
-        status: 'USE',
+      termPostMutate({
         content: data.contents,
+        type: useTermChangeToEnglish(data.selectedOption),
+        version: data.version,
+        status: 'USE',
       });
     }
     if (saveBtnText === '수정완료' && defaultData) {
       console.log('수정', data);
-      updateAdminTerm({
+      termEditMutate({
         termId: defaultData.termId,
-        data: {
-          type: data.selectedOption,
+        termData: {
+          type: useTermChangeToEnglish(data.selectedOption),
           version: data.version,
           status: 'USE',
           content: data.contents,
@@ -104,7 +146,7 @@ const TermPostEditModal = ({
             <SelectBox onChange={handleOptionChange} defaultValue={defaultData?.type}>
               <option>선택하세요.</option>
               {termsOptions.map(option => (
-                <option key={option.value} value={option.value}>
+                <option key={option.label} value={option.label}>
                   {option.label}
                 </option>
               ))}

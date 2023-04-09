@@ -54,6 +54,18 @@ export const applicantEmailCheck = async ({ applicantEmail }: { applicantEmail: 
   }
 };
 
+// 이력서 조회
+export const getApplicantResume = async () => {
+  const res = await authInstance.get('/applicant/resume');
+  return res.data;
+};
+
+// 유저 정보
+export const applicantInfo = async () => {
+  const res = await authInstance.get('/applicant/info');
+  return res.data.data;
+};
+
 // 나의 지원현황(지원자 메인홈)
 export const getMyApplications = async () => {
   try {

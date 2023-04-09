@@ -39,14 +39,28 @@ type ConfirmType = {
   action?: any;
 };
 
-interface UserInfoState {
+interface applicantUserInfo {
+  applicantId?: string;
+  applicantEmail?: string;
+  applicantName?: string;
+  applicantBirthDate?: string;
+  applicantGender?: string;
+  applicantContact?: string;
+  applicantEducation?: string;
+  applicantWorkExperience?: string;
+  applicantSector?: string;
+  applicant_file_path?: string;
+}
+
+interface CompanyUserInfo {
+  ceoName?: string;
+  companyAddr?: string;
+  companyId?: string;
+  companyNm?: string;
+  contact?: string;
   email?: string;
-  companyName?: string;
-  businessNumber?: string;
-  name?: string;
-  birth?: string;
-  call?: string;
-  address?: string;
+  regNum?: string;
+  url?: string;
 }
 
 declare module '*.svg' {
@@ -88,16 +102,6 @@ interface IScheduleData {
 
 interface Props {
   fileUrl: string | undefined;
-}
-
-interface adminTermData {
-  termId: number;
-  type: string;
-  version: string;
-  createDate: string;
-  editDate: string;
-  status: string;
-  content: string;
 }
 
 interface IAdminTermPostData {
@@ -151,7 +155,7 @@ interface applicantSignUpData {
   applicantSector: string;
 }
 
-interface adminTermData {
+interface adminTermSingleData {
   termId: number;
   type: string;
   version: string;

@@ -1,7 +1,7 @@
 export const navigations: { [key: string]: { [key: string]: string } } = {
   company: {
     home: '메인 홈',
-    applicant: '지원자',
+    volunteer: '지원자',
     jobposting: '채용공고',
     term: '약관관리',
     setting: '설정',
