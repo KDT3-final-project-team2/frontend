@@ -33,7 +33,13 @@ const ApplicantsList = ({ item }: { item: any }) => {
         </div>
       </Inner>
       {emailModal ? (
-        <EmailModal setEmailModal={setEmailModal} email={'email@email.com'} applicantName={'이름'} mailType={'기본'} />
+        <EmailModal
+          setEmailModal={setEmailModal}
+          email={'email@email.com'}
+          applicantName={'이름'}
+          mailType={'기본'}
+          applicationId={0}
+        />
       ) : null}
       {open ? (
         <HideContent>

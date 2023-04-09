@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 const WebEditor = ({
   QuillRef,
-  contents,
-  setContents,
+  content,
+  setContent,
 }: {
   QuillRef: React.MutableRefObject<ReactQuill | undefined>;
-  contents: string;
-  setContents: React.Dispatch<React.SetStateAction<string>>;
+  content: string;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <Editor>
@@ -19,8 +19,8 @@ const WebEditor = ({
             QuillRef.current = element;
           }
         }}
-        value={contents}
-        onChange={setContents}
+        value={content}
+        onChange={setContent}
         modules={modules}
         style={{ height: '270px', margin: '0px 0 85px' }}
       ></ReactQuill>

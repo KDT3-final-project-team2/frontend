@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { IApplicantStepBoxProps, IStepBoxProps } from '../../@types/props';
+import { IApplicantStepBoxProps } from '../../@types/props';
 
-const StepBox = ({ stepName, step, setStep, num }: IApplicantStepBoxProps) => {
+const ApplicantStepBox = ({ stepName, step, setStep, num }: IApplicantStepBoxProps) => {
   const type = useLocation().pathname.split('/')[1];
 
   return (
@@ -18,4 +18,4 @@ const StepBox = ({ stepName, step, setStep, num }: IApplicantStepBoxProps) => {
   );
 };
 
-export default StepBox;
+export default ApplicantStepBox;

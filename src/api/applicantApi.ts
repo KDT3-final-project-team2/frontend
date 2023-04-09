@@ -78,13 +78,21 @@ export const getMyApplications = async () => {
 
 // 지원 취소하기
 export const cancelApplication = async (jobpostId: number) => {
+  console.log(jobpostId, Number(jobpostId));
   try {
     const res = await authInstance.delete(`/applicant/apply`, {
       data: {
         jobpostId,
       },
     });
-    return res.data;
+    if (res.data.stateCode === 200) {
+      const message = res.data.message;
+      AlertModal({ message });
+      return;
+    } else {
+      console.log(res.data);
+      return res.data;
+    }
   } catch (error) {
     console.log(error);
   }

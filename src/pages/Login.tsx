@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../utils/validationSchema';
@@ -12,9 +12,10 @@ import { companyLogin } from '@/api/companyApi';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const userType = useOutletContext<IuserType>();
+  const locationState = useLocation();
+  const userType = useOutletContext<IuserType>().userType ? useOutletContext<IuserType>() : locationState.state;
   console.log(userType.userType);
-
+  console.log(userType);
   const {
     register,
     handleSubmit,
@@ -30,6 +31,7 @@ const Login = () => {
     formData.append('email', id);
     formData.append('password', pw);
     const res = userType.userType === '지원자' ? await applicantLogin(formData) : await companyLogin(formData);
+    console.log(res);
     try {
       dispatch(showLoading());
       if (res.stateCode === 401) {
@@ -41,7 +43,7 @@ const Login = () => {
         const refreshToken = res.data.refreshToken;
         setCookie('accessToken', accessToken);
         setCookie('refreshToken', refreshToken);
-        console.log(userType.userType);
+        console.log(userType.userType, accessToken);
         userType.userType === '지원자' ? (location.pathname = '/applicant') : (location.pathname = '/company');
       }
     } catch (error) {
