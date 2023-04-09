@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SignUpPaginationButton from './SignUpPaginationButton';
 import StepCheck from './SignUpStepCheck';
 import SignUpTitle from './SignUpTitle';
-import { termNames } from '../../constants/terms';
+import { termNames, termNamesToEng } from '../../constants/terms';
 import CheckBox from './CheckBox';
 import { useQuery } from '@tanstack/react-query';
 import { getTerms } from '@/api/commonApi';
@@ -23,8 +23,11 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
     }
   };
 
-  const { data: terms, isLoading } = useQuery(['terms'], getTerms);
-  // console.log(terms, isLoading);
+  const { data: terms, isLoading } = useQuery(['terms'], getTerms, {
+    staleTime: 1000 * 60 * 60 * 24,
+    cacheTime: 1000 * 60 * 60 * 24,
+  });
+  console.log(terms);
   if (isLoading) {
     dispatch(showLoading());
     return null;
@@ -52,15 +55,20 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
             </header>
             <main>
               <ul>
-                {termNames.map((termName, index) => (
-                  <CheckBox
-                    key={termName}
-                    title={termName}
-                    checkedItems={checkedItems}
-                    setCheckedItems={setCheckedItems}
-                    index={index}
-                  />
-                ))}
+                {termNames.map((termName, index) => {
+                  const name = termNamesToEng[termName];
+                  console.log(name);
+                  return (
+                    <CheckBox
+                      key={termName}
+                      title={termName}
+                      checkedItems={checkedItems}
+                      setCheckedItems={setCheckedItems}
+                      index={index}
+                      text={terms?.data[name]?.['termContent']}
+                    />
+                  );
+                })}
               </ul>
             </main>
           </TermsContainer>

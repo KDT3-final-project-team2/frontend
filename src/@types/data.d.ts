@@ -212,3 +212,14 @@ interface ApplicantMemberData {
   sector: string;
   workExperience: string;
 }
+
+interface MyApplicationData {
+  applicationId: number;
+  companyName: string;
+  jobpostTitle: string;
+  jobpostId: number;
+  applicationStatusType: string;
+  applicationInterviewTime: any;
+  applicationApplyDate: string;
+  applicationFilepath: string;
+}
