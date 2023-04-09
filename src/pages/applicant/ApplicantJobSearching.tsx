@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
@@ -22,34 +22,24 @@ const ApplicantJobSearching = () => {
     setSearchingData(event.target.value);
   };
 
-  // const { data } = useQuery(['jobPosts', '직무', 'DOCTOR'], () => getJobPostsSearch('직무', 'DOCTOR'));
-  // const data = getJobPostsSearch('직무', 'DOCTOR');
+  const { data: searchData } = useQuery(
+    ['jobPosts', selectedOption, searchingData, searchKey],
+    () => getJobPostsSearch(selectedOption, searchingData),
+    {
+      enabled: !!selectedOption && !!searchingData,
+    },
+  );
+  console.log('searchData', searchData);
 
-  // console.log(data);
-
-  // const getJob = async () => {
-  //   const res = await axios.get(`/jobposts/search/직무`, {
-  //     params: { keyword: 'DOCTOR' },
-  //   });
-  //   return res.data;
-  // };
-  const getJob = async () => {
-    const res = await axios.get(`https://asia-northeast3-loantech-7603b.cloudfunctions.net/api/search`, {
-      searchKeyword: '대출',
-    });
-    return res.data;
-  };
-
-  const onSubmitSearch = () => {
+  const onSubmitSearch = (event: FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     console.log(selectedOption);
     console.log(searchingData);
-    // setSearchKey(Date.now().toString());
+    setSearchKey(Date.now().toString());
   };
 
   return (
     <MainContainer>
-      <button onClick={() => getJob()}>클릭</button>
       <div className='headerBox'>
         <BannerBox>
           <BlueBox>
