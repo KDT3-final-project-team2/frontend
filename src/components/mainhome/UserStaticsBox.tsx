@@ -4,16 +4,16 @@ import styled from 'styled-components';
 
 const UserStaticsBox = ({
   user,
-  total,
+  total = 0,
   year,
   month,
   day,
 }: {
   user: string;
-  total: number;
-  year: number;
-  month: number;
-  day: number;
+  total: number | undefined;
+  year: number | undefined;
+  month: number | undefined;
+  day: number | undefined;
 }) => {
   return (
     <Column user={user}>
@@ -23,14 +23,14 @@ const UserStaticsBox = ({
         전체 인원수
         <span>{total.toLocaleString()}</span>
       </div>
-      <div className='boxs'>
-        <div className='box'>
+      <div className='numberBoxs'>
+        <div className='numberBox'>
           Year <span>{year}</span>
         </div>
-        <div className='box'>
+        <div className='numberBox'>
           Month <span>{month}</span>
         </div>
-        <div className='box'>
+        <div className='numberBox'>
           Today <span>{day}</span>
         </div>
       </div>
@@ -75,10 +75,15 @@ const Column = styled.div<{ user: string }>`
     span {
       font-size: 34px;
       line-height: 40px;
+      margin-left: 15px;
     }
   }
-  .boxs {
-    .box {
+  .numberBoxs {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+    justify-content: center;
+    .numberBox {
       width: 32%;
       max-width: 189px;
       height: 98px;

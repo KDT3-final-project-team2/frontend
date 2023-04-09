@@ -1,19 +1,20 @@
+import { getToday } from '@/utils/getToday';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { VerticalBarChart } from 'amazing-react-charts';
 
-const NewUsersBox = () => {
-  const [year, setYear] = useState(new Date().getFullYear());
+const NewUsersBox = (data: AdminStaticsData) => {
+  // const [year, setYear] = useState(new Date().getFullYear());
 
   return (
     <Column>
       <div className='box'>
         <h5>신규회원</h5>
-        <div className='year'>
-          <img src='/icons/arrow_left.png' alt='작년' onClick={() => setYear(year - 1)} />
-          <span>{year}</span>
-          <img src='/icons/arrow_right.png' alt='내년' onClick={() => setYear(year + 1)} />
-        </div>
+
+        <p>기준 : {getToday()}</p>
+
         <div className='flex' style={{ height: '180px' }}>
+          {/* <div className='stick'>{}</div>
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
@@ -24,8 +25,68 @@ const NewUsersBox = () => {
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
-          <div className='stick'>{}</div>
-          <div className='stick'>{}</div>
+          <div className='stick'>{}</div> */}
+          <VerticalBarChart
+            xType='time'
+            data={[
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              {
+                label: '1',
+                result: data?.['1월가입인원'],
+                itemId: '1월',
+              },
+              z,
+            ]}
+          />
         </div>
         <div className='flex' style={{ height: '30px', width: '100%' }}>
           {Array.from(Array(12).keys()).map((val, index) => (
@@ -43,7 +104,8 @@ export default NewUsersBox;
 
 const Column = styled.div`
   width: 65%;
-  .year {
+  position: relative;
+  /* .year {
     font-weight: 700;
     font-size: 22px;
     line-height: 1;
@@ -52,13 +114,22 @@ const Column = styled.div`
     align-items: center;
     gap: 25px;
     margin-bottom: 19px;
+  } */
+  p {
+    font-size: 12px;
+    line-height: 16px;
+    color: #7b7b7b;
+    position: absolute;
+    right: 30px;
+    top: 18px;
+    /* width: 50px; */
   }
   .box {
     width: 100%;
     height: 309px;
     box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
     border-radius: 20px;
-    padding: 20px 30px;
+    padding: 20px 30px 23px;
     position: relative;
     h5 {
       color: #374151;

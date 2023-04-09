@@ -1,14 +1,57 @@
-import NewUsersBox from '@/components/mainhome/NewUsersBox';
+import { getStatics } from '@/api/adminApi';
 import PlanUserBox from '@/components/mainhome/PlanUserBox';
-import UserSector from '@/components/mainhome/UserSector';
 import UserStaticsBox from '@/components/mainhome/UserStaticsBox';
 import { PlanUsers } from '@/constants/PlanUsers';
 import { userStatics } from '@/constants/steps';
+import { useAppDispatch } from '@/hooks/useDispatchHooks';
+import { hideLoading, showLoading } from '@/store/loadingSlice';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { VerticalBarChart, DonutChart } from 'amazing-react-charts';
+import { getToday } from '@/utils/getToday';
 
 const AdminMain = () => {
+  const dispatch = useAppDispatch();
   const [tap, setTap] = useState('사용자 현황');
+
+  // const { data, isLoading } = useQuery<AdminStaticsData>(['adminStatics'], getStatics, {
+  //   staleTime: Infinity,
+  //   cacheTime: Infinity,
+  // });
+
+  // if (isLoading) {
+  //   dispatch(showLoading());
+  //   return null;
+  // } else {
+  //   dispatch(hideLoading());
+  const data = {
+    개인회원당해인원: 11,
+    기업회원당해인원: 9,
+    '12월가입인원': 0,
+    '5월가입인원': 0,
+    개인회원Total인원: 11,
+    개인회원당일인원: 0,
+    '8월가입인원': 0,
+    '3월가입인원': 0,
+    '9월가입인원': 0,
+    '1월가입인원': 0,
+    '11월가입인원': 0,
+    MEDICAL_TECHNICIAN: 1,
+    기업회원당일인원: 0,
+    개인회원당월인원: 11,
+    '6월가입인원': 0,
+    기업회원Total인원: 9,
+    '7월가입인원': 0,
+    '4월가입인원': 20,
+    '10월가입인원': 0,
+    기업회원당월인원: 9,
+    DOCTOR: 7,
+    NURSE_AIDE: 3,
+    '2월가입인원': 0,
+    NURSE: 3,
+    MEDICAL_RECORDS_PROFESSIONAL: 2,
+  };
 
   return (
     <Container>
@@ -24,13 +67,122 @@ const AdminMain = () => {
         {tap === '사용자 현황' ? (
           <>
             <div className='first-row'>
-              <UserStaticsBox user={'병원'} total={15000} year={2300} month={200} day={33} />
-              <UserStaticsBox user={'지원자'} total={15000} year={2300} month={200} day={33} />
+              <UserStaticsBox
+                user={'병원'}
+                total={data?.기업회원Total인원}
+                year={data?.기업회원당해인원}
+                month={data?.기업회원당월인원}
+                day={data?.기업회원당일인원}
+              />
+              <UserStaticsBox
+                user={'지원자'}
+                total={data?.개인회원Total인원}
+                year={data?.개인회원당해인원}
+                month={data?.개인회원당월인원}
+                day={data?.개인회원당일인원}
+              />
             </div>
 
             <div className='second-row'>
-              <NewUsersBox />
-              <UserSector />
+              <div className='verticalBarBox'>
+                <h5>신규회원</h5>
+                <p>기준 : {getToday()}</p>
+                <VerticalBarChart
+                  showBarLabel
+                  yComplement='명'
+                  xType='category'
+                  tooltipComplement=''
+                  forecastColor='white'
+                  lineMakeName='white'
+                  color='#4357AC'
+                  grid={{ show: false }}
+                  data={[
+                    {
+                      label: '1월',
+                      result: data?.['1월가입인원'],
+                      itemId: '1월',
+                    },
+                    {
+                      label: '2월',
+                      result: data?.['2월가입인원'],
+                      itemId: '2월',
+                    },
+                    {
+                      label: '3월',
+                      result: data?.['3월가입인원'],
+                      itemId: '3월',
+                    },
+                    {
+                      label: '4월',
+                      result: data?.['4월가입인원'],
+                      itemId: '4월',
+                    },
+                    {
+                      label: '5월',
+                      result: data?.['5월가입인원'],
+                      itemId: '5월',
+                    },
+                    {
+                      label: '6월',
+                      result: data?.['6월가입인원'],
+                      itemId: '6월',
+                    },
+                    {
+                      label: '7월',
+                      result: data?.['7월가입인원'],
+                      itemId: '7월',
+                    },
+                    {
+                      label: '8월',
+                      result: data?.['8월가입인원'],
+                      itemId: '8월',
+                    },
+                    {
+                      label: '9월',
+                      result: data?.['9월가입인원'],
+                      itemId: '9월',
+                    },
+                    {
+                      label: '10월',
+                      result: data?.['10월가입인원'],
+                      itemId: '10월',
+                    },
+                    {
+                      label: '11월',
+                      result: data?.['11월가입인원'],
+                      itemId: '11월',
+                    },
+                    {
+                      label: '12월',
+                      result: data?.['12월가입인원'],
+                      itemId: '12월',
+                    },
+                  ]}
+                />
+              </div>
+              <div className='donutBox'>
+                <h5>지원자 직무</h5>
+                <p>기준 : {getToday()}</p>
+                <DonutChart
+                  // selectedMode
+                  colors={['#4357AC', '#8294CD', '#B3C2E7', '#7B7B7B', ' #FFC847']}
+                  legendPosition='inside'
+                  labelFontColor='white'
+                  centerPieValueFontSize={28}
+                  // resultFormatType='percent'
+                  // toolboxTooltip={{ saveAsImage: 'saving' }}
+                  center={['50%', '50%']}
+                  donutRadius={['35%', '70%']}
+                  donutCenterValue=''
+                  data={[
+                    { name: '의사', value: data?.DOCTOR },
+                    { name: '간호조무사', value: data?.NURSE_AIDE },
+                    { name: '간호사', value: data?.NURSE },
+                    { name: '의료기사', value: data?.MEDICAL_TECHNICIAN },
+                    { name: '원무과', value: data?.MEDICAL_RECORDS_PROFESSIONAL },
+                  ]}
+                />
+              </div>
             </div>
           </>
         ) : (
@@ -76,6 +228,52 @@ const Container = styled.div`
       width: 100%;
       display: flex;
       gap: 24px;
+      .verticalBarBox {
+        background: #ffffff;
+        box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
+        border-radius: 20px;
+        padding: 20px 30px 23px;
+        position: relative;
+        display: flex;
+        width: 63%;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        div {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      .donutBox {
+        background: #ffffff;
+        box-shadow: 0px 0px 20px rgba(67, 87, 172, 0.19);
+        border-radius: 20px;
+        padding: 20px 30px 23px;
+        position: relative;
+        display: flex;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        width: 35%;
+        div {
+          position: absolute;
+          top: -8px;
+        }
+      }
+      h5 {
+        color: #374151;
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 32px;
+      }
+      p {
+        font-size: 12px;
+        line-height: 16px;
+        color: #7b7b7b;
+        position: absolute;
+        right: 30px;
+        top: 18px;
+      }
     }
     .boxs {
       display: flex;
