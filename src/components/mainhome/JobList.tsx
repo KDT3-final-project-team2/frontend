@@ -1,21 +1,40 @@
+import { cancelApplication } from '@/api/applicantApi';
+import { getJobpostDetail } from '@/api/applicantApi';
+import { getDday } from '@/utils/getDday';
+import { useQuery } from '@tanstack/react-query';
 import Avvvatars from 'avvvatars-react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const JobList = ({ index, step }: { index: number; step: string }) => {
+const JobList = ({ index, application }: { index: number; application: MyApplicationData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const {
+    applicationId,
+    companyName,
+    jobpostTitle,
+    jobpostId,
+    applicationStatusType,
+    applicationInterviewTime,
+    applicationApplyDate,
+    applicationFilepath,
+  } = application;
 
+  const { data } = useQuery(['applicationDetail', jobpostId], () => getJobpostDetail(jobpostId), {
+    staleTime: 1000 * 60 * 60 * 8,
+  });
+  console.log(application);
   return (
     <ListComponent>
       <Head onClick={() => setOpen(!open)} open={open}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>
-          <Avvvatars style='shape' value={'메디매치'}></Avvvatars>
-          <p className='name'>메디매치</p>
-          <p className='title'>공고 제목 공고 제목 공고 제목 공고 제목</p>
+          <Avvvatars style='shape' value={companyName}></Avvvatars>
+          <p className='name'>{companyName}</p>
+          <p className='title'>{jobpostTitle}</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <p className='applyDate'>23.04.10</p>
-          <div className='dDay'>지원 D+5</div>
+          <p className='applyDate'>{applicationApplyDate.split('T')[0]}</p>
+          <div className='dDay'>지원 D{getDday(applicationApplyDate.split('T')[0])}</div>
         </div>
       </Head>
 
@@ -28,18 +47,18 @@ const JobList = ({ index, step }: { index: number; step: string }) => {
               <div>
                 <p>모집분야 및 지원자격</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '30px' }}>
-                  <div className='sector'>간호사</div>
-                  <div className='tag'># 대졸</div>
-                  <div className='tag'># 1년 경력</div>
+                  <div className='sector'>{data?.jobpostSector}</div>
+                  <div className='tag'># {data?.jobpostEducation}</div>
+                  <div className='tag'># {data?.jobpostWorkExperience}</div>
                 </div>
                 <p>모집인원</p>
-                <div>0명</div>
+                <div>{data?.jobpostRecruitNum}명</div>
                 <p>공고 마감일</p>
-                <div>23.04.30</div>
+                <div>{data?.jobpostDueDate.split('T')[0]}</div>
                 <p>제출 이력서</p>
-                <div>조지원.pdf</div>
+                <div>{applicationFilepath}</div>
                 <div className='buttons'>
-                  <button>지원취소</button>
+                  <button onClick={() => cancelApplication(jobpostId)}>지원취소</button>
                 </div>
               </div>
             </div>

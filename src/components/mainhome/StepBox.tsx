@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { IStepBoxProps } from '../../@types/props';
+import { IApplicantStepBoxProps, IStepBoxProps } from '../../@types/props';
 
-const StepBox = ({ stepName, step, setStep, num }: IStepBoxProps) => {
+const StepBox = ({ stepName, step, setStep, num }: IApplicantStepBoxProps) => {
   const type = useLocation().pathname.split('/')[1];
 
   return (
