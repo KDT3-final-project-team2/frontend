@@ -9,6 +9,8 @@ const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText, JobDeleteMutate
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
 
+  console.log(jobPosts);
+
   const onClickToggle = () => {
     setIsOpen(!isOpen);
   };

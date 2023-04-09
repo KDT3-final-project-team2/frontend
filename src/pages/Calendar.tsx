@@ -1,4 +1,4 @@
-import { deleteSchedule, getSchedule, postSchedule } from '@/api/commonApi';
+import { deleteSchedule, editSchedule, getSchedule, postSchedule } from '@/api/commonApi';
 import CalendarUI from '@/components/calendar/CalendarUI';
 import UserProfile from '@/components/calendar/UserProfile';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -20,13 +20,20 @@ const Calendar = () => {
     },
   });
 
+  const { mutate: schedulePutMutate } = useMutation(editSchedule, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['schedule']);
+    },
+  });
+
   return (
     <>
       <UserProfile />
       <CalendarUI
-        schedule={schedule}
+        schedule={schedule?.data}
         schedulePostMutate={schedulePostMutate}
         scheduleDeleteMutate={scheduleDeleteMutate}
+        schedulePutMutate={schedulePutMutate}
       />
     </>
   );

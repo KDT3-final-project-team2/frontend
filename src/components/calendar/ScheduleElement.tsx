@@ -6,7 +6,7 @@ import { IScheduleElementProps } from '@/@types/props';
 import { AddSchedule, InputWrapper } from './CalendarUI.styles';
 import ConfirmModal from '../common/ConfirmModal';
 
-const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleElementProps) => {
+const ScheduleElement = ({ schedule, scheduleDeleteMutate, schedulePutMutate }: IScheduleElementProps) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<IScheduleData>({
@@ -20,6 +20,14 @@ const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleEle
 
   const onSubmitEditSchedule = (data: IScheduleData) => {
     console.log(data);
+    schedulePutMutate({
+      todoId: schedule?.calendarId,
+      schedule: {
+        calendarTitle: data?.name,
+        calendarContent: data?.content,
+        calendarDate: schedule?.calendarDate,
+      },
+    });
     setIsEdit(false);
   };
 
@@ -27,7 +35,7 @@ const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleEle
     ConfirmModal({
       message: '삭제하시겠습니까?',
       action: () => {
-        scheduleDeleteMutate(schedule.id);
+        scheduleDeleteMutate(schedule.calendarId);
       },
     });
   };
@@ -37,16 +45,23 @@ const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleEle
       {isEdit ? (
         <form onSubmit={handleSubmit(onSubmitEditSchedule)}>
           <AddSchedule>
-            <span>제목</span> <input type='text' className='nameInput' {...register('name')} />
-            <span>내용</span> <input type='text' className='contentInput' {...register('content')} />
+            <span>제목</span>{' '}
+            <input type='text' className='nameInput' {...register('name')} defaultValue={schedule?.calendarTitle} />
+            <span>내용</span>{' '}
+            <input
+              type='text'
+              className='contentInput'
+              {...register('content')}
+              defaultValue={schedule?.calendarContent}
+            />
             <button style={{ backgroundColor: formState.isValid ? 'var(--color-primary-100)' : '' }}>수정</button>
             <img src='/icons/close.png' className='close' onClick={onClickEditIcon} />
           </AddSchedule>
         </form>
       ) : (
-        <div className='schedule' key={index}>
-          <p className='name'>{schedule.title}</p>
-          <p className='content'>{schedule.id}</p>
+        <div className='schedule' key={schedule.calendarId}>
+          <p className='name'>{schedule?.calendarTitle}</p>
+          <p className='content'>{schedule?.calendarContent}</p>
           <img src='/icons/edit.png' onClick={onClickEditIcon}></img>
           <img src='/icons/trashcan.png' onClick={onClickDeleteSchedule}></img>
         </div>

@@ -19,10 +19,10 @@ export const StyledCalendar = styled(Calendar)`
   }
 
   .react-calendar__tile {
-    & abbr {
+    &abbr {
       text-decoration: none;
     }
-    & abbr:before {
+    &abbr:before {
       content: none;
     }
   }
@@ -77,10 +77,10 @@ export const StyledCalendar = styled(Calendar)`
   .react-calendar__tile {
     margin-top: 16px;
     padding: 14px 10px;
-    &: hover {
+    &:hover {
       border-radius: 10px;
     }
-    &: focus {
+    &:focus {
       background-color: var(--color-primary-100);
     }
     abbr {
@@ -173,15 +173,20 @@ export const InputWrapper = styled.div`
     justify-content: center;
     gap: 15px;
     margin-bottom: 10px;
+    padding: 0 20px;
     p {
       padding-top: 3px;
     }
     .name {
+      width: 80px;
+      text-align: center;
       font-weight: 700;
       font-size: 15px;
       color: #1f2937;
     }
     .content {
+      width: 240px;
+      text-align: center;
       font-weight: 400;
       font-size: 15px;
       letter-spacing: -0.03em;
