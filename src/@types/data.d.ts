@@ -266,3 +266,16 @@ interface ApplicationEditData {
   passDate?: string | null;
   memo?: string | null;
 }
+
+interface JobPostsSearchData {
+  jobpostId: number;
+  jobpostTitle: string;
+  jobpostSector: string;
+  jobpostEducation: string;
+  jobpostWorkExperience: string;
+  jobpostRecruitNum: number;
+  jobpostDueDate: string;
+  jobpostStatus: string;
+  jobpostFilePath: string;
+  companyName: string;
+}

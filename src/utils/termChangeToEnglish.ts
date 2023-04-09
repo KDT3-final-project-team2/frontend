@@ -1,4 +1,4 @@
-export const useTermChangeToEnglish = (type: string | undefined) => {
+export const termChangeToEnglish = (type: string | undefined) => {
   let termType = '';
   switch (type) {
     case '서비스이용약관':

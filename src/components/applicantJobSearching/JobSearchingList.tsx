@@ -5,58 +5,66 @@ import { useState } from 'react';
 import { PostingContents } from '../companyjobposting/PreviewModal';
 import { RegistrationButton } from '@/pages/company/CompanyJobPosting';
 
-const JobSearchingList = ({ index }: { index: number }) => {
+import { getDday } from '@/utils/getDday';
+import { dateToString } from '@/utils/dateToSTring';
+
+const JobSearchingList = ({ index, searchData }: { index: number; searchData: JobPostsSearchData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
+  console.log(searchData);
 
   const onClickSearchListOpen = () => {
     setOpen(!open);
   };
 
   return (
-    <PostingListContainer open={open}>
-      <div className='termBox' onClick={onClickSearchListOpen}>
-        <FlexBox>
-          <Avvvatars value='메디메치' style='character' size={32} />
-          <TermType>메디메치</TermType>
-          <AnnouncementTitle>2023년도 정규직 간호사 모집공고</AnnouncementTitle>
-        </FlexBox>
-        <FlexBox>
-          <CreateDate>23.04.10</CreateDate>
-          <Dday>마감 D-7 </Dday>
-        </FlexBox>
-      </div>
-      {open && (
-        <>
-          <Border></Border>
-          <DetailWrapper>
-            <div className='flexBox'>
-              <JobPostingBox>채용공고</JobPostingBox>
-              <div>
-                <div>
-                  <AnnoncementInfo>공고정보</AnnoncementInfo>
+    <>
+      {searchData?.jobpostStatus === '모집중' && (
+        <PostingListContainer open={open}>
+          <div className='termBox' onClick={onClickSearchListOpen}>
+            <FlexBox>
+              <Avvvatars value={searchData?.companyName} style='character' size={32} />
+              <TermType>{searchData?.companyName}</TermType>
+              <AnnouncementTitle>{searchData?.jobpostTitle}</AnnouncementTitle>
+            </FlexBox>
+            <FlexBox>
+              <CreateDate>{dateToString(searchData?.jobpostDueDate)}</CreateDate>
+              <Dday>D{getDday(dateToString(searchData?.jobpostDueDate))}</Dday>
+            </FlexBox>
+          </div>
+          {open && (
+            <>
+              <Border></Border>
+              <DetailWrapper>
+                <div className='flexBox'>
+                  <JobPostingBox>채용공고</JobPostingBox>
+                  <div>
+                    <div>
+                      <AnnoncementInfo>공고정보</AnnoncementInfo>
+                    </div>
+                    <Details>
+                      <div className='sector'>#{searchData?.jobpostSector}</div>
+                      <div className='tag'>#{searchData?.jobpostEducation}</div>
+                      <div className='tag'>#{searchData?.jobpostWorkExperience}</div>
+                    </Details>
+                    <RecruitDetailWrapper>
+                      <PostingContents title='직종' contents={searchData?.jobpostSector} />
+                      <PostingContents title='경력' contents={searchData?.jobpostWorkExperience} />
+                      <PostingContents title='학력' contents={searchData?.jobpostEducation} />
+                      <PostingContents title='모집인원' contents={searchData?.jobpostRecruitNum} />
+                      <PostingContents title='마감일' contents={dateToString(searchData?.jobpostDueDate)} />
+                    </RecruitDetailWrapper>
+                  </div>
                 </div>
-                <Details>
-                  <div className='sector'>간호사</div>
-                  <div className='tag'># 대졸</div>
-                  <div className='tag'># 1년 경력</div>
-                </Details>
-                <RecruitDetailWrapper>
-                  <PostingContents title='직종' contents='간호직 &lt; 간호사' />
-                  <PostingContents title='경력' contents='신입 / 인턴 경험' />
-                  <PostingContents title='학력' contents='학력무관' />
-                  <PostingContents title='모집인원' contents='4명' />
-                  <PostingContents title='마감일' contents='2023.04.12' />
-                </RecruitDetailWrapper>
-              </div>
-            </div>
-            <BtnWrapper>
-              <HomePageBtn>병원홈페이지</HomePageBtn>
-              <RegistrationButton>지원하기</RegistrationButton>
-            </BtnWrapper>
-          </DetailWrapper>
-        </>
+                <BtnWrapper>
+                  <HomePageBtn>병원홈페이지</HomePageBtn>
+                  <RegistrationButton>지원하기</RegistrationButton>
+                </BtnWrapper>
+              </DetailWrapper>
+            </>
+          )}
+        </PostingListContainer>
       )}
-    </PostingListContainer>
+    </>
   );
 };
 
@@ -115,6 +123,7 @@ const Details = styled.div`
   height: 32px;
   .sector,
   .tag {
+    width: max-content;
     border-radius: 14px;
     padding: 3px 12px 0;
     font-size: 13px;

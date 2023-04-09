@@ -20,9 +20,9 @@ import { termPostSchema } from '@/utils/validationSchema';
 import { ITermDataProps, ITermPostEditModalProps } from '@/@types/props';
 import { postAdminTerm, updateAdminTerm } from '@/api/adminApi';
 import { UseMutateFunction, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useTermChangeToEnglish } from '@/hooks/useTermChangeToEnglish';
 import { useLocation } from 'react-router-dom';
 import { postCompanyTerm, updateCompanyTerm } from '@/api/companyApi';
+import { termChangeToEnglish } from '@/utils/termChangeToEnglish';
 
 const TermPostEditModal = ({
   setTermModalOpen,
@@ -99,7 +99,7 @@ const TermPostEditModal = ({
     if (saveBtnText === '저장') {
       termPostMutate({
         content: data.contents,
-        type: useTermChangeToEnglish(data.selectedOption),
+        type: termChangeToEnglish(data.selectedOption),
         version: data.version,
         status: 'USE',
       });
@@ -109,7 +109,7 @@ const TermPostEditModal = ({
       termEditMutate({
         termId: defaultData.termId,
         termData: {
-          type: useTermChangeToEnglish(data.selectedOption),
+          type: termChangeToEnglish(data.selectedOption),
           version: data.version,
           status: 'USE',
           content: data.contents,
