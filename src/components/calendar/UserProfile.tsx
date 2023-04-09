@@ -32,7 +32,7 @@ const UserProfile = () => {
               <p className='name'>{companyUser?.ceoName}</p>
               <p className='hospital'>{companyUser?.companyNm}</p>
             </div>
-            <Avvvatars value={companyUser?.companyNm} style='character' size={50} />
+            <Avvvatars value={companyUser?.companyNm || ''} style='character' size={50} />
           </>
         )}
         {applicant && (
@@ -41,7 +41,7 @@ const UserProfile = () => {
               <p className='name'>{applicantUser?.applicantName}</p>
               <p className='hospital'>{applicantUser?.applicantSector}</p>
             </div>
-            <Avvvatars value={applicantUser?.applicantName} style='character' size={50} />
+            <Avvvatars value={applicantUser?.applicantName || ''} style='character' size={50} />
           </>
         )}
       </div>
