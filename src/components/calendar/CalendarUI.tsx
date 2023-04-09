@@ -1,17 +1,19 @@
 import { days } from '@/constants/dayOfWeek';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import { StyledCalendar, DayBox, DayGrayBox, DayWrapper, InputWrapper, AddSchedule } from './CalendarUI.styles';
 import 'react-calendar/dist/Calendar.css';
 import ScheduleElement from './ScheduleElement';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ScheduleSchema } from '@/utils/validationSchema';
+import { useDateToString } from '@/hooks/useDateToString';
+import { ICalendarUIProps } from '@/@types/props';
 
-const CalendarUI = () => {
+const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedulePutMutate }: ICalendarUIProps) => {
   const [addSchedule, setAddSchedule] = useState(false);
   const [value, setValue] = useState(new Date());
 
-  const { register, handleSubmit, formState } = useForm<IScheduleData>({
+  const { register, handleSubmit, formState, reset } = useForm<IScheduleData>({
     resolver: yupResolver(ScheduleSchema),
     mode: 'onChange',
   });
@@ -20,38 +22,43 @@ const CalendarUI = () => {
     setValue(value);
   };
 
+  const filterSchedule = schedule?.filter(
+    (selectDate: GetCalendarData) => selectDate.calendarDate === useDateToString(value),
+  );
+
+  const scheduleArr: number[][] = [];
+
+  if (schedule) {
+    for (const data of schedule) {
+      const arr = [];
+      const selectyear = parseInt(data.calendarDate.substring(0, 4));
+      arr.push(selectyear);
+      const selectmonth = parseInt(data.calendarDate.substring(5, 7));
+      arr.push(selectmonth);
+      const selectday = parseInt(data.calendarDate.substring(8, 10));
+      arr.push(selectday);
+      scheduleArr.push(arr);
+    }
+  }
+
   const tileClassName = ({ date }: { date: Date }) => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-
-    if (
-      (year === 2023 && month === 4 && day === 1) ||
-      (year === 2023 && month === 4 && day === 11) ||
-      (year === 2023 && month === 4 && day === 17) ||
-      (year === 2023 && month === 4 && day === 12)
-    ) {
+    let isHighlighted = false;
+    for (const scheduleDate of scheduleArr) {
+      if (year === scheduleDate[0] && month === scheduleDate[1] && day === scheduleDate[2]) {
+        isHighlighted = true;
+        break;
+      }
+    }
+    if (isHighlighted) {
       return 'highlighted';
     }
-
     if (date.getTime() === value.getTime()) {
       return 'selected';
     }
-
     return null;
-
-    // const highlightDates = res
-    //   .filter(
-    //     data =>
-    //       year === data.calendarDateTime.getFullYear() &&
-    //       month === data.calendarDateTime.getMonth() + 1 &&
-    //       day === data.calendarDateTime.getDate(),
-    //   )
-    //   .map(_ => 'highlighted');
-
-    // const selectedDate = date.getTime() === value.getTime() ? 'selected' : '';
-
-    // return [highlightDates.join(' '), selectedDate].join(' ');
   };
 
   const formatDay = (locale: any, date: Date) =>
@@ -74,8 +81,13 @@ const CalendarUI = () => {
   };
 
   const onSubmitSchedule = (data: IScheduleData) => {
-    console.log(data);
+    schedulePostMutate({
+      calendarTitle: data.name,
+      calendarContent: data.content,
+      calendarDate: useDateToString(value),
+    });
     setAddSchedule(false);
+    reset();
   };
 
   return (
@@ -88,7 +100,6 @@ const CalendarUI = () => {
         tileClassName={tileClassName}
         formatDay={formatDay}
       />
-
       <DayWrapper>
         {[3, 2, 1].map(numDays => (
           <DayGrayBox key={numDays}>
@@ -106,13 +117,18 @@ const CalendarUI = () => {
         ))}
       </DayWrapper>
       <InputWrapper>
-        {[1, 2, 3].map((data, index) => (
-          <ScheduleElement key={index} index={index} />
+        {filterSchedule?.map((data: GetCalendarData) => (
+          <ScheduleElement
+            key={data.calendarId}
+            schedule={data}
+            scheduleDeleteMutate={scheduleDeleteMutate}
+            schedulePutMutate={schedulePutMutate}
+          />
         ))}
         {addSchedule && (
           <form onSubmit={handleSubmit(onSubmitSchedule)}>
             <AddSchedule>
-              <span>이름</span> <input type='text' className='nameInput' {...register('name')} />
+              <span>제목</span> <input type='text' className='nameInput' {...register('name')} />
               <span>내용</span> <input type='text' className='contentInput' {...register('content')} />
               <button style={{ backgroundColor: formState.isValid ? 'var(--color-primary-100)' : '' }}>저장</button>
             </AddSchedule>

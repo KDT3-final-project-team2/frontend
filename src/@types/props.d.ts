@@ -1,3 +1,6 @@
+import { employStepType, stepType } from '@/constants/steps';
+import { ReactHTMLElement } from 'react';
+
 export interface ISearchAddressProps {
   onClose: () => void;
   setValue: UseFormSetValue<TFieldValues>;
@@ -53,6 +56,7 @@ export interface ICheckBoxProps {
   checkedItems: string[];
   setCheckedItems: React.Dispatch<React.SetStateAction<string[]>>;
   index: number;
+  text: ReactHTMLElement;
 }
 
 export interface IinputBoxProps {
@@ -72,12 +76,12 @@ export interface IModalProps {
   saveBtnText: string;
 }
 
-export interface IStepBoxProps {
-  stepName: string;
-  step: string;
-  setStep: React.Dispatch<React.SetStateAction<string>>;
-  num: number;
-}
+// export interface IStepBoxProps {
+//   stepName: stepType | employStepType;
+//   step: stepType | employStepType;
+//   setStep: React.Dispatch<React.SetStateAction<stepType | employStepType>>;
+//   num: number;
+// }
 
 export interface IPostingContensProps {
   title: string;
@@ -112,9 +116,17 @@ export interface ITermListProps {
 }
 
 export interface IScheduleElementProps {
-  index: number;
+  schedule: GetCalendarData;
+  scheduleDeleteMutate: UseMutateFunction<any, unknown, string, unknown>;
+  schedulePutMutate: UseMutateFunction<any, unknown, any, unknown>;
 }
 
+export interface ICalendarUIProps {
+  schedule: GetCalendarData[];
+  schedulePostMutate: UseMutateFunction<any, unknown, PostCalendarData, unknown>;
+  scheduleDeleteMutate: UseMutateFunction<any, unknown, string, unknown>;
+  schedulePutMutate: UseMutateFunction<any, unknown, any, unknown>;
+}
 export interface IPlanUserProps {
   id: string;
   name: string;
@@ -151,4 +163,18 @@ export interface IJobPostingListProps {
   setSaveBtnText: React.Dispatch<React.SetStateAction<string>>;
   saveBtnText: string;
   JobDeleteMutate: UseMutateFunction<any, unknown, number, unknown>;
+}
+
+export interface IApplicantStepBoxProps {
+  stepName: string;
+  step: applicantStepType;
+  setStep: React.Dispatch<React.SetStateAction<applicantStepType>>;
+  num: number;
+}
+
+export interface ICompanyStepBoxProps {
+  stepName: employStepType;
+  step: employStepType;
+  setStep: React.Dispatch<React.SetStateAction<employStepType>>;
+  num: number;
 }

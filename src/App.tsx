@@ -41,7 +41,7 @@ function App() {
           <Route path='company/signup' element={<CompanySignUp />} />
           <Route path='company'>
             <Route path='' element={<CompanyMain />} />
-            <Route path='applicant' element={<CompanyApplicant />} />
+            <Route path='volunteer' element={<CompanyApplicant />} />
             <Route path='jobposting' element={<CompanyJobPosting />} />
             <Route path='term' element={<CompanyTerm />} />
             <Route path='setting' element={<CompanySetting />} />

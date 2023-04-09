@@ -13,10 +13,10 @@ const MailTemplateModal = ({
   buttonTitle?: string;
 }) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState('');
+  const [content, setContent] = useState('');
 
   const sendEmailTemplate = () => {
-    console.log(contents);
+    console.log(content);
   };
 
   return (
@@ -36,7 +36,7 @@ const MailTemplateModal = ({
               <label htmlFor='title'>제목</label>
               <input type='text' id='title' />
             </div>
-            <WebEditor QuillRef={QuillRef} contents={contents} setContents={setContents}></WebEditor>
+            <WebEditor QuillRef={QuillRef} content={content} setContent={setContent}></WebEditor>
           </form>
         </div>
         <div id='buttons'>

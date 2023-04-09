@@ -73,3 +73,45 @@ export const requestResume = async (formData: FormData) => {
   console.log(res);
   return res.data;
 };
+
+// 나의 지원현황(지원자 메인홈)
+export const getMyApplications = async () => {
+  try {
+    const res = await authInstance.get(`/applicant/main`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 지원 취소하기
+export const cancelApplication = async (jobpostId: number) => {
+  console.log(jobpostId, Number(jobpostId));
+  try {
+    const res = await authInstance.delete(`/applicant/apply`, {
+      data: {
+        jobpostId,
+      },
+    });
+    if (res.data.stateCode === 200) {
+      const message = res.data.message;
+      AlertModal({ message });
+      return;
+    } else {
+      console.log(res.data);
+      return res.data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 공고상세보기
+export const getJobpostDetail = async (jobpostId: number) => {
+  try {
+    const res = await authInstance.get(`/jobposts/posts/${jobpostId}`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

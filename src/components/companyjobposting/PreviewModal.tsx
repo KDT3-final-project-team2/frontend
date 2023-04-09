@@ -17,17 +17,14 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
       enabled: !!jobPosts?.postId,
     },
   );
-
-  console.log(jobPostSingle);
-
   return (
     <>
       <ModalBackground>
         <ModalContainer>
           <PreviewModalHeader>
             <TitleBox>
-              <SiteTitle>{jobPostSingle?.companyNm}</SiteTitle>
-              <PostingTitle>{jobPostSingle?.title}</PostingTitle>
+              <SiteTitle>{jobPostSingle?.data.companyNm}</SiteTitle>
+              <PostingTitle>{jobPostSingle?.data.title}</PostingTitle>
             </TitleBox>
             <Close src={'/icons/close.png'} onClick={onClickClose} />
           </PreviewModalHeader>
@@ -35,13 +32,13 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
           <ModalContentsBox>
             <QualificationsTitle>모집분야 및 지원자격</QualificationsTitle>
             <QualificationsBox>
-              <PostingContents title='직종' contents={jobPostSingle?.sector} />
-              <PostingContents title='경력' contents={jobPostSingle?.workExperience} />
-              <PostingContents title='학력' contents={jobPostSingle?.education} />
+              <PostingContents title='직종' contents={jobPostSingle?.data.sector} />
+              <PostingContents title='경력' contents={jobPostSingle?.data.workExperience} />
+              <PostingContents title='학력' contents={jobPostSingle?.data.education} />
             </QualificationsBox>
             <QualificationsBox>
-              <PostingContents title='모집인원' contents={jobPostSingle?.maxApplicants} />
-              <PostingContents title='마감일' contents={useDateToString(jobPostSingle?.dueDate)} />
+              <PostingContents title='모집인원' contents={jobPostSingle?.data.maxApplicants} />
+              <PostingContents title='마감일' contents={useDateToString(jobPostSingle?.data.dueDate)} />
             </QualificationsBox>
             <QualificationsBox>
               <ContentsBox>

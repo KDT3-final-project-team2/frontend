@@ -56,12 +56,12 @@ const CompanySignUpForm = ({ register, handleSubmit, formState, setValue }: ISig
           <label htmlFor='companyEmail'>이메일</label>
           <Error>{formState.errors.companyEmail?.message?.toString()}</Error>
           <input
-            type='email'
+            type='text'
             id='companyEmail'
             placeholder='medi@match.com'
             {...(register('companyEmail'),
             {
-              onchange: (event: React.ChangeEvent<HTMLInputElement>) => {
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
                 setEmail(event.currentTarget.value);
                 setValue('companyEmail', event.currentTarget.value, { shouldValidate: true });
               },

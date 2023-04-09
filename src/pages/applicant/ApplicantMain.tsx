@@ -1,20 +1,48 @@
+import { getMyApplications } from '@/api/applicantApi';
+import AlertModal from '@/components/common/AlertModal';
+import ApplicantStepBox from '@/components/mainhome/ApplicantStepBox';
 import JobList from '@/components/mainhome/JobList';
-import StepBox from '@/components/mainhome/StepBox';
-import { applySteps } from '@/constants/steps';
+import { ApplicantSteps, applicantStepType } from '@/constants/steps';
+import { useAppSelector } from '@/hooks/useDispatchHooks';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const ApplicantMain = () => {
-  const [step, setStep] = useState('서류지원');
-  // const { data, isLoading } = useQuery(['myapplications'], getMyApplications);
+  const applicantName = useAppSelector(state => state.applicantUser.applicantName);
+  const [step, setStep] = useState<applicantStepType>('서류지원');
+  const { data: allApplications, isLoading } = useQuery(['myApplications'], getMyApplications, {
+    staleTime: 1000 * 60 * 60 * 5,
+  });
+  const dataBySteps: { [key: string]: MyApplicationData[] } = { apply: [], resumePass: [], interviewPass: [] };
+
+  allApplications?.map((application: MyApplicationData) => {
+    switch (application.applicationStatusType) {
+      case '서류지원':
+        dataBySteps.apply.push(application);
+        break;
+      case '서류통과':
+        dataBySteps.resumePass.push(application);
+        break;
+      case '최종합격':
+        dataBySteps.interviewPass.push(application);
+        break;
+    }
+  });
+
+  const tabs = {
+    서류지원: { index: 1, content: dataBySteps.apply, num: dataBySteps.apply?.length },
+    서류통과: { index: 2, content: dataBySteps.resumePass, num: dataBySteps.resumePass?.length },
+    최종합격: { index: 3, content: dataBySteps.interviewPass, num: dataBySteps.interviewPass?.length },
+    전체: { index: 4, content: allApplications || [], num: allApplications?.length || 0 },
+  };
 
   return (
     <Container>
       <h1 id='h1'>지원 현황</h1>
       <div className='grid'>
-        {applySteps.map(stepName => (
-          <StepBox key={stepName} stepName={stepName} step={step} setStep={setStep} num={3} />
+        {ApplicantSteps.map((stepName, index) => (
+          <ApplicantStepBox key={index} stepName={stepName} step={step} setStep={setStep} num={tabs[stepName].num} />
         ))}
       </div>
       {step === '서류통과' ? (
@@ -22,7 +50,7 @@ const ApplicantMain = () => {
           <div style={{ width: '65%', backgroundColor: '#4357AC' }}>
             <img src='/images/resume_pass.png' alt='서류통과축하' />
             <p>
-              {'조지원님'}
+              {applicantName}님
               <br />
               서류통과를 축하드립니다!
             </p>
@@ -39,10 +67,14 @@ const ApplicantMain = () => {
       ) : null}
 
       <div>
-        <h4>지원 공고 리스트</h4>
-        {[1, 2, 3].map((job, index) => (
-          <JobList key={job} index={index} step={step} />
-        ))}
+        <h4>{step} 리스트</h4>
+        {tabs[step].content.length === 0 ? (
+          <p className='nothing'>리스트가 없습니다.</p>
+        ) : (
+          tabs[step].content.map((application: MyApplicationData, index: number) => {
+            return <JobList key={index} index={index} application={application} />;
+          })
+        )}
       </div>
     </Container>
   );
@@ -111,6 +143,13 @@ const Container = styled.div`
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 27px;
+  }
+  .nothing {
+    margin: auto;
+    width: fit-content;
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: bold;
   }
 `;
 

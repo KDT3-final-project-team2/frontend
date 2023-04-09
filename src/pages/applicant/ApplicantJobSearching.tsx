@@ -83,7 +83,6 @@ const Content = styled.p`
   font-size: 18px;
   color: #ffffff;
   line-height: 22px;
-  width: ;
 `;
 
 const YellowBox = styled.div`
