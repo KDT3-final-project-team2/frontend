@@ -99,3 +99,24 @@ export const getJobpostDetail = async (jobpostId: number) => {
     console.log(error);
   }
 };
+
+interface IJobPostsSearchData {
+  keyword: string;
+}
+
+const type = '직무';
+const keyword = 'DOCTOR';
+
+// 공고검색
+export const getJobPostsSearch = async (type: string, keyword: string) => {
+  try {
+    const res = await axios.get(`/jobposts/search/${type}`, { data: { keyword } });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const data = getJobPostsSearch(type, keyword);
+console.log(data);

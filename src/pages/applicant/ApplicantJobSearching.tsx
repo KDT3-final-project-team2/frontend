@@ -3,23 +3,58 @@ import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
 import { searchingOptions, sectorOptions } from '@/constants/jobPostingOptions';
+import { useAppSelector } from '@/hooks/useDispatchHooks';
+import { useQuery } from '@tanstack/react-query';
+import { getJobPostsSearch } from '@/api/applicantApi';
+import axios from 'axios';
 
 const ApplicantJobSearching = () => {
   const [selectedOption, setSelectedOption] = useState('');
+  const [searchingData, setSearchingData] = useState('');
+  const [searchKey, setSearchKey] = useState('');
+  const applicantUser = useAppSelector(state => state.applicantUser);
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
-  const onSubmitSearch = () => {};
+  const onChangeSearchData = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSearchingData(event.target.value);
+  };
+
+  // const { data } = useQuery(['jobPosts', '직무', 'DOCTOR'], () => getJobPostsSearch('직무', 'DOCTOR'));
+  // const data = getJobPostsSearch('직무', 'DOCTOR');
+
+  // console.log(data);
+
+  // const getJob = async () => {
+  //   const res = await axios.get(`/jobposts/search/직무`, {
+  //     params: { keyword: 'DOCTOR' },
+  //   });
+  //   return res.data;
+  // };
+  const getJob = async () => {
+    const res = await axios.get(`https://asia-northeast3-loantech-7603b.cloudfunctions.net/api/search`, {
+      searchKeyword: '대출',
+    });
+    return res.data;
+  };
+
+  const onSubmitSearch = () => {
+    event?.preventDefault();
+    console.log(selectedOption);
+    console.log(searchingData);
+    // setSearchKey(Date.now().toString());
+  };
 
   return (
     <MainContainer>
+      <button onClick={() => getJob()}>클릭</button>
       <div className='headerBox'>
         <BannerBox>
           <BlueBox>
             <Content>
-              조지원님의 <br /> 맞춤 병원탐색
+              {applicantUser?.applicantName}님의 <br /> 맞춤 병원탐색
             </Content>
             <img src='/icons/people.png' />
           </BlueBox>
@@ -43,8 +78,9 @@ const ApplicantJobSearching = () => {
             <option value='회사'>회사</option>
           </SelectBox>
           {(selectedOption === '직무' || selectedOption === '학력' || selectedOption === '경력') && (
-            <>
-              <SelectBox>
+            <Form onSubmit={onSubmitSearch}>
+              <SelectBox onChange={onChangeSearchData}>
+                <option value=''>선택하세요</option>
                 {searchingOptions?.[selectedOption].map(option => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -52,7 +88,7 @@ const ApplicantJobSearching = () => {
                 ))}
               </SelectBox>
               <SearchBtn>검색</SearchBtn>
-            </>
+            </Form>
           )}
           {(selectedOption === '공고제목' || selectedOption === '회사') && (
             <form onSubmit={onSubmitSearch}>
@@ -74,6 +110,12 @@ const ApplicantJobSearching = () => {
 };
 
 export default ApplicantJobSearching;
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const BannerBox = styled.div`
   display: flex;
