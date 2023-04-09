@@ -10,7 +10,7 @@ import { postSchedule } from '@/api/commonApi';
 import { useDateToString } from '@/hooks/useDateToString';
 
 // type 나중에
-const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any) => {
+const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedulePutMutate }: any) => {
   const [addSchedule, setAddSchedule] = useState(false);
   const [value, setValue] = useState(new Date());
 
@@ -23,47 +23,42 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
     setValue(value);
   };
 
-  const filterSchedule = schedule?.filter((selectDate: any) => selectDate.title === useDateToString(value));
+  const filterSchedule = schedule?.filter(
+    (selectDate: GetCalendarData) => selectDate.calendarDate === useDateToString(value),
+  );
 
   const scheduleArr: number[][] = [];
 
   if (schedule) {
     for (const data of schedule) {
       const arr = [];
-      const selectyear = parseInt(data.title.substring(0, 4));
+      const selectyear = parseInt(data.calendarDate.substring(0, 4));
       arr.push(selectyear);
-      const selectmonth = parseInt(data.title.substring(6, 7));
+      const selectmonth = parseInt(data.calendarDate.substring(5, 7));
       arr.push(selectmonth);
-      const selectday = parseInt(data.title.substring(9, 11));
+      const selectday = parseInt(data.calendarDate.substring(8, 10));
       arr.push(selectday);
       scheduleArr.push(arr);
     }
   }
 
-  console.log(scheduleArr);
-
   const tileClassName = ({ date }: { date: Date }) => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-
     let isHighlighted = false;
-
     for (const scheduleDate of scheduleArr) {
       if (year === scheduleDate[0] && month === scheduleDate[1] && day === scheduleDate[2]) {
         isHighlighted = true;
         break;
       }
     }
-
     if (isHighlighted) {
       return 'highlighted';
     }
-
     if (date.getTime() === value.getTime()) {
       return 'selected';
     }
-
     return null;
   };
 
@@ -87,10 +82,17 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
   };
 
   const onSubmitSchedule = (data: IScheduleData) => {
-    console.log(data);
-    schedulePostMutate({ title: useDateToString(value) });
+    console.log(useDateToString(value));
+
+    schedulePostMutate({
+      calendarTitle: data.name,
+      calendarContent: data.content,
+      calendarDate: value,
+    });
     setAddSchedule(false);
   };
+
+  console.log(schedule);
 
   return (
     <div>
@@ -102,7 +104,6 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
         tileClassName={tileClassName}
         formatDay={formatDay}
       />
-
       <DayWrapper>
         {[3, 2, 1].map(numDays => (
           <DayGrayBox key={numDays}>
@@ -120,8 +121,8 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate }: any)
         ))}
       </DayWrapper>
       <InputWrapper>
-        {filterSchedule?.map((data, index) => (
-          <ScheduleElement key={index} index={index} schedule={data} scheduleDeleteMutate={scheduleDeleteMutate} />
+        {filterSchedule?.map((data: GetCalendarData) => (
+          <ScheduleElement key={data.calendarId} schedule={data} scheduleDeleteMutate={scheduleDeleteMutate} />
         ))}
         {addSchedule && (
           <form onSubmit={handleSubmit(onSubmitSchedule)}>

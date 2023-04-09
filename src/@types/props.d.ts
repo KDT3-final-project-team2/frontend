@@ -116,7 +116,8 @@ export interface ITermListProps {
 }
 
 export interface IScheduleElementProps {
-  index: number;
+  schedule: GetCalendarData;
+  scheduleDeleteMutate: UseMutateFunction<any, unknown, string, unknown>;
 }
 
 export interface IPlanUserProps {

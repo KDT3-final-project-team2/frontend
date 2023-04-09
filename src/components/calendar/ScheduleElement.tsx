@@ -6,7 +6,7 @@ import { IScheduleElementProps } from '@/@types/props';
 import { AddSchedule, InputWrapper } from './CalendarUI.styles';
 import ConfirmModal from '../common/ConfirmModal';
 
-const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleElementProps) => {
+const ScheduleElement = ({ schedule, scheduleDeleteMutate }: IScheduleElementProps) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<IScheduleData>({
@@ -27,7 +27,7 @@ const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleEle
     ConfirmModal({
       message: '삭제하시겠습니까?',
       action: () => {
-        scheduleDeleteMutate(schedule.id);
+        scheduleDeleteMutate(schedule.calendarId);
       },
     });
   };
@@ -44,9 +44,9 @@ const ScheduleElement = ({ index, schedule, scheduleDeleteMutate }: IScheduleEle
           </AddSchedule>
         </form>
       ) : (
-        <div className='schedule' key={index}>
-          <p className='name'>{schedule.title}</p>
-          <p className='content'>{schedule.id}</p>
+        <div className='schedule' key={schedule.calendarId}>
+          <p className='name'>{schedule?.calendarTitle}</p>
+          <p className='content'>{schedule?.calendarContent}</p>
           <img src='/icons/edit.png' onClick={onClickEditIcon}></img>
           <img src='/icons/trashcan.png' onClick={onClickDeleteSchedule}></img>
         </div>
