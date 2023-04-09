@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../utils/validationSchema';
@@ -12,7 +12,8 @@ import { companyLogin } from '@/api/companyApi';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const userType = useOutletContext<IuserType>();
+  const location = useLocation();
+  const userType = useOutletContext<IuserType>().userType ? useOutletContext<IuserType>() : location.state;
   console.log(userType.userType);
 
   const {

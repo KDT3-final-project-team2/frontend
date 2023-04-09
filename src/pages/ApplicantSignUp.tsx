@@ -26,26 +26,27 @@ const ApplicantSignUp = () => {
       applicantSignUpData['applicantWorkExperience'][data.applicantWorkExperience],
       applicantSignUpData['applicantSector'][data.applicantSector],
     ];
-    console.log(data);
-    applicantSignUp({
-      applicantEmail,
-      applicantPassword,
-      applicantName,
-      applicantBirthDate,
-      applicantGender,
-      applicantContact,
-      applicantEducation,
-      applicantWorkExperience,
-      applicantSector,
-    }).then(res => {
-      if (res.stateCode === 200) {
-        console.log(res);
-        setStep(prev => prev + 1);
-      } else {
-        const message = res.message;
-        AlertModal({ message });
-      }
-    });
+    // console.log(data);
+    // applicantSignUp({
+    //   applicantEmail,
+    //   applicantPassword,
+    //   applicantName,
+    //   applicantBirthDate,
+    //   applicantGender,
+    //   applicantContact,
+    //   applicantEducation,
+    //   applicantWorkExperience,
+    //   applicantSector,
+    // }).then(res => {
+    //   if (res.stateCode === 200) {
+    //     console.log(res);
+    //     setStep(prev => prev + 1);
+    //   } else {
+    //     const message = res.message;
+    //     AlertModal({ message });
+    //   }
+    // });
+    setStep(prev => prev + 1);
   };
 
   const navigate = useNavigate();
