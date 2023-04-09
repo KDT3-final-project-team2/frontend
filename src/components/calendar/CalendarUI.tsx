@@ -1,20 +1,19 @@
 import { days } from '@/constants/dayOfWeek';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { StyledCalendar, DayBox, DayGrayBox, DayWrapper, InputWrapper, AddSchedule } from './CalendarUI.styles';
 import 'react-calendar/dist/Calendar.css';
 import ScheduleElement from './ScheduleElement';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ScheduleSchema } from '@/utils/validationSchema';
-import { postSchedule } from '@/api/commonApi';
 import { useDateToString } from '@/hooks/useDateToString';
+import { ICalendarUIProps } from '@/@types/props';
 
-// type 나중에
-const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedulePutMutate }: any) => {
+const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedulePutMutate }: ICalendarUIProps) => {
   const [addSchedule, setAddSchedule] = useState(false);
   const [value, setValue] = useState(new Date());
 
-  const { register, handleSubmit, formState } = useForm<IScheduleData>({
+  const { register, handleSubmit, formState, reset } = useForm<IScheduleData>({
     resolver: yupResolver(ScheduleSchema),
     mode: 'onChange',
   });
@@ -82,17 +81,14 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
   };
 
   const onSubmitSchedule = (data: IScheduleData) => {
-    console.log(useDateToString(value));
-
     schedulePostMutate({
       calendarTitle: data.name,
       calendarContent: data.content,
-      calendarDate: value,
+      calendarDate: useDateToString(value),
     });
     setAddSchedule(false);
+    reset();
   };
-
-  console.log(schedule);
 
   return (
     <div>
@@ -122,7 +118,12 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
       </DayWrapper>
       <InputWrapper>
         {filterSchedule?.map((data: GetCalendarData) => (
-          <ScheduleElement key={data.calendarId} schedule={data} scheduleDeleteMutate={scheduleDeleteMutate} />
+          <ScheduleElement
+            key={data.calendarId}
+            schedule={data}
+            scheduleDeleteMutate={scheduleDeleteMutate}
+            schedulePutMutate={schedulePutMutate}
+          />
         ))}
         {addSchedule && (
           <form onSubmit={handleSubmit(onSubmitSchedule)}>

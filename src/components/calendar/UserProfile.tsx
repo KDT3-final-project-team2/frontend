@@ -1,18 +1,49 @@
+import { useAppSelector } from '@/hooks/useDispatchHooks';
 import Avvvatars from 'avvvatars-react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const UserProfile = () => {
   const onClickToggle = () => {};
+  const [company, setCompany] = useState(false);
+  const [applicant, setApplicant] = useState(false);
+
+  const companyUser = useAppSelector(state => state.companyUser);
+  const applicantUser = useAppSelector(state => state.applicantUser);
+
+  useEffect(() => {
+    if (companyUser?.companyId) {
+      setCompany(true);
+      setApplicant(false);
+    }
+    if (applicantUser?.applicantId) {
+      setApplicant(true);
+      setCompany(false);
+    }
+  }, [companyUser, applicantUser]);
 
   return (
     <ProfileWrapper>
       <img src='/icons/dubbleArrow.png' onClick={onClickToggle} />
       <div className='profile'>
-        <div className='nameBox'>
-          <p className='name'>메디메치</p>
-          <p className='hospital'>병의원</p>
-        </div>
-        <Avvvatars value='메디메치' style='character' size={50} />
+        {company && (
+          <>
+            <div className='nameBox'>
+              <p className='name'>{companyUser?.ceoName}</p>
+              <p className='hospital'>{companyUser?.companyNm}</p>
+            </div>
+            <Avvvatars value={companyUser?.companyNm} style='character' size={50} />
+          </>
+        )}
+        {applicant && (
+          <>
+            <div className='nameBox'>
+              <p className='name'>{applicantUser?.applicantName}</p>
+              <p className='hospital'>{applicantUser?.applicantSector}</p>
+            </div>
+            <Avvvatars value={applicantUser?.applicantName} style='character' size={50} />
+          </>
+        )}
       </div>
     </ProfileWrapper>
   );

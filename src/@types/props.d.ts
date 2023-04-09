@@ -118,8 +118,15 @@ export interface ITermListProps {
 export interface IScheduleElementProps {
   schedule: GetCalendarData;
   scheduleDeleteMutate: UseMutateFunction<any, unknown, string, unknown>;
+  schedulePutMutate: UseMutateFunction<any, unknown, any, unknown>;
 }
 
+export interface ICalendarUIProps {
+  schedule: GetCalendarData[];
+  schedulePostMutate: UseMutateFunction<any, unknown, PostCalendarData, unknown>;
+  scheduleDeleteMutate: UseMutateFunction<any, unknown, string, unknown>;
+  schedulePutMutate: UseMutateFunction<any, unknown, any, unknown>;
+}
 export interface IPlanUserProps {
   id: string;
   name: string;
