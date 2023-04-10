@@ -69,7 +69,7 @@ export const applicantInfo = async () => {
 // 이력서 등록
 export const requestResume = async (formData: FormData) => {
   console.log(formData);
-  const res = await instance.post('/applicant/resume', formData);
+  const res = await authInstance.post('/applicant/resume', formData);
   console.log(res);
   return res.data;
 };
