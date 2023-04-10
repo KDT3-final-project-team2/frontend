@@ -7,6 +7,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { EditApplication, SendEmailApi } from '@/api/companyApi';
 import AlertModal from '../common/AlertModal';
 import { getHtmlToText } from '@/utils/getHtmlToText';
+import { postSchedule } from '@/api/commonApi';
+import { dateToString } from '@/utils/dateToSTring';
 
 const EmailModal = ({
   setEmailModal,
@@ -35,6 +37,11 @@ const EmailModal = ({
       queryClient.invalidateQueries(['applications']);
     },
   });
+  const { mutate: schedulePostMutate } = useMutation(postSchedule, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['schedule']);
+    },
+  });
   const textContent = getHtmlToText(content)!;
   const sendEmail = async () => {
     switch (mailType) {
@@ -46,6 +53,11 @@ const EmailModal = ({
         const res1 = await SendEmailApi({ email, title, content: textContent });
         if (res1) {
           PostApplication({ applicationId, interviewDate, status: 'INTERVIEW' });
+          schedulePostMutate({
+            calendarTitle: applicantName,
+            calendarContent: '면접예정',
+            calendarDate: dateToString(interviewDate),
+          });
           setEmailModal(false);
         }
         break;

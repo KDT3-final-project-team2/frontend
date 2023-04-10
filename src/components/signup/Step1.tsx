@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getTerms } from '@/api/commonApi';
 import { useAppDispatch } from '@/hooks/useDispatchHooks';
 import { hideLoading, showLoading } from '@/store/loadingSlice';
+import { useEffect } from 'react';
 
 const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setCheckedItems }: IStep1Props) => {
   const dispatch = useAppDispatch();
@@ -27,12 +28,18 @@ const Step1 = ({ onClickNext, onClickBack, member, step, checkedItems, setChecke
     staleTime: 1000 * 60 * 60 * 24,
     cacheTime: 1000 * 60 * 60 * 24,
   });
-  console.log(terms);
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoading());
+    } else {
+      dispatch(hideLoading());
+    }
+  }, [isLoading, dispatch]);
+
   if (isLoading) {
-    dispatch(showLoading());
     return null;
   } else {
-    dispatch(hideLoading());
     return (
       <>
         <SignUpTitle member={member} />

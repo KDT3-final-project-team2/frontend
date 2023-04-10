@@ -9,11 +9,11 @@ const Home = () => {
 
   return (
     <HomeComponent isLoginPage={isLoginPage}>
-      <div style={{ position: 'fixed', left: 0, display: 'flex', flexDirection: 'column' }}>
+      {/* <div style={{ position: 'fixed', left: 0, display: 'flex', flexDirection: 'column' }}>
         임시링크 : <Link to='/company'>병원 메인 대시보드 / </Link>
         <Link to='/applicant'>지원자 메인 대시보드 / </Link>
         <Link to='/admin'>슈퍼관리자 메인 대시보드</Link>
-      </div>
+      </div> */}
       {isLoginPage ? (
         <img src='/logo.svg' width='230px' height='65px' />
       ) : (
