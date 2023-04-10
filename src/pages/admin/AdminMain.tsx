@@ -129,6 +129,7 @@ const AdminMain = () => {
                   center={['50%', '50%']}
                   donutRadius={['35%', '70%']}
                   donutCenterValue=''
+                  legendType='plain'
                   data={[
                     { name: '의사', value: data?.DOCTOR || 0 },
                     { name: '간호조무사', value: data?.NURSE_AIDE || 0 },
@@ -155,7 +156,7 @@ const AdminMain = () => {
 export default AdminMain;
 
 const Container = styled.div`
-  margin: 100px 100px 50px;
+  padding: 30px 70px 0;
   box-sizing: border-box;
 
   .header {

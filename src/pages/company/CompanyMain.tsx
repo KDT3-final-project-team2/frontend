@@ -63,9 +63,9 @@ const CompanyMain = () => {
 export default CompanyMain;
 
 const Container = styled.div`
-  margin: 100px 60px 50px;
+  padding: 30px 70px 0;
   box-sizing: border-box;
-  width: 90%;
+  width: 100%;
   #h1 {
     position: relative;
   }
