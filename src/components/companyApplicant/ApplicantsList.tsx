@@ -10,15 +10,15 @@ const ApplicantsList = ({ item }: { item: any }) => {
   return (
     <List open={open}>
       <Inner onClick={() => setOpen(!open)} open={open}>
-        <Avvvatars value={item.applicant_name} style='character' size={32} />
-        <p className='name'>{item.applicant_name}</p>
+        <Avvvatars value={item.name} style='character' size={32} />
+        <p className='name'>{item.name}</p>
         <div className='tag'>
-          <span>{item.applicant_sector}</span>
-          <span>{item.applicant_work_experience}</span>
-          <span>{item.applicant_education}</span>
+          <span>{item.sector}</span>
+          <span>{item.workExperience}</span>
+          <span>{item.education}</span>
         </div>
         <div className='last'>
-          <span className='state'>{item.applicant_state}</span>
+          <span className='state'>{item.applicationStatus}</span>
           <button
             onClick={event => {
               event.stopPropagation();
@@ -43,10 +43,12 @@ const ApplicantsList = ({ item }: { item: any }) => {
       ) : null}
       {open ? (
         <HideContent>
-          <Resume>이력서</Resume>
+          <Resume>
+            <img src={'/images/noImage.png'} />
+          </Resume>
           <Memo>
             <h2>메모</h2>
-            <div>{item.applicant_memo}</div>
+            <div>{item.memo}</div>
           </Memo>
         </HideContent>
       ) : null}
@@ -142,6 +144,9 @@ const Resume = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  img {
+    width: 100%;
+  }
 `;
 
 const Memo = styled.div`

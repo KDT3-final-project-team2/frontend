@@ -1,51 +1,47 @@
+import { getApplicants } from '@/api/companyApi';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
+import AlertModal from '../common/AlertModal';
 import SelectBox from '../common/SelectBox';
 import ApplicantsList from './ApplicantsList';
-
-export const res = [
-  {
-    applicant_id: 1,
-    applicant_name: '문동은',
-    applicant_contact: '555-1111',
-    applicant_education: '대졸',
-    applicant_work_experience: '1년차',
-    applicant_sector: '의사',
-    applicant_state: '면접미정',
-    applicant_memo: '패기가 넘침',
-    applicant_file_path: '/path/to/resume4.pdf',
-  },
-  {
-    applicant_id: 2,
-    applicant_name: '박연진',
-    applicant_contact: '555-1111',
-    applicant_education: '고졸',
-    applicant_work_experience: '신입',
-    applicant_sector: '간호사',
-    applicant_state: '면접통과',
-    applicant_memo: '인성이 의심됨',
-    applicant_file_path: '/path/to/resume4.pdf',
-  },
-];
 
 const ApplicantsInfo = () => {
   const dispatch = useAppDispatch();
   const [info, setInfo] = useState({});
 
   // 셀렉트 정렬
-  const [jopOption] = useState([{ value: '직업전체' }, { value: '간호사' }, { value: '의사' }]);
+  const [jopOption] = useState([
+    { value: '직업전체' },
+    { value: '의사' },
+    { value: '간호사' },
+    { value: '간호조무사' },
+    { value: '의료기사' },
+    { value: '의료행정' },
+  ]);
   const [jop, setJop] = useState(jopOption[0].value);
-
-  const [careerOption] = useState([{ value: '경력전체' }, { value: '신입' }, { value: '1년차' }]);
+  ['신입', '1년차', '2년차', '3년차', '4년차', '5년차 이상'];
+  const [careerOption] = useState([
+    { value: '경력전체' },
+    { value: '신입' },
+    { value: '1년차' },
+    { value: '2년차' },
+    { value: '3년차' },
+    { value: '4년차' },
+    { value: '5년차 이상' },
+  ]);
   const [career, setCareer] = useState(careerOption[0].value);
 
   const getApplicantsIfo = async () => {
     try {
       dispatch(showLoading());
-      setInfo(res);
+      const res = await getApplicants();
+      setInfo(res.data);
     } catch (error) {
+      AlertModal({
+        message: '조회에 실패했습니다.',
+      });
     } finally {
       dispatch(hideLoading());
     }
