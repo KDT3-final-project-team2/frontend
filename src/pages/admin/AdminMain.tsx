@@ -8,7 +8,7 @@ import { hideLoading, showLoading } from '@/store/loadingSlice';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { VerticalBarChart, DonutChart } from 'amazing-react-charts';
+import { PictorialChart, DonutChart, VerticalBarChart } from 'amazing-react-charts';
 import { getToday } from '@/utils/getToday';
 
 const AdminMain = () => {
@@ -87,78 +87,58 @@ const AdminMain = () => {
               <div className='verticalBarBox'>
                 <h5>신규회원</h5>
                 <p>기준 : {getToday()}</p>
-                <VerticalBarChart
-                  showBarLabel
+                {/* <PictorialChart
                   yComplement='명'
-                  xType='category'
-                  tooltipComplement=''
-                  forecastColor='white'
-                  lineMakeName='white'
+                  grid={{ bottom: '0' }}
                   color='#4357AC'
-                  grid={{ show: false }}
                   data={[
                     {
-                      label: '1월',
-                      result: data?.['1월가입인원'],
-                      itemId: '1월',
+                      value: data?.['1월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '2월',
-                      result: data?.['2월가입인원'],
-                      itemId: '2월',
+                      value: data?.['2월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '3월',
-                      result: data?.['3월가입인원'],
-                      itemId: '3월',
+                      value: data?.['3월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '4월',
-                      result: data?.['4월가입인원'],
-                      itemId: '4월',
+                      value: data?.['4월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '5월',
-                      result: data?.['5월가입인원'],
-                      itemId: '5월',
+                      value: data?.['5월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '6월',
-                      result: data?.['6월가입인원'],
-                      itemId: '6월',
+                      value: data?.['6월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '7월',
-                      result: data?.['7월가입인원'],
-                      itemId: '7월',
+                      value: data?.['7월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '8월',
-                      result: data?.['8월가입인원'],
-                      itemId: '8월',
+                      value: data?.['8월가입인원'],
+                      symbol: rect,
+                    },
+                    { value: data?.['9월가입인원'], symbol: rect },
+                    {
+                      value: data?.['10월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '9월',
-                      result: data?.['9월가입인원'],
-                      itemId: '9월',
+                      value: data?.['11월가입인원'],
+                      symbol: rect,
                     },
                     {
-                      label: '10월',
-                      result: data?.['10월가입인원'],
-                      itemId: '10월',
-                    },
-                    {
-                      label: '11월',
-                      result: data?.['11월가입인원'],
-                      itemId: '11월',
-                    },
-                    {
-                      label: '12월',
-                      result: data?.['12월가입인원'],
-                      itemId: '12월',
+                      value: data?.['12월가입인원'],
+                      symbol: rect,
                     },
                   ]}
-                />
+                /> */}
               </div>
               <div className='donutBox'>
                 <h5>지원자 직무</h5>
@@ -167,9 +147,9 @@ const AdminMain = () => {
                   // selectedMode
                   colors={['#4357AC', '#8294CD', '#B3C2E7', '#7B7B7B', ' #FFC847']}
                   legendPosition='inside'
-                  labelFontColor='white'
+                  color='white'
                   centerPieValueFontSize={28}
-                  // resultFormatType='percent'
+                  // valueFormatType='percent'
                   // toolboxTooltip={{ saveAsImage: 'saving' }}
                   center={['50%', '50%']}
                   donutRadius={['35%', '70%']}
@@ -240,7 +220,7 @@ const Container = styled.div`
         display: flex;
         flex-direction: column;
         div {
-          height: 100%;
+          height: 500px !important;
           width: 100%;
         }
       }
