@@ -1,9 +1,31 @@
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
-import { TabContainer, FilterBox, Inner, NoList, res } from './ApplicantsInfo';
+import { TabContainer, FilterBox, Inner, NoList } from './ApplicantsInfo';
 import SelectBox from '../common/SelectBox';
 import ApplicantsList from './ApplicantsList';
+import AlertModal from '../common/AlertModal';
+
+export const res = [
+  {
+    name: '문동은',
+    education: '대졸',
+    workExperience: '1년차',
+    sector: '의사',
+    applicationStatus: '면접미정',
+    memo: '안녕 히히!',
+    applicant_file_path: '/path/to/resume4.pdf',
+  },
+  {
+    name: '박연진',
+    education: '고졸',
+    workExperience: '2년차',
+    sector: '간호조무사',
+    applicationStatus: '면접미정',
+    memo: '헬로 히히!',
+    applicant_file_path: '/path/to/resume4.pdf',
+  },
+];
 
 const ApplicantsRecommend = () => {
   const dispatch = useAppDispatch();
@@ -19,8 +41,12 @@ const ApplicantsRecommend = () => {
   const getApplicantsIfo = async () => {
     try {
       dispatch(showLoading());
+      //const res = await getApplicantAll();
       setInfo(res);
     } catch (error) {
+      AlertModal({
+        message: '조회에 실패했습니다.',
+      });
     } finally {
       dispatch(hideLoading());
     }
