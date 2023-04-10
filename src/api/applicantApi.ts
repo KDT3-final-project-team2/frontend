@@ -57,7 +57,7 @@ export const applicantEmailCheck = async ({ applicantEmail }: { applicantEmail: 
 // 이력서 조회
 export const getApplicantResume = async () => {
   const res = await authInstance.get('/applicant/resume');
-  return res;
+  return res.data;
 };
 
 // 유저 정보
@@ -71,6 +71,12 @@ export const requestResume = async (formData: FormData) => {
   console.log(formData);
   const res = await authInstance.post('/applicant/resume', formData);
   console.log(res);
+  return res.data;
+};
+
+// 이력서 삭제
+export const deleteResume = async () => {
+  const res = await authInstance.delete('/applicant/resume');
   return res.data;
 };
 

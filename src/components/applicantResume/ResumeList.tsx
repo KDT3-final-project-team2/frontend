@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { useAppDispatch } from '../../hooks/useDispatchHooks';
+import { showLoading, hideLoading } from '../../store/loadingSlice';
 import styled from 'styled-components';
+import AlertModal from '../common/AlertModal';
+import { deleteResume } from '@/api/applicantApi';
+import { ViewPDF } from './pdf/ViewPDF';
 
-const ResumeList = ({ item }: { item: any }) => {
+const ResumeList = ({ resume }: { resume: any }) => {
   const [open, setOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const dispatch = useAppDispatch();
 
   const onClickDropDwon = () => {
     setOpen(!open);
@@ -10,26 +17,57 @@ const ResumeList = ({ item }: { item: any }) => {
 
   const handleEditResume = () => {};
 
-  const handleDeleteResume = () => {};
+  const onUrlClick = (e: any) => {
+    setShowModal(true);
+  };
+  const onPdfClose = (e: any) => {
+    setShowModal(false);
+  };
+
+  const handleDeleteResume = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await deleteResume();
+      if (res.stateCode === 200) {
+        AlertModal({
+          message: '이력서 삭제가 완료되었습니다.',
+        });
+        location.reload();
+      } else {
+        AlertModal({
+          message: '삭제할 이력서가 없습니다.',
+        });
+      }
+    } catch (error) {
+      AlertModal({
+        message: '에러가 발생했습니다. 다시 시도해주세요.',
+      });
+    } finally {
+      dispatch(hideLoading());
+    }
+  };
 
   return (
-    <List>
-      <Inner>
-        <p className='name'>{item.applicant_file_path.replace('/path/to/', '').replace('.pdf', '')}</p>
-        <div className='last'>
-          <button onClick={() => {}}>미리보기</button>
-          <button onClick={onClickDropDwon}>
-            <img src='/icons/more_vertical.png' />
-          </button>
-          {open && (
-            <DropDownBox>
-              <div onClick={handleEditResume}>수정</div>
-              <div onClick={handleDeleteResume}>삭제</div>
-            </DropDownBox>
-          )}
-        </div>
-      </Inner>
-    </List>
+    <>
+      <List>
+        <Inner>
+          <p className='name'>{resume.replace('https://medimatch.shop/file/resume', '').replace('.pdf', '')}</p>
+          <div className='last'>
+            <button onClick={onUrlClick}>미리보기</button>
+            <button onClick={onClickDropDwon}>
+              <img src='/icons/more_vertical.png' />
+            </button>
+            {open && (
+              <DropDownBox>
+                <div onClick={handleEditResume}>수정</div>
+                <div onClick={handleDeleteResume}>삭제</div>
+              </DropDownBox>
+            )}
+          </div>
+        </Inner>
+      </List>
+      {/* {showModal ? <ViewPDF fileUrl={resume} /> : null} */}
+    </>
   );
 };
 
