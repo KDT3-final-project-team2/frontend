@@ -6,6 +6,7 @@ import { getMailSample } from '@/constants/mailSample';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { EditApplication, SendEmailApi } from '@/api/companyApi';
 import AlertModal from '../common/AlertModal';
+import { getHtmlToText } from '@/utils/getHtmlToText';
 
 const EmailModal = ({
   setEmailModal,
@@ -34,7 +35,7 @@ const EmailModal = ({
       queryClient.invalidateQueries(['applications']);
     },
   });
-  // console.log(email, title, content);
+  const textContent = getHtmlToText(content)!;
   const sendEmail = async () => {
     switch (mailType) {
       case '서류합격':
@@ -42,28 +43,28 @@ const EmailModal = ({
           AlertModal({ message: '면접일시를 선택해주세요.' });
           return;
         }
-        const res1 = await SendEmailApi({ email, title, content });
+        const res1 = await SendEmailApi({ email, title, content: textContent });
         if (res1) {
           PostApplication({ applicationId, interviewDate, status: 'INTERVIEW' });
           setEmailModal(false);
         }
         break;
       case '면접합격':
-        const res2 = await SendEmailApi({ email, title, content });
+        const res2 = await SendEmailApi({ email, title, content: textContent });
         if (res2) {
           PostApplication({ applicationId, passDate: new Date().toISOString(), status: 'PASS' });
           setEmailModal(false);
         }
         break;
       case '서류불합격' || '면접불합격':
-        const res3 = await SendEmailApi({ email, title, content });
+        const res3 = await SendEmailApi({ email, title, content: textContent });
         if (res3) {
           PostApplication({ applicationId, status: 'FAIL' });
           setEmailModal(false);
         }
         break;
       case '기본':
-        const res4 = await SendEmailApi({ email, title, content });
+        const res4 = await SendEmailApi({ email, title, content: textContent });
         if (res4) {
           setEmailModal(false);
         }

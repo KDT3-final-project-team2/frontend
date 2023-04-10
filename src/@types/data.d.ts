@@ -301,3 +301,31 @@ interface companySettingData {
   address?: string;
   companyUrl?: string | undefined;
 }
+
+interface AdminStaticsData {
+  개인회원당해인원: number;
+  기업회원당해인원: number;
+  '12월가입인원': number;
+  '5월가입인원': number;
+  개인회원Total인원: number;
+  개인회원당일인원: number;
+  '8월가입인원': number;
+  '3월가입인원': number;
+  '9월가입인원': number;
+  '1월가입인원': number;
+  '11월가입인원': number;
+  MEDICAL_TECHNICIAN: number;
+  기업회원당일인원: number;
+  개인회원당월인원: number;
+  '6월가입인원': number;
+  기업회원Total인원: number;
+  '7월가입인원': number;
+  '4월가입인원': number;
+  '10월가입인원': number;
+  기업회원당월인원: number;
+  DOCTOR: number;
+  NURSE_AIDE: number;
+  '2월가입인원': number;
+  NURSE: number;
+  MEDICAL_RECORDS_PROFESSIONAL: number;
+}

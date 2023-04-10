@@ -62,3 +62,13 @@ export const getApplicantMembers = async () => {
     console.log(error);
   }
 };
+
+// 통계 가져오기
+export const getStatics = async () => {
+  try {
+    const res = await authInstance.get(`/admin/statistics`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

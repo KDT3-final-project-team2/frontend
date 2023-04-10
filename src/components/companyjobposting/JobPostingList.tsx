@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IJobPostingListProps } from '../../@types/props';
 import PreviewModal from './PreviewModal';
 import PostEditModal from './PostEditModal';
+import ConfirmModal from '../common/ConfirmModal';
 
 const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText, JobDeleteMutate }: IJobPostingListProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,12 @@ const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText, JobDeleteMutate
   };
 
   const onClickDisCard = () => {
-    JobDeleteMutate(jobPosts?.postId);
+    ConfirmModal({
+      message: '폐기하시겠습니까?',
+      action: () => {
+        JobDeleteMutate(jobPosts?.postId);
+      },
+    });
   };
 
   return (

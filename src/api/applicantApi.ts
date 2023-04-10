@@ -155,3 +155,17 @@ export const applicantSetting = async ({
     console.log(error);
   }
 };
+
+// 지원하기
+export const applicantApply = async (postData: { jobpostId: number }) => {
+  try {
+    const res = await authInstance.post('/applicant/apply', postData);
+    const message = res.data.message;
+    if (res.data.stateCode) {
+      AlertModal({ message });
+    }
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
