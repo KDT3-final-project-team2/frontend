@@ -4,15 +4,18 @@ import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
 import ResumeList from '@/components/applicantResume/ResumeList';
 import ResumeModal from '@/components/applicantResume/ResumeModal';
+import { getApplicantResume } from '@/api/applicantApi';
+import AlertModal from '@/components/common/AlertModal';
+import { Inner, NoList } from '@/components/companyApplicant/ApplicantsInfo';
 
-export const res = [
-  {
-    applicant_file_path: '/path/to/resume4.pdf',
-  },
-  {
-    applicant_file_path: '/path/to/resume4.pdf',
-  },
-];
+// export const res = [
+//   {
+//     applicant_file_path: '/path/to/resume4.pdf',
+//   },
+//   {
+//     applicant_file_path: '/path/to/resume4.pdf',
+//   },
+// ];
 
 const ApplicantResume = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +25,13 @@ const ApplicantResume = () => {
   const getResume = async () => {
     try {
       dispatch(showLoading());
+      const res = await getApplicantResume();
+      console.log(res);
       setResume(res);
     } catch (error) {
+      AlertModal({
+        message: '에러가 발생했습니다. 다시 시도해주세요.',
+      });
     } finally {
       dispatch(hideLoading());
     }
@@ -79,11 +87,5 @@ export const Title = styled.h1`
   position: relative;
   display: inline-block;
 `;
-
-export const Inner = styled.div`
-  padding: 20px 0 50px;
-`;
-
-export const NoList = styled.div``;
 
 export default ApplicantResume;

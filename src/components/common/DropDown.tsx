@@ -8,12 +8,14 @@ const DropDown = ({
   selections,
   register,
   setValue,
+  value,
 }: {
   width: string;
   title: string;
   selections: string[];
-  register: UseFormRegister<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
+  register: UseFormRegister<FieldValues> | any;
+  setValue: UseFormSetValue<FieldValues> | any;
+  value?: string;
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -28,6 +30,7 @@ const DropDown = ({
           event.preventDefault();
           setOpen(!open);
         }}
+        defaultValue={value}
       />
       {open ? (
         <img src='/icons/toggleArrowUp.png' alt='닫기' onClick={() => setOpen(false)} />
