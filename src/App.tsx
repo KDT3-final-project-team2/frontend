@@ -21,6 +21,7 @@ import ApplicantSetting from './pages/applicant/ApplicantSetting';
 import ApplicantJobSearching from './pages/applicant/ApplicantJobSearching';
 import CompanyTerm from './pages/company/CompanyTerm';
 import { getCookie } from '@/utils/cookie';
+import NotFound from './pages/NotFound';
 
 function App() {
   const token = getCookie('accessToken');
@@ -60,6 +61,7 @@ function App() {
             <Route path='setting' element={<AdminSetting />} />
           </Route>
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

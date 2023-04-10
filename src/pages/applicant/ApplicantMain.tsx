@@ -3,7 +3,8 @@ import AlertModal from '@/components/common/AlertModal';
 import ApplicantStepBox from '@/components/mainhome/ApplicantStepBox';
 import JobList from '@/components/mainhome/JobList';
 import { ApplicantSteps, applicantStepType } from '@/constants/steps';
-import { useAppSelector } from '@/hooks/useDispatchHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/useDispatchHooks';
+import { hideLoading, showLoading } from '@/store/loadingSlice';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -36,56 +37,62 @@ const ApplicantMain = () => {
     최종합격: { index: 3, content: dataBySteps.interviewPass, num: dataBySteps.interviewPass?.length },
     전체: { index: 4, content: allApplications || [], num: allApplications?.length || 0 },
   };
+  const dispatch = useAppDispatch();
+  if (isLoading) {
+    dispatch(showLoading());
+    return null;
+  } else {
+    dispatch(hideLoading());
+    return (
+      <Container>
+        <h1 id='h1'>지원 현황</h1>
+        <div className='grid'>
+          {ApplicantSteps.map((stepName, index) => (
+            <ApplicantStepBox key={index} stepName={stepName} step={step} setStep={setStep} num={tabs[stepName].num} />
+          ))}
+        </div>
+        {step === '서류통과' ? (
+          <Banner>
+            <div style={{ width: '65%', backgroundColor: '#4357AC' }}>
+              <img src='/images/resume_pass.png' alt='서류통과축하' />
+              <p>
+                {applicantName}님
+                <br />
+                서류통과를 축하드립니다!
+              </p>
+            </div>
+            <div style={{ width: '35%', backgroundColor: '#5A98E1' }}>
+              <p>
+                면접관을 사로잡는
+                <br />
+                면접 성공 전략
+              </p>
+              <img src='/images/trophy.png' alt='면접성공전략' />
+            </div>
+          </Banner>
+        ) : null}
 
-  return (
-    <Container>
-      <h1 id='h1'>지원 현황</h1>
-      <div className='grid'>
-        {ApplicantSteps.map((stepName, index) => (
-          <ApplicantStepBox key={index} stepName={stepName} step={step} setStep={setStep} num={tabs[stepName].num} />
-        ))}
-      </div>
-      {step === '서류통과' ? (
-        <Banner>
-          <div style={{ width: '65%', backgroundColor: '#4357AC' }}>
-            <img src='/images/resume_pass.png' alt='서류통과축하' />
-            <p>
-              {applicantName}님
-              <br />
-              서류통과를 축하드립니다!
-            </p>
-          </div>
-          <div style={{ width: '35%', backgroundColor: '#5A98E1' }}>
-            <p>
-              면접관을 사로잡는
-              <br />
-              면접 성공 전략
-            </p>
-            <img src='/images/trophy.png' alt='면접성공전략' />
-          </div>
-        </Banner>
-      ) : null}
-
-      <div>
-        <h4>{step} 리스트</h4>
-        {tabs[step].content.length === 0 ? (
-          <p className='nothing'>리스트가 없습니다.</p>
-        ) : (
-          tabs[step].content.map((application: MyApplicationData, index: number) => {
-            return <JobList key={index} index={index} application={application} />;
-          })
-        )}
-      </div>
-    </Container>
-  );
+        <div>
+          <h4>{step} 리스트</h4>
+          {tabs[step].content.length === 0 ? (
+            <p className='nothing'>리스트가 없습니다.</p>
+          ) : (
+            tabs[step].content.map((application: MyApplicationData, index: number) => {
+              return <JobList key={index} index={index} application={application} />;
+            })
+          )}
+        </div>
+      </Container>
+    );
+  }
 };
 
 export default ApplicantMain;
 
 const Container = styled.div`
-  margin: 100px 60px 50px;
+  padding: 30px 70px 0;
   box-sizing: border-box;
-  width: 90%;
+  width: 100%;
   #h1 {
     position: relative;
   }
