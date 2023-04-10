@@ -116,6 +116,17 @@ export const getJobpostDetail = async (jobpostId: number) => {
   }
 };
 
+// 공고검색
+export const getJobPostsSearch = async (type: string, keyword: string) => {
+  try {
+    const res = await authInstance.get(`/jobposts/search/${type}`, { params: { keyword } });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // 설정
 export const applicantSetting = async ({
   applicantPassword,

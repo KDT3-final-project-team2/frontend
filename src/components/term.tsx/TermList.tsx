@@ -7,10 +7,10 @@ import TermPostEditModal from './TermPostEditModal';
 import ConfirmModal from '../common/ConfirmModal';
 import { getAdminTermSingle, updateAdminTerm } from '@/api/adminApi';
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useDateToString } from '@/hooks/useDateToString';
-import { useTermChangeToEnglish } from '@/hooks/useTermChangeToEnglish';
 import { useLocation } from 'react-router-dom';
 import { getCompanyTermSingle, updateCompanyTerm } from '@/api/companyApi';
+import { dateToString } from '@/utils/dateToSTring';
+import { termChangeToEnglish } from '@/utils/termChangeToEnglish';
 
 const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }: ITermListProps) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
@@ -85,7 +85,7 @@ const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }
       termEditMutate({
         termId: termSingle.data.termId,
         termData: {
-          type: useTermChangeToEnglish(termSingle.data.type),
+          type: termChangeToEnglish(termSingle.data.type),
           version: termSingle.data.version,
           status: 'DISCARD',
           content: termSingle.data.content,
@@ -103,7 +103,7 @@ const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }
           <div className='termBox' onClick={onClickListOpen}>
             <TermType>{term?.type}</TermType>
             <IconContainer>
-              <CreateDate>{useDateToString(term?.editDate)}</CreateDate>
+              <CreateDate>{dateToString(term?.editDate)}</CreateDate>
               <Icon src='/icons/edit.png' onClick={onClickTermEdit} />
               <Icon src='/icons/trashcan.png' onClick={onClickDeleteTerm} />
             </IconContainer>
@@ -112,7 +112,7 @@ const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }
             <>
               <Border></Border>
               <TermContentsBox>
-                <Date>{useDateToString(term?.editDate)}</Date>
+                <Date>{dateToString(term?.editDate)}</Date>
                 <div className='contentsborder'>
                   <p
                     dangerouslySetInnerHTML={{

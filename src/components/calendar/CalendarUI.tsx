@@ -6,8 +6,8 @@ import ScheduleElement from './ScheduleElement';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ScheduleSchema } from '@/utils/validationSchema';
-import { useDateToString } from '@/hooks/useDateToString';
 import { ICalendarUIProps } from '@/@types/props';
+import { dateToString } from '@/utils/dateToSTring';
 
 const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedulePutMutate }: ICalendarUIProps) => {
   const [addSchedule, setAddSchedule] = useState(false);
@@ -23,7 +23,7 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
   };
 
   const filterSchedule = schedule?.filter(
-    (selectDate: GetCalendarData) => selectDate.calendarDate === useDateToString(value),
+    (selectDate: GetCalendarData) => selectDate.calendarDate === dateToString(value),
   );
 
   const scheduleArr: number[][] = [];
@@ -84,7 +84,7 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
     schedulePostMutate({
       calendarTitle: data.name,
       calendarContent: data.content,
-      calendarDate: useDateToString(value),
+      calendarDate: dateToString(value),
     });
     setAddSchedule(false);
     reset();
