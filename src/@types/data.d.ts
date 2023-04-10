@@ -291,4 +291,6 @@ interface AdminStaticsData {
   DOCTOR: number;
   NURSE_AIDE: number;
   '2월가입인원': number;
+  NURSE: number;
+  MEDICAL_RECORDS_PROFESSIONAL: number;
 }

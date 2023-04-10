@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { VerticalBarChart } from 'amazing-react-charts';
 
-const NewUsersBox = (data: AdminStaticsData) => {
+const NewUsersBox = () => {
   // const [year, setYear] = useState(new Date().getFullYear());
 
   return (
@@ -14,7 +14,6 @@ const NewUsersBox = (data: AdminStaticsData) => {
         <p>기준 : {getToday()}</p>
 
         <div className='flex' style={{ height: '180px' }}>
-          {/* <div className='stick'>{}</div>
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
@@ -25,68 +24,8 @@ const NewUsersBox = (data: AdminStaticsData) => {
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
           <div className='stick'>{}</div>
-          <div className='stick'>{}</div> */}
-          <VerticalBarChart
-            xType='time'
-            data={[
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              {
-                label: '1',
-                result: data?.['1월가입인원'],
-                itemId: '1월',
-              },
-              z,
-            ]}
-          />
+          <div className='stick'>{}</div>
+          <div className='stick'>{}</div>
         </div>
         <div className='flex' style={{ height: '30px', width: '100%' }}>
           {Array.from(Array(12).keys()).map((val, index) => (

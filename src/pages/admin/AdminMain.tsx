@@ -87,58 +87,35 @@ const AdminMain = () => {
               <div className='verticalBarBox'>
                 <h5>신규회원</h5>
                 <p>기준 : {getToday()}</p>
-                {/* <PictorialChart
-                  yComplement='명'
-                  grid={{ bottom: '0' }}
-                  color='#4357AC'
-                  data={[
-                    {
-                      value: data?.['1월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['2월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['3월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['4월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['5월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['6월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['7월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['8월가입인원'],
-                      symbol: rect,
-                    },
-                    { value: data?.['9월가입인원'], symbol: rect },
-                    {
-                      value: data?.['10월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['11월가입인원'],
-                      symbol: rect,
-                    },
-                    {
-                      value: data?.['12월가입인원'],
-                      symbol: rect,
-                    },
-                  ]}
-                /> */}
+                <div className='flex' style={{ height: '100%' }}>
+                  {[
+                    data?.['1월가입인원'],
+                    data?.['2월가입인원'],
+                    data?.['3월가입인원'],
+                    data?.['4월가입인원'],
+                    data?.['5월가입인원'],
+                    data?.['6월가입인원'],
+                    data?.['7월가입인원'],
+                    data?.['8월가입인원'],
+                    data?.['9월가입인원'],
+                    data?.['10월가입인원'],
+                    data?.['11월가입인원'],
+                    data?.['12월가입인원'],
+                  ].map((data, index) => (
+                    <div key={index} className='stick'>
+                      <div style={{ height: `${data}%` }} className='innerStick'>
+                        {data}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className='flex' style={{ height: '30px', width: '100%' }}>
+                  {Array.from(Array(12).keys()).map((val, index) => (
+                    <div key={val} className='flex_month'>
+                      {index + 1}월
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className='donutBox'>
                 <h5>지원자 직무</h5>
@@ -149,17 +126,15 @@ const AdminMain = () => {
                   legendPosition='inside'
                   color='white'
                   centerPieValueFontSize={28}
-                  // valueFormatType='percent'
-                  // toolboxTooltip={{ saveAsImage: 'saving' }}
                   center={['50%', '50%']}
                   donutRadius={['35%', '70%']}
                   donutCenterValue=''
                   data={[
-                    { name: '의사', value: data?.DOCTOR },
-                    { name: '간호조무사', value: data?.NURSE_AIDE },
-                    { name: '간호사', value: data?.NURSE },
-                    { name: '의료기사', value: data?.MEDICAL_TECHNICIAN },
-                    { name: '원무과', value: data?.MEDICAL_RECORDS_PROFESSIONAL },
+                    { name: '의사', value: data?.DOCTOR || 0 },
+                    { name: '간호조무사', value: data?.NURSE_AIDE || 0 },
+                    { name: '간호사', value: data?.NURSE || 0 },
+                    { name: '의료기사', value: data?.MEDICAL_TECHNICIAN || 0 },
+                    { name: '원무과', value: data?.MEDICAL_RECORDS_PROFESSIONAL || 0 },
                   ]}
                 />
               </div>
@@ -219,9 +194,45 @@ const Container = styled.div`
         height: 350px;
         display: flex;
         flex-direction: column;
-        div {
-          height: 500px !important;
-          width: 100%;
+
+        .flex {
+          display: grid;
+          grid-template-columns: repeat(12, 30px);
+          /* gap: 30px; */
+          @media (max-width: 1600px) {
+            gap: 10px;
+          }
+          justify-content: space-around;
+          align-items: flex-end;
+          padding: 10px;
+          .stick {
+            width: 30px;
+            background: #b1bee7;
+            padding-top: 8px;
+            border-radius: 20px;
+            color: white;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            .innerStick {
+              position: absolute;
+              bottom: 0;
+              background-color: #4357ac;
+              width: 30px;
+              border-radius: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: flex-start;
+              padding-top: 10px;
+              padding-bottom: 15px;
+            }
+          }
+          .flex_month {
+            display: flex;
+            width: 30px;
+            /* font-size: 10px; */
+            justify-content: center;
+          }
         }
       }
       .donutBox {
