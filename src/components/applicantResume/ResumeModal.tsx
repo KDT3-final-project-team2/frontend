@@ -74,16 +74,16 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
     try {
       dispatch(showLoading());
       const res = await requestResume(formData);
-      console.log(res);
       if (res.stateCode === 200) {
         AlertModal({
           message: '등록됐습니다.',
         });
+        location.reload();
       }
     } catch (error) {
       console.log(error);
       AlertModal({
-        message: '등록이 안됐습니다. 다시 시도해주세요',
+        message: '등록에 실패했습니다. 다시 시도해주세요',
       });
     } finally {
       dispatch(hideLoading());
