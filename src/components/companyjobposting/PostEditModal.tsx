@@ -73,7 +73,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     const postData = Object.fromEntries(Object.entries(data).filter(([key]) => key !== 'file'));
     const formData = new FormData();
     formData.append('requestDTO', JSON.stringify(postData));
-    formData.append('jobpostFile', data.file);
+    if (data.file) formData.append('jobpostFile', data.file);
     console.log('dd');
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
@@ -183,23 +183,25 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
               />
               <ErrorMessage>{formState.errors.dueDate?.message}</ErrorMessage>
             </PostingTitleBox>
-            <PostingTitleBox>
-              <Label htmlFor='file'>공고 PDF</Label>
-              <InputFile
-                id='file'
-                type='file'
-                {...register('file')}
-                ref={fileRef}
-                onChange={handleFileSelect}
-                accept='.pdf'
-                // defaultValue={jobPostSingle?.data.filePath}
-              />
-              <FileTitleBox>
-                <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>
-              </FileTitleBox>
-              <SelectFile src='/icons/selectfile.png' onClick={onClickFile} />
-              <ErrorMessage>{formState.errors.file?.message}</ErrorMessage>
-            </PostingTitleBox>
+            {saveBtnText === '등록하기' && (
+              <PostingTitleBox>
+                <Label htmlFor='file'>공고 PDF</Label>
+                <InputFile
+                  id='file'
+                  type='file'
+                  {...register('file')}
+                  ref={fileRef}
+                  onChange={handleFileSelect}
+                  accept='.pdf'
+                  // defaultValue={jobPostSingle?.data.filePath}
+                />
+                <FileTitleBox>
+                  <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>
+                </FileTitleBox>
+                <SelectFile src='/icons/selectfile.png' onClick={onClickFile} />
+                <ErrorMessage>{formState.errors.file?.message}</ErrorMessage>
+              </PostingTitleBox>
+            )}
           </form>
         </ModalContentsBox>
       </ModalContainer>
