@@ -33,10 +33,8 @@ authInstance.interceptors.request.use(
 );
 
 const onResponse = async (res: AxiosResponse | any) => {
-  console.log(res.data.stateCode);
-  console.log(res.data.message);
-  const newAccess = res;
-  console.log(newAccess);
+  //const newAccess = res;
+  //console.log(newAccess);
   console.log(AuthVerify());
 
   if (AuthVerify() === 'Access Token Expired') {

@@ -13,9 +13,6 @@ const parseJwt = (token: string | null): any => {
 export const AuthVerify = () => {
   const decodedAccess = parseJwt(accessToken);
   const decodedRefresh = parseJwt(refreshToken);
-  console.log(decodedAccess.exp * 1000);
-  console.log(decodedRefresh.exp * 1000);
-  console.log(Date.now());
 
   if (decodedAccess.exp * 1000 < Date.now()) {
     return 'Access Token Expired';

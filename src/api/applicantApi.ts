@@ -57,7 +57,7 @@ export const applicantEmailCheck = async ({ applicantEmail }: { applicantEmail: 
 // 이력서 조회
 export const getApplicantResume = async () => {
   const res = await authInstance.get('/applicant/resume');
-  return res.data;
+  return res;
 };
 
 // 유저 정보
@@ -111,6 +111,35 @@ export const getJobpostDetail = async (jobpostId: number) => {
   try {
     const res = await authInstance.get(`/jobposts/posts/${jobpostId}`);
     return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 설정
+export const applicantSetting = async ({
+  applicantPassword,
+  applicantName,
+  applicantBirthDate,
+  applicantGender,
+  applicantContact,
+  applicantEducation,
+  applicantWorkExperience,
+  applicantSector,
+}: ApplicantSettingData) => {
+  try {
+    const res = await authInstance.put('/applicant/me', {
+      applicantPassword,
+      applicantName,
+      applicantBirthDate,
+      applicantGender,
+      applicantContact,
+      applicantEducation,
+      applicantWorkExperience,
+      applicantSector,
+    });
+    console.log(res.data);
+    return res.data;
   } catch (error) {
     console.log(error);
   }
