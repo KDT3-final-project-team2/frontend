@@ -240,3 +240,9 @@ export const companySetting = async ({
     console.log(error);
   }
 };
+
+// 지원자 조회
+export const getApplicants = async () => {
+  const res = await authInstance.get('/company/applications');
+  return res.data;
+};
