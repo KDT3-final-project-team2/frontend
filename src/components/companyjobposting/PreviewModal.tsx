@@ -44,7 +44,7 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
               <ContentsBox>
                 <ContentsTitle>공고 PDF</ContentsTitle>
                 <FileBox>
-                  <File src={'/icons/pdfFile.png'} />
+                  <File src={'/images/noImage.png'} />
                 </FileBox>
               </ContentsBox>
             </QualificationsBox>
@@ -128,7 +128,7 @@ const Contents = styled.p``;
 
 const FileBox = styled.div`
   background: #d2d5da;
-  border-radius: 20px;
+  border-radius: 10px;
   width: 100px;
   height: 110px;
   cursor: pointer;
@@ -138,5 +138,6 @@ const FileBox = styled.div`
 `;
 
 const File = styled.img`
-  width: 25px;
+  width: 100px;
+  height: 100px;
 `;

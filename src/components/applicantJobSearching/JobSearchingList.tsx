@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 const JobSearchingList = ({ index, searchData }: { index: number; searchData: JobPostsSearchData }) => {
-  const [open, setOpen] = useState(index === 0 ? true : false);
+  const [open, setOpen] = useState(false);
   console.log(searchData);
   const navigate = useNavigate();
 
@@ -63,7 +63,9 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
               <Border></Border>
               <DetailWrapper>
                 <div className='flexBox'>
-                  <JobPostingBox>채용공고</JobPostingBox>
+                  <JobPostingBox>
+                    <img src={'/images/noImage.png'} />
+                  </JobPostingBox>
                   <div>
                     <div>
                       <AnnoncementInfo>공고정보</AnnoncementInfo>
@@ -141,6 +143,10 @@ const JobPostingBox = styled.div`
   width: 200px;
   height: 270px;
   background-color: #ececec;
+  img {
+    width: 200px;
+    height: 270px;
+  }
 `;
 
 const Details = styled.div`

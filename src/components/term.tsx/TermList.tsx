@@ -93,7 +93,7 @@ const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }
       });
     };
 
-    ConfirmModal({ message: '폐기하시겠습니까?.', action: update });
+    ConfirmModal({ message: '폐기하시겠습니까?', action: update });
   };
 
   return (
