@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ModalBackground } from '@components/mainhome/EmailModal';
 import { ViewPDF } from './pdf/ViewPDF';
 import { pdfjs } from 'react-pdf';
+import AlertModal from '../common/AlertModal';
+import { useAppDispatch } from '@/hooks/useDispatchHooks';
+import { showLoading, hideLoading } from '@/store/loadingSlice';
+import { requestResume } from '@/api/applicantApi';
 
 // workerSrc 정의 하지 않으면 pdf 보여지지 않습니다.
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
+  const dispatch = useAppDispatch();
   const [pdfFileList, setPdfFileList] = useState<Array<File>>([]);
   const [pdfUrl, setPdfUrl] = useState<string>();
   const [showModal, setShowModal] = useState(false);
@@ -56,6 +61,29 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
     );
   };
 
+  const submitResume = async (file: any) => {
+    const formData = new FormData();
+    console.log(formData);
+    formData.append('resume', file[0]);
+    try {
+      dispatch(showLoading());
+      const res = await requestResume(formData);
+      console.log(res);
+      if (res.stateCode === 200) {
+        AlertModal({
+          message: '등록됐습니다.',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      AlertModal({
+        message: '등록이 안됐습니다. 다시 시도해주세요',
+      });
+    } finally {
+      dispatch(hideLoading());
+    }
+  };
+
   return (
     <ModalBackground>
       <div id='container'>
@@ -76,26 +104,16 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
                 <ViewPDF fileUrl={pdfUrl} />
               </PdfContainer>
             </ModalOverlay>
-
-            {pdfFileList.length === 0 ? (
-              <form>
-                <label htmlFor='uploadFile'>파일 업로드하기</label>
-                <input
-                  type='file'
-                  id='uploadFile'
-                  accept='application/pdf'
-                  multiple={true}
-                  onChange={onPdfFileUpload}
-                />
-              </form>
-            ) : (
-              <FileResultList />
-            )}
+            <form>
+              <label htmlFor='uploadFile'>파일 업로드하기</label>
+              <input type='file' id='uploadFile' accept='application/pdf' onChange={onPdfFileUpload} />
+            </form>
+            {pdfFileList.length === 0 ? null : <FileResultList />}
           </MainContainer>
         </div>
         <div id='buttons'>
           <button onClick={() => setResumeModal(false)}>취소</button>
-          <button onClick={() => {}}>등록</button>
+          <button onClick={submitResume}>등록</button>
         </div>
       </div>
     </ModalBackground>

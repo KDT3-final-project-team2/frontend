@@ -279,3 +279,25 @@ interface JobPostsSearchData {
   jobpostFilePath: string;
   companyName: string;
 }
+
+interface ApplicantSettingData {
+  applicantName: string;
+  applicantBirthDate: string;
+  applicantGender: string;
+  applicantSector: string;
+  applicantEducation: string;
+  applicantWorkExperience: string;
+  applicantContact: string;
+  applicantPassword: string;
+}
+
+interface companySettingData {
+  companyName: string;
+  companyContact: string;
+  companyRegNum: string;
+  companyAddress: string;
+  companyRepresentative: string;
+  zoneCode?: string;
+  address?: string;
+  companyUrl?: string | undefined;
+}
