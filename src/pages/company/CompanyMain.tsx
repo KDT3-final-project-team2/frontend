@@ -40,12 +40,17 @@ const CompanyMain = () => {
   };
 
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoading());
+    } else {
+      dispatch(hideLoading());
+    }
+  }, [isLoading, dispatch]);
+
   if (isLoading) {
-    dispatch(showLoading());
     return null;
   } else {
-    dispatch(hideLoading());
-
     return (
       <Container>
         <h1 id='h1'>채용 현황</h1>

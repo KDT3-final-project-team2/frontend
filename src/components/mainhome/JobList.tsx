@@ -9,7 +9,7 @@ import ConfirmModal from '../common/ConfirmModal';
 
 const JobList = ({ index, application }: { index: number; application: MyApplicationData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+
   const {
     applicationId,
     companyName,
@@ -40,6 +40,7 @@ const JobList = ({ index, application }: { index: number; application: MyApplica
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <p className='applyDate'>{applicationApplyDate.split('T')[0]}</p>
           <div className='dDay'>지원 D{getDday(applicationApplyDate.split('T')[0])}</div>
+          <div className='status'>{applicationStatusType}</div>
         </div>
       </Head>
 
@@ -98,6 +99,18 @@ const ListComponent = styled.div`
     font-weight: bold;
     display: flex;
     align-items: center;
+  }
+  .status {
+    border-radius: 14px;
+    padding: 3px 12px 0;
+    font-size: 13px;
+    line-height: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: gray;
+    margin-right: 10px;
   }
   .sector {
     background-color: var(--color-blue);

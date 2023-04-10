@@ -6,7 +6,7 @@ import { ApplicantSteps, applicantStepType } from '@/constants/steps';
 import { useAppDispatch, useAppSelector } from '@/hooks/useDispatchHooks';
 import { hideLoading, showLoading } from '@/store/loadingSlice';
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const ApplicantMain = () => {
@@ -22,7 +22,7 @@ const ApplicantMain = () => {
       case '서류지원':
         dataBySteps.apply.push(application);
         break;
-      case '서류통과':
+      case '실무면접':
         dataBySteps.resumePass.push(application);
         break;
       case '최종합격':
@@ -38,11 +38,17 @@ const ApplicantMain = () => {
     전체: { index: 4, content: allApplications || [], num: allApplications?.length || 0 },
   };
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoading());
+    } else {
+      dispatch(hideLoading());
+    }
+  }, [isLoading, dispatch]);
+
   if (isLoading) {
-    dispatch(showLoading());
     return null;
   } else {
-    dispatch(hideLoading());
     return (
       <Container>
         <h1 id='h1'>지원 현황</h1>
