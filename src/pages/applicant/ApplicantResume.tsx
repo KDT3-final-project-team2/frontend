@@ -8,26 +8,23 @@ import { getApplicantResume } from '@/api/applicantApi';
 import AlertModal from '@/components/common/AlertModal';
 import { Inner, NoList } from '@/components/companyApplicant/ApplicantsInfo';
 
-// export const res = [
-//   {
-//     applicant_file_path: '/path/to/resume4.pdf',
-//   },
-//   {
-//     applicant_file_path: '/path/to/resume4.pdf',
-//   },
-// ];
-
 const ApplicantResume = () => {
   const dispatch = useAppDispatch();
-  const [resume, setResume] = useState({});
+  const [resume, setResume] = useState([]);
   const [resumeModal, setResumeModal] = useState(false);
 
   const getResume = async () => {
     try {
       dispatch(showLoading());
       const res = await getApplicantResume();
-      console.log(res);
-      setResume(res);
+      if (res.stateCode === 401) {
+        AlertModal({
+          message: '등록된 이력서가 없습니다.',
+        });
+        setResume([]);
+      } else {
+        setResume(res.data);
+      }
     } catch (error) {
       AlertModal({
         message: '에러가 발생했습니다. 다시 시도해주세요.',
@@ -52,15 +49,7 @@ const ApplicantResume = () => {
       >
         등록하기
       </button>
-      <Inner>
-        {Array.isArray(resume) ? (
-          resume.map((item: any, idx: number) => {
-            return <ResumeList item={item} key={idx} />;
-          })
-        ) : (
-          <NoList>등록한 이력서가 없습니다.</NoList>
-        )}
-      </Inner>
+      <Inner>{resume.length === 0 ? <NoList>등록한 이력서가 없습니다.</NoList> : <ResumeList resume={resume} />}</Inner>
       {resumeModal ? <ResumeModal setResumeModal={setResumeModal} /> : null}
     </ContainerInner>
   );
