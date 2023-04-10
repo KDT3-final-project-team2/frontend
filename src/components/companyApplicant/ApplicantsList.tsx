@@ -43,7 +43,9 @@ const ApplicantsList = ({ item }: { item: any }) => {
       ) : null}
       {open ? (
         <HideContent>
-          <Resume>이력서</Resume>
+          <Resume>
+            <img src={'/images/noImage.png'} />
+          </Resume>
           <Memo>
             <h2>메모</h2>
             <div>{item.memo}</div>
@@ -142,6 +144,9 @@ const Resume = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  img {
+    width: 100%;
+  }
 `;
 
 const Memo = styled.div`
