@@ -62,8 +62,7 @@ export const MainContainer = styled.div`
   margin-top: 36px;
   .headerBox {
     width: 93%;
-    margin: 0 auto;
-    padding-left: 5px;
+    padding: 0 70px;
   }
 `;
 

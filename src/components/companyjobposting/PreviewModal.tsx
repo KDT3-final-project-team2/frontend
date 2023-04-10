@@ -17,6 +17,11 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
       enabled: !!jobPosts?.postId,
     },
   );
+
+  const openPDF = () => {
+    window.open('https://medimatch.shop/files/applicant/7.pdf', '_blank');
+  };
+
   return (
     <>
       <ModalBackground>
@@ -44,8 +49,9 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
               <ContentsBox>
                 <ContentsTitle>공고 PDF</ContentsTitle>
                 <FileBox>
-                  <File src={'/images/noImage.png'} />
+                  <File data='https://medimatch.shop/files/applicant/7.pdf' type='application/pdf' />
                 </FileBox>
+                <PdfBtn onClick={openPDF}>pdf 열기</PdfBtn>
               </ContentsBox>
             </QualificationsBox>
           </ModalContentsBox>
@@ -65,6 +71,14 @@ export const PostingContents = ({ title, contents }: IPostingContensProps) => {
 };
 
 export default PreviewModal;
+
+const PdfBtn = styled.button`
+  background-color: var(--color-blue);
+  border-radius: 10px;
+  color: #fff;
+  padding: 7px 14px;
+  font-size: 15px;
+`;
 
 const PreviewModalHeader = styled.div`
   display: flex;
@@ -137,7 +151,9 @@ const FileBox = styled.div`
   align-items: center;
 `;
 
-const File = styled.img`
+const File = styled.object`
   width: 100px;
   height: 100px;
+  border-radius: 10px;
+  cursor: pointer;
 `;

@@ -43,6 +43,10 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
     });
   };
 
+  const openPDF = () => {
+    window.open('https://medimatch.shop/files/applicant/7.pdf', '_blank');
+  };
+
   return (
     <>
       {searchData?.jobpostStatus === '모집중' && Number(getDday(dateToString(searchData?.jobpostDueDate))) < 0 && (
@@ -64,7 +68,7 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
               <DetailWrapper>
                 <div className='flexBox'>
                   <JobPostingBox>
-                    <img src={'/images/noImage.png'} />
+                    <object data='https://medimatch.shop/files/applicant/7.pdf' type='application/pdf' />
                   </JobPostingBox>
                   <div>
                     <div>
@@ -143,8 +147,8 @@ const JobPostingBox = styled.div`
   width: 200px;
   height: 270px;
   background-color: #ececec;
-  img {
-    width: 200px;
+  object {
+    width: 210px;
     height: 270px;
   }
 `;
