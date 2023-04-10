@@ -1,16 +1,43 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
+import { searchingOptions, sectorOptions } from '@/constants/jobPostingOptions';
+import { useAppSelector } from '@/hooks/useDispatchHooks';
+import { useQuery } from '@tanstack/react-query';
+import { getJobPostsSearch } from '@/api/applicantApi';
+import axios from 'axios';
 
 const ApplicantJobSearching = () => {
   const [selectedOption, setSelectedOption] = useState('');
+  const [searchingData, setSearchingData] = useState('');
+  const [searchKey, setSearchKey] = useState('');
+  const applicantUser = useAppSelector(state => state.applicantUser);
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
-  const onSubmitSearch = () => {};
+  const onChangeSearchData = (event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
+    setSearchingData(event.target.value);
+  };
+
+  const { data: searchData } = useQuery(
+    ['jobPosts', selectedOption, searchingData, searchKey],
+    () => getJobPostsSearch(selectedOption, searchingData),
+    {
+      enabled: !!selectedOption && !!searchingData,
+    },
+  );
+
+  console.log('searchData', searchData);
+
+  const onSubmitSearch = (event: FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
+    console.log(selectedOption);
+    console.log(searchingData);
+    setSearchKey(Date.now().toString());
+  };
 
   return (
     <MainContainer>
@@ -18,7 +45,7 @@ const ApplicantJobSearching = () => {
         <BannerBox>
           <BlueBox>
             <Content>
-              조지원님의 <br /> 맞춤 병원탐색
+              {applicantUser?.applicantName}님의 <br /> 맞춤 병원탐색
             </Content>
             <img src='/icons/people.png' />
           </BlueBox>
@@ -38,27 +65,58 @@ const ApplicantJobSearching = () => {
             <option value='직무'>직무</option>
             <option value='학력'>학력</option>
             <option value='경력'>경력</option>
-            <option value='공고 제목'>공고 제목</option>
+            <option value='공고제목'>공고제목</option>
             <option value='회사'>회사</option>
           </SelectBox>
-          <form onSubmit={onSubmitSearch}>
-            <SearchInputWrapper>
-              <img src='/icons/search.png' />
-              <SearchInput placeholder='검색어를 입력해주세요.'></SearchInput>
-            </SearchInputWrapper>
-            <button style={{ display: 'none' }}></button>
-          </form>
+          {(selectedOption === '직무' || selectedOption === '학력' || selectedOption === '경력') && (
+            <Form onSubmit={onSubmitSearch}>
+              <SelectBox onChange={onChangeSearchData}>
+                <option value=''>선택하세요</option>
+                {searchingOptions?.[selectedOption].map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </SelectBox>
+            </Form>
+          )}
+          {(selectedOption === '공고제목' || selectedOption === '회사') && (
+            <form onSubmit={onSubmitSearch}>
+              <SearchInputWrapper>
+                <img src='/icons/search.png' />
+                <SearchInput placeholder='검색어를 입력해주세요.' onChange={onChangeSearchData}></SearchInput>
+              </SearchInputWrapper>
+              <button style={{ display: 'none' }}></button>
+            </form>
+          )}
         </SearchBox>
         <ListHeader>공고 리스트</ListHeader>
       </div>
-      {[1, 2, 3].map((data, index) => (
-        <JobSearchingList key={index} index={index} />
+      {searchData?.content?.map((data: JobPostsSearchData, index: number) => (
+        <JobSearchingList key={data.jobpostId} index={index} searchData={data} />
       ))}
+      {(searchData?.content?.length === 0 || !searchData || searchData?.errorMessage) && (
+        <Nothing>리스트가 없습니다.</Nothing>
+      )}
     </MainContainer>
   );
 };
 
 export default ApplicantJobSearching;
+
+const Nothing = styled.p`
+  margin: auto;
+  width: fit-content;
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const BannerBox = styled.div`
   display: flex;
@@ -157,4 +215,12 @@ const ListHeader = styled.p`
   font-size: 18px;
   margin-top: 36px;
   margin-bottom: 20px;
+`;
+
+const SearchBtn = styled.button`
+  background: var(--color-primary-100);
+  border-radius: 20px;
+  color: #ffffff;
+  width: 90px;
+  height: 30px;
 `;

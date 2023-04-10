@@ -4,19 +4,46 @@ import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { companySignUpSchema } from '@/utils/validationSchema';
+import { companySettingSchema } from '@/utils/validationSchema';
 import { SubmitButton } from '../applicant/Info';
+import { useAppDispatch, useAppSelector } from '@/hooks/useDispatchHooks';
+import { showLoading, hideLoading } from '@/store/loadingSlice';
+import AlertModal from '@/components/common/AlertModal';
+import { companySetting } from '@/api/companyApi';
 
 const Info = () => {
-  const { register, handleSubmit, formState, setValue } = useForm<ICompanySignUpData>({
-    resolver: yupResolver(companySignUpSchema),
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit, formState, setValue } = useForm<companySettingData>({
+    resolver: yupResolver(companySettingSchema),
     mode: 'onChange',
   });
 
-  const onValid = (data: ICompanySignUpData) => {
-    //const { companyName, representative, companyNum, email, password, confirmPassword, contact, zoneCode } = data;
-    const address = data.zoneCode + ' ' + data.address;
-    console.log(data, address);
+  const onValid = async (data: companySettingData) => {
+    const { companyName, companyContact, companyRegNum, companyRepresentative, companyUrl, address, zoneCode } = data;
+    const companyAddress = `[${zoneCode}] ${address}`;
+    console.log(data);
+    try {
+      dispatch(showLoading());
+      const res = await companySetting({
+        companyName,
+        companyContact,
+        companyRegNum,
+        companyAddress,
+        companyRepresentative,
+        companyUrl,
+      });
+      if (res.stateCode === 200) {
+        AlertModal({
+          message: '정보 수정이 완료됐습니다.',
+        });
+      }
+    } catch (error) {
+      AlertModal({
+        message: '에러가 발생했습니다. 다시 시도해주세요.',
+      });
+    } finally {
+      dispatch(hideLoading());
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -41,43 +68,58 @@ const Info = () => {
     setValue('address', fullAddress, { shouldValidate: true });
   };
 
+  const [userCompanyNm, userContact, userRegNum, userCompanyAddr, userCeoName, userUrl] = useAppSelector(state => {
+    const user = state.companyUser;
+    return [user.companyNm, user.contact, user.regNum, user.companyAddr, user.ceoName, user.url];
+  });
+
   return (
     <Wrapper>
-      <Form onSubmit={() => handleSubmit(onValid)}>
+      <Form
+        onSubmit={handleSubmit(data => {
+          console.log(data);
+          onValid(data);
+        })}
+      >
         <div className='inputBox'>
           <label>병원정보</label>
-          <input type='text' id='companyName' placeholder='병원(기업)명' {...register('companyName')} />
+          <input
+            type='text'
+            id='companyName'
+            placeholder='병원(기업)명'
+            defaultValue={userCompanyNm}
+            {...register('companyName')}
+          />
           <Error>{formState.errors.companyName?.message?.toString()}</Error>
           <input
             type='text'
             id='companyRegNum'
             placeholder={`사업자등록번호 / '-'포함 10자리`}
+            defaultValue={userRegNum}
             {...register('companyRegNum')}
           />
           <Error>{formState.errors.companyRegNum?.message?.toString()}</Error>
         </div>
         <div className='inputBox'>
           <label>대표정보</label>
-          <input type='text' id='companyRepresentative' placeholder='대표자명' {...register('companyRepresentative')} />
+          <input
+            type='text'
+            id='companyRepresentative'
+            defaultValue={userCeoName}
+            placeholder='대표자명'
+            {...register('companyRepresentative')}
+          />
           <Error>{formState.errors.companyRepresentative?.message?.toString()}</Error>
-          <input type='tel' id='companyContact' placeholder='대표전화' {...register('companyContact')} />
+          <input
+            type='tel'
+            id='companyContact'
+            defaultValue={userContact}
+            placeholder='대표전화'
+            {...register('companyContact')}
+          />
           <Error>{formState.errors.companyContact?.message?.toString()}</Error>
         </div>
-        <div className='inputBox'>
-          <label htmlFor='email'>이메일</label>
-          <Error>{formState.errors.companyEmail?.message?.toString()}</Error>
-          <input type='email' id='email' placeholder='medi@match.com' {...register('companyEmail')} />
-          <button
-            className='email'
-            onClick={event => {
-              event.preventDefault();
-              // 이메일중복확인 로직
-            }}
-          >
-            중복확인
-          </button>
-        </div>
-        <div className='inputBox '>
+        {/* <div className='inputBox '>
           <label htmlFor='password'>비밀번호</label>
           <input
             type={showPassword ? 'string' : 'password'}
@@ -90,11 +132,17 @@ const Info = () => {
           ) : (
             <img src='/icons/open-eye.png' alt='비밀번호보기' onClick={() => setShowPassword(true)} />
           )}
-        </div>
+        </div> */}
         <div className='inputBox'>
           <label htmlFor='address'>주소</label>
           <Error>{formState.errors.zoneCode?.message?.toString()}</Error>
-          <input type='string' id='zoneCode' placeholder='우편번호' {...register('zoneCode')} />
+          <input
+            type='string'
+            id='zoneCode'
+            placeholder='우편번호'
+            defaultValue={userCompanyAddr?.replace(/[^\d{5}]+/g, '')}
+            {...register('zoneCode')}
+          />
           <button
             onClick={event => {
               event.preventDefault();
@@ -107,7 +155,13 @@ const Info = () => {
         <div className='inputBox'>
           <label htmlFor='address'>상세 주소</label>
           <Error>{formState.errors.address?.message?.toString()}</Error>
-          <input type='text' id='address' placeholder='주소를 입력해주세요.' {...register('address')} />
+          <input
+            type='text'
+            id='address'
+            placeholder='주소를 입력해주세요.'
+            defaultValue={userCompanyAddr?.replace(/\d{5}/, '').replace('[] ', '')}
+            {...register('address')}
+          />
         </div>
         <div className='inputBox'>
           <label htmlFor=''>홈페이지(선택)</label>
@@ -116,6 +170,7 @@ const Info = () => {
             type='string'
             id='companyUrl'
             placeholder='병의원의 홈페이지 링크를 입력해주세요.'
+            defaultValue={userUrl}
             {...register('companyUrl')}
           />
         </div>
@@ -197,11 +252,11 @@ const Form = styled.form`
 const Error = styled.div`
   position: absolute;
   bottom: -15px;
-  left: 20px;
+  left: 140px;
   font-size: 10px;
   color: var(--color-red);
   &:last-child {
-    left: 54%;
+    left: 60%;
   }
 `;
 

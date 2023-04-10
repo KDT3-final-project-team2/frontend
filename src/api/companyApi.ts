@@ -216,3 +216,27 @@ export const SendEmailApi = async ({ email, title, content }: { [key: string]: s
     return false;
   }
 };
+
+export const companySetting = async ({
+  companyName,
+  companyContact,
+  companyRegNum,
+  companyAddress,
+  companyRepresentative,
+  companyUrl,
+}: companySettingData) => {
+  try {
+    const res = await authInstance.put(`/company/me`, {
+      companyName,
+      companyContact,
+      companyRegNum,
+      companyAddress,
+      companyRepresentative,
+      companyUrl,
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -267,6 +267,41 @@ interface ApplicationEditData {
   memo?: string | null;
 }
 
+interface JobPostsSearchData {
+  jobpostId: number;
+  jobpostTitle: string;
+  jobpostSector: string;
+  jobpostEducation: string;
+  jobpostWorkExperience: string;
+  jobpostRecruitNum: number;
+  jobpostDueDate: string;
+  jobpostStatus: string;
+  jobpostFilePath: string;
+  companyName: string;
+}
+
+interface ApplicantSettingData {
+  applicantName: string;
+  applicantBirthDate: string;
+  applicantGender: string;
+  applicantSector: string;
+  applicantEducation: string;
+  applicantWorkExperience: string;
+  applicantContact: string;
+  applicantPassword: string;
+}
+
+interface companySettingData {
+  companyName: string;
+  companyContact: string;
+  companyRegNum: string;
+  companyAddress: string;
+  companyRepresentative: string;
+  zoneCode?: string;
+  address?: string;
+  companyUrl?: string | undefined;
+}
+
 interface AdminStaticsData {
   개인회원당해인원: number;
   기업회원당해인원: number;

@@ -66,3 +66,9 @@ export const educationOptions = [
     label: '석박사',
   },
 ];
+
+export const searchingOptions = {
+  직무: sectorOptions,
+  학력: educationOptions,
+  경력: workExperiencerOptions,
+};

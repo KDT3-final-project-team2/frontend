@@ -9,16 +9,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 const ApplicantSetting = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const { register, handleSubmit, formState, setValue } = useForm<IApplicantSignUpData>({
-    resolver: yupResolver(applicantSignUpSchema),
-    mode: 'onChange',
-  });
 
   const tabs = [
     {
       index: 1,
       name: '정보 수정',
-      content: <Info register={register} handleSubmit={handleSubmit} formState={formState} setValue={setValue} />,
+      content: <Info />,
     },
     { index: 3, name: '회원탈퇴', content: <Withdrawal /> },
   ];

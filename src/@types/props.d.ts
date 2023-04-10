@@ -85,7 +85,7 @@ export interface IModalProps {
 
 export interface IPostingContensProps {
   title: string;
-  contents: string;
+  contents: string | number;
 }
 
 export interface IPreviewModalProps {

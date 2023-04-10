@@ -13,6 +13,7 @@ import { companyUserInfo, companyUserInit } from '@/store/companyUserSlice';
 import { useLocation } from 'react-router-dom';
 import { applicantInfo } from '@/api/applicantApi';
 import { companyInfo } from '@/api/companyApi';
+import { AuthVerify } from '@/utils/jwtCheck';
 
 const Header = ({ isAdminPage }: { isAdminPage: boolean }) => {
   const token = getCookie('accessToken');
@@ -48,20 +49,19 @@ const Header = ({ isAdminPage }: { isAdminPage: boolean }) => {
 
   const applicantIsLogin = useCallback(async () => {
     const res = await applicantInfo();
-    console.log(res);
-    if (res) {
+    if (res.data) {
       dispatch(
         applicantUserInfo({
-          applicantId: res.applicantId,
-          applicantEmail: res.applicantEmail,
-          applicantName: res.applicantName,
-          applicantBirthDate: res.applicantBirthDate,
-          applicantGender: res.applicantGender,
-          applicantContact: res.applicantContact,
-          applicantEducation: res.applicantEducation,
-          applicantWorkExperience: res.applicantWorkExperience,
-          applicantSector: res.applicantSector,
-          applicant_file_path: res.applicant_file_path,
+          applicantId: res.data.applicantId,
+          applicantEmail: res.data.applicantEmail,
+          applicantName: res.data.applicantName,
+          applicantBirthDate: res.data.applicantBirthDate,
+          applicantGender: res.data.applicantGender,
+          applicantContact: res.data.applicantContact,
+          applicantEducation: res.data.applicantEducation,
+          applicantWorkExperience: res.data.applicantWorkExperience,
+          applicantSector: res.data.applicantSector,
+          applicant_file_path: res.data.applicant_file_path,
         }),
       );
     }
