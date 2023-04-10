@@ -92,7 +92,18 @@ const ApplicantList = ({ index, step, applicant }: { index: number; step: string
           <>
             <div className='horizonLine'></div>
             <div className='content'>
-              <div style={{ minWidth: '210px', height: '297px', backgroundColor: '#ECECEC' }}>이력서</div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minWidth: '210px',
+                  height: '297px',
+                  backgroundColor: '#ECECEC',
+                }}
+              >
+                <img src='./images/noImage.png' alt='' width={150} height={200} />
+              </div>
               <div style={{ width: '100%' }}>
                 <div className='jobpostTitle'>[{jobpostTitle} 공고]</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '32px' }}>

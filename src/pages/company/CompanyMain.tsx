@@ -7,6 +7,8 @@ import { CompanySteps, companyStepType } from '../../constants/steps';
 import { useQuery } from '@tanstack/react-query';
 import { getApplications } from '@/api/companyApi';
 import Loading from '@components/common/Loading';
+import { useAppDispatch } from '@/hooks/useDispatchHooks';
+import { hideLoading, showLoading } from '@/store/loadingSlice';
 
 const CompanyMain = () => {
   const [step, setStep] = useState<companyStepType>('서류지원');
@@ -36,28 +38,42 @@ const CompanyMain = () => {
     최종합격: { index: 3, content: dataBySteps.pass, num: dataBySteps.pass?.length },
     전체: { index: 4, content: applications || [], num: applications?.length || 0 },
   };
-  console.log(tabs[step]);
-  return (
-    <Container>
-      <h1 id='h1'>채용 현황</h1>
-      <div className='grid'>
-        {CompanySteps.map((stepName, index) => (
-          <CompanyStepBox key={stepName} stepName={stepName} step={step} setStep={setStep} num={tabs[stepName]?.num} />
-        ))}
-      </div>
 
-      <div>
-        <h4>{step} 리스트</h4>
-        {tabs[step].num === 0 ? (
-          <p className='nothing'>리스트가 없습니다.</p>
-        ) : (
-          tabs[step].content.map((applicant: ApplicationData, index: number) => {
-            return <ApplicantList key={applicant.applicationId} index={index} step={step} applicant={applicant} />;
-          })
-        )}
-      </div>
-    </Container>
-  );
+  const dispatch = useAppDispatch();
+  if (isLoading) {
+    dispatch(showLoading());
+    return null;
+  } else {
+    dispatch(hideLoading());
+
+    return (
+      <Container>
+        <h1 id='h1'>채용 현황</h1>
+        <div className='grid'>
+          {CompanySteps.map((stepName, index) => (
+            <CompanyStepBox
+              key={stepName}
+              stepName={stepName}
+              step={step}
+              setStep={setStep}
+              num={tabs[stepName]?.num}
+            />
+          ))}
+        </div>
+
+        <div>
+          <h4>{step} 리스트</h4>
+          {tabs[step].num === 0 ? (
+            <p className='nothing'>리스트가 없습니다.</p>
+          ) : (
+            tabs[step].content.map((applicant: ApplicationData, index: number) => {
+              return <ApplicantList key={applicant.applicationId} index={index} step={step} applicant={applicant} />;
+            })
+          )}
+        </div>
+      </Container>
+    );
+  }
 };
 
 export default CompanyMain;
