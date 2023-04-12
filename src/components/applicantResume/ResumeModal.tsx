@@ -13,10 +13,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const ResumeModal = ({
   setResumeModal,
-  resume,
+  getResume,
 }: {
   setResumeModal: React.Dispatch<React.SetStateAction<boolean>>;
-  resume: any;
+  resume: string;
+  getResume: any;
 }) => {
   const dispatch = useAppDispatch();
   const [pdfFileList, setPdfFileList] = useState<Array<File>>([]);
@@ -24,8 +25,6 @@ const ResumeModal = ({
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
   const fileRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {}, [resume]);
 
   const getUrl = (file: File) => {
     const blob = new Blob([file]);
@@ -40,7 +39,6 @@ const ResumeModal = ({
     setPdfFileList(selectedList);
     if (e.target.files?.[0]) {
       setSelectedFile(e.target.files[0]);
-      console.log(e.target.files?.[0]);
     }
   };
 
@@ -51,6 +49,7 @@ const ResumeModal = ({
   const onUrlClick = (e: any) => {
     setShowModal(true);
   };
+
   const onPdfClose = (e: any) => {
     setShowModal(false);
   };
@@ -77,7 +76,6 @@ const ResumeModal = ({
 
   const submitResume = async (file: any) => {
     const formData = new FormData();
-    console.log(formData);
     formData.append('resume', file);
     try {
       dispatch(showLoading());
@@ -87,6 +85,7 @@ const ResumeModal = ({
           message: '등록됐습니다.',
         });
         setResumeModal(false);
+        getResume();
       }
     } catch (error) {
       console.log(error);
@@ -118,11 +117,21 @@ const ResumeModal = ({
                 <ViewPDF fileUrl={pdfUrl} />
               </PdfContainer>
             </ModalOverlay>
-            <form className={pdfFileList.length !== 0 ? 'hide' : ''}>
-              <label htmlFor='uploadFile'>파일 업로드하기</label>
-              <input type='file' id='uploadFile' accept='.pdf' onChange={onPdfFileUpload} ref={fileRef} />
-            </form>
-            {pdfFileList.length === 0 ? null : <FileResultList />}
+            {pdfFileList.length === 0 ? (
+              <form>
+                <label htmlFor='uploadFile'>파일 업로드하기</label>
+                <input
+                  type='file'
+                  id='uploadFile'
+                  accept='.pdf'
+                  multiple={true}
+                  onChange={onPdfFileUpload}
+                  ref={fileRef}
+                />
+              </form>
+            ) : (
+              <FileResultList />
+            )}
           </MainContainer>
         </div>
         <div id='buttons'>

@@ -9,7 +9,15 @@ import { ModalBackground } from '../mainhome/EmailModal';
 import { MainContainer } from '@/pages/company/CompanyJobPosting';
 import { ButtonContainer, ModalOverlay, PdfContainer } from './ResumeModal';
 
-const ResumeList = ({ resume, setResume }: { resume: any; setResume: any }) => {
+const ResumeList = ({
+  resume,
+  setResume,
+  setResumeModal,
+}: {
+  resume: any;
+  setResume: React.Dispatch<React.SetStateAction<string>>;
+  setResumeModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
@@ -20,10 +28,10 @@ const ResumeList = ({ resume, setResume }: { resume: any; setResume: any }) => {
 
   const handleEditResume = () => {};
 
-  const onUrlClick = (e: any) => {
+  const onUrlClick = () => {
     setShowModal(true);
   };
-  const onPdfClose = (e: any) => {
+  const onPdfClose = () => {
     setShowModal(false);
   };
 
@@ -35,8 +43,8 @@ const ResumeList = ({ resume, setResume }: { resume: any; setResume: any }) => {
         AlertModal({
           message: '이력서 삭제가 완료되었습니다.',
         });
-        setResume([]);
-        console.log(resume);
+        setResume('');
+        setResumeModal(false);
       } else {
         AlertModal({
           message: '삭제할 이력서가 없습니다.',
@@ -50,8 +58,6 @@ const ResumeList = ({ resume, setResume }: { resume: any; setResume: any }) => {
       dispatch(hideLoading());
     }
   };
-
-  useEffect(() => {}, [resume]);
 
   return (
     <>

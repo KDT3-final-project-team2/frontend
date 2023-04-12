@@ -10,7 +10,7 @@ import { Inner, NoList } from '@/components/companyApplicant/ApplicantsInfo';
 
 const ApplicantResume = () => {
   const dispatch = useAppDispatch();
-  const [resume, setResume] = useState([]);
+  const [resume, setResume] = useState<string>('');
   const [resumeModal, setResumeModal] = useState(false);
 
   const getResume = async () => {
@@ -21,10 +21,10 @@ const ApplicantResume = () => {
         AlertModal({
           message: '등록된 이력서가 없습니다.',
         });
-        setResume([]);
+        setResume('');
       } else {
         setResume(res.data);
-        console.log(resume);
+        console.log(res);
       }
     } catch (error) {
       AlertModal({
@@ -54,10 +54,10 @@ const ApplicantResume = () => {
         {resume.length === 0 ? (
           <NoList>등록한 이력서가 없습니다.</NoList>
         ) : (
-          <ResumeList resume={resume} setResume={setResume} />
+          <ResumeList resume={resume} setResume={setResume} setResumeModal={setResumeModal} />
         )}
       </Inner>
-      {resumeModal ? <ResumeModal setResumeModal={setResumeModal} resume={resume} /> : null}
+      {resumeModal ? <ResumeModal setResumeModal={setResumeModal} resume={resume} getResume={getResume} /> : null}
     </ContainerInner>
   );
 };
