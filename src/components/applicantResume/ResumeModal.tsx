@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ModalBackground } from '@components/mainhome/EmailModal';
 import { ViewPDF } from './pdf/ViewPDF';
@@ -11,13 +11,21 @@ import { requestResume } from '@/api/applicantApi';
 // workerSrc 정의 하지 않으면 pdf 보여지지 않습니다.
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const ResumeModal = ({
+  setResumeModal,
+  resume,
+}: {
+  setResumeModal: React.Dispatch<React.SetStateAction<boolean>>;
+  resume: any;
+}) => {
   const dispatch = useAppDispatch();
   const [pdfFileList, setPdfFileList] = useState<Array<File>>([]);
   const [pdfUrl, setPdfUrl] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {}, [resume]);
 
   const getUrl = (file: File) => {
     const blob = new Blob([file]);
@@ -78,7 +86,7 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
         AlertModal({
           message: '등록됐습니다.',
         });
-        location.reload();
+        setResumeModal(false);
       }
     } catch (error) {
       console.log(error);
@@ -195,11 +203,10 @@ const FileResultRow = styled.div`
   }
 `;
 
-const ModalOverlay = styled.div`
+export const ModalOverlay = styled.div`
   box-sizing: border-box;
   display: ${({ showModal }: { showModal: boolean }) => (showModal ? 'flex' : 'none')};
   justify-content: center;
-  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -207,14 +214,15 @@ const ModalOverlay = styled.div`
   right: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
+  padding-top: 4%;
 `;
 
-const PdfContainer = styled.div`
+export const PdfContainer = styled.div`
   display: flex;
   position: relative;
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;

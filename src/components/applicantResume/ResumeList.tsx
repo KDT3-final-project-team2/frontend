@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '../../store/loadingSlice';
 import styled from 'styled-components';
 import AlertModal from '../common/AlertModal';
 import { deleteResume } from '@/api/applicantApi';
 import { ViewPDF } from './pdf/ViewPDF';
+import { ModalBackground } from '../mainhome/EmailModal';
+import { MainContainer } from '@/pages/company/CompanyJobPosting';
+import { ButtonContainer, ModalOverlay, PdfContainer } from './ResumeModal';
 
-const ResumeList = ({ resume }: { resume: any }) => {
+const ResumeList = ({ resume, setResume }: { resume: any; setResume: any }) => {
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
@@ -32,7 +35,8 @@ const ResumeList = ({ resume }: { resume: any }) => {
         AlertModal({
           message: '이력서 삭제가 완료되었습니다.',
         });
-        location.reload();
+        setResume([]);
+        console.log(resume);
       } else {
         AlertModal({
           message: '삭제할 이력서가 없습니다.',
@@ -47,11 +51,13 @@ const ResumeList = ({ resume }: { resume: any }) => {
     }
   };
 
+  useEffect(() => {}, [resume]);
+
   return (
     <>
       <List>
         <Inner>
-          <p className='name'>{resume.replace('https://medimatch.shop/file/resume', '').replace('.pdf', '')}</p>
+          <p className='name'>{resume.split('/').pop().split('\\').pop()}</p>
           <div className='last'>
             <button onClick={onUrlClick}>미리보기</button>
             <button onClick={onClickDropDwon}>
@@ -66,7 +72,22 @@ const ResumeList = ({ resume }: { resume: any }) => {
           </div>
         </Inner>
       </List>
-      {/* {showModal ? <ViewPDF fileUrl={resume} /> : null} */}
+      {showModal ? (
+        <ModalBackground>
+          <MainContainer>
+            <ModalOverlay showModal={showModal}>
+              <PdfContainer>
+                <ButtonContainer>
+                  <button onClick={onPdfClose}>
+                    <img src='\icons\close.png' alt='닫기' />
+                  </button>
+                </ButtonContainer>
+                <ViewPDF fileUrl={resume} />
+              </PdfContainer>
+            </ModalOverlay>
+          </MainContainer>
+        </ModalBackground>
+      ) : null}
     </>
   );
 };

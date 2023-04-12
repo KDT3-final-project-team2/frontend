@@ -17,13 +17,14 @@ const ApplicantResume = () => {
     try {
       dispatch(showLoading());
       const res = await getApplicantResume();
-      if (res.stateCode === 401) {
+      if (res.stateCode === 401 || res.stateCode === 404) {
         AlertModal({
           message: '등록된 이력서가 없습니다.',
         });
         setResume([]);
       } else {
         setResume(res.data);
+        console.log(resume);
       }
     } catch (error) {
       AlertModal({
@@ -36,7 +37,7 @@ const ApplicantResume = () => {
 
   useEffect(() => {
     getResume();
-  }, []);
+  }, [resume]);
 
   return (
     <ContainerInner>
@@ -49,8 +50,14 @@ const ApplicantResume = () => {
       >
         등록하기
       </button>
-      <Inner>{resume.length === 0 ? <NoList>등록한 이력서가 없습니다.</NoList> : <ResumeList resume={resume} />}</Inner>
-      {resumeModal ? <ResumeModal setResumeModal={setResumeModal} /> : null}
+      <Inner>
+        {resume.length === 0 ? (
+          <NoList>등록한 이력서가 없습니다.</NoList>
+        ) : (
+          <ResumeList resume={resume} setResume={setResume} />
+        )}
+      </Inner>
+      {resumeModal ? <ResumeModal setResumeModal={setResumeModal} resume={resume} /> : null}
     </ContainerInner>
   );
 };

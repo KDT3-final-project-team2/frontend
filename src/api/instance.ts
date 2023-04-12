@@ -35,7 +35,7 @@ authInstance.interceptors.request.use(
 const onResponse = async (res: AxiosResponse | any) => {
   //const newAccess = res;
   //console.log(newAccess);
-  console.log(AuthVerify());
+  console.log(res.data.errorCode);
 
   if (AuthVerify() === 'Access Token Expired') {
     console.log(res.data.stateCode);
