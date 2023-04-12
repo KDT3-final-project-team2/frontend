@@ -49,7 +49,18 @@ const JobList = ({ index, application }: { index: number; application: MyApplica
           <>
             <div className='horizonLine'></div>
             <div className='content'>
-              <div style={{ width: '210px', height: '297px', backgroundColor: '#ECECEC' }}>공고 미리보기?</div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '210px',
+                  height: '297px',
+                  backgroundColor: '#ECECEC',
+                }}
+              >
+                <img src='./images/noImage.png' alt='' width={150} height={200} />
+              </div>
               <div>
                 <p>모집분야 및 지원자격</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '30px' }}>
