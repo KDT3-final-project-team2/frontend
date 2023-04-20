@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Close, ModalBackground, ModalContainer, ModalContentsBox, QualificationsTitle } from './PostEditModal';
 import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
 import { useQuery } from '@tanstack/react-query';
-import { getCompanyJobpostSingle } from '@/api/companyApi';
+import { getCompanyJobPostFile, getCompanyJobpostSingle } from '@/api/companyApi';
 import { dateToString } from '@/utils/dateToSTring';
 
 const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
@@ -18,8 +18,18 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
     },
   );
 
+  const { data: jobPostFile } = useQuery(
+    ['jobPostFile', 'jobPosts?.postId'],
+    () => getCompanyJobPostFile(jobPosts?.postId),
+    {
+      enabled: !!jobPosts?.postId,
+    },
+  );
+
+  console.log('jobPostFile', jobPostFile);
+
   const openPDF = () => {
-    window.open('https://medimatch.shop/files/applicant/7.pdf', '_blank');
+    window.open(`${jobPostFile?.data}`, '_blank');
   };
 
   return (
@@ -49,7 +59,7 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
               <ContentsBox>
                 <ContentsTitle>공고 PDF</ContentsTitle>
                 <FileBox>
-                  <File data='https://medimatch.shop/files/applicant/7.pdf' type='application/pdf' />
+                  <File data={jobPostFile?.data} type='application/pdf' />
                 </FileBox>
                 <PdfBtn onClick={openPDF}>pdf 열기</PdfBtn>
               </ContentsBox>

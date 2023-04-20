@@ -8,7 +8,7 @@ import { educationOptions, sectorOptions, workExperiencerOptions } from '@/const
 import { InputBox } from './InputBox';
 import { SelectBox } from './SelectBox';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCompanyJobpostSingle, postJobPosts, putJobPosts } from '@/api/companyApi';
+import { getCompanyJobPostFile, getCompanyJobpostSingle, postJobPosts, putJobPosts } from '@/api/companyApi';
 import { optionChangeToEnglish } from '@/utils/optionChangeToEnglish';
 
 const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }: IModalProps) => {
@@ -26,9 +26,6 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
       queryClient.invalidateQueries(['jobPosts']);
     },
   });
-
-  console.log(jobPosts);
-
   const { data: jobPostSingle } = useQuery(
     ['jobPostSingle', jobPosts?.postId],
     () => {
@@ -40,8 +37,17 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
       enabled: !!jobPosts?.postId,
     },
   );
+  const { data: jobPostFile } = useQuery(
+    ['jobPostFile', 'jobPosts?.postId'],
+    () => {
+      if (jobPosts) return getCompanyJobPostFile(jobPosts.postId);
+    },
+    {
+      enabled: !!jobPosts?.postId,
+    },
+  );
 
-  console.log(jobPostSingle);
+  console.log('jobPostFile', jobPostFile);
 
   const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
     resolver: yupResolver(jobPostSchema),
@@ -53,7 +59,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
       education: optionChangeToEnglish(jobPostSingle?.data.education),
       recruitNum: jobPostSingle?.data.maxApplicants,
       dueDate: jobPostSingle?.data.dueDate,
-      file: jobPostSingle?.data.file,
+      file: jobPostFile?.data,
       startDate: jobPostSingle?.data.startDate,
     },
   });
@@ -183,25 +189,33 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
               />
               <ErrorMessage>{formState.errors.dueDate?.message}</ErrorMessage>
             </PostingTitleBox>
-            {saveBtnText === '등록하기' && (
-              <PostingTitleBox>
-                <Label htmlFor='file'>공고 PDF</Label>
-                <InputFile
-                  id='file'
-                  type='file'
-                  {...register('file')}
-                  ref={fileRef}
-                  onChange={handleFileSelect}
-                  accept='.pdf'
-                  // defaultValue={jobPostSingle?.data.filePath}
-                />
-                <FileTitleBox>
+            <PostingTitleBox>
+              <Label htmlFor='file'>공고 PDF</Label>
+              <InputFile
+                id='file'
+                type='file'
+                {...register('file')}
+                ref={fileRef}
+                onChange={handleFileSelect}
+                accept='.pdf'
+              />
+              <FileTitleBox>
+                {saveBtnText === '등록하기' ? (
                   <p>{selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '파일을 선택해주세요.'}</p>
-                </FileTitleBox>
-                <SelectFile src='/icons/selectfile.png' onClick={onClickFile} />
-                <ErrorMessage>{formState.errors.file?.message}</ErrorMessage>
-              </PostingTitleBox>
-            )}
+                ) : (
+                  <p
+                    onClick={() => {
+                      if (!selectedFile) window.open(`${jobPostFile?.data}`, '_blank');
+                    }}
+                    className='file'
+                  >
+                    {selectedFile ? `선택된 파일 : ${selectedFile?.name}` : '등록된 PDF 열기'}
+                  </p>
+                )}
+              </FileTitleBox>
+              <SelectFile src='/icons/selectfile.png' onClick={onClickFile} />
+              <ErrorMessage>{formState.errors.file?.message}</ErrorMessage>
+            </PostingTitleBox>
           </form>
         </ModalContentsBox>
       </ModalContainer>
@@ -311,6 +325,11 @@ const FileTitleBox = styled.div`
   display: flex;
   align-items: center;
   margin-right: 10px;
+  .file {
+    color: var(--color-blue);
+    cursor: pointer;
+    font-weight: 700;
+  }
 `;
 
 const SelectFile = styled.img`
