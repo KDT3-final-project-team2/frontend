@@ -8,12 +8,12 @@ import { getDday } from '@/utils/getDday';
 import { dateToString } from '@/utils/dateToSTring';
 import ConfirmModal from '../common/ConfirmModal';
 import { applicantApply } from '@/api/applicantApi';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { getCompanyJobPostFile } from '@/api/companyApi';
 
 const JobSearchingList = ({ index, searchData }: { index: number; searchData: JobPostsSearchData }) => {
   const [open, setOpen] = useState(false);
-  console.log(searchData);
   const navigate = useNavigate();
 
   const onClickSearchListOpen = () => {
@@ -31,6 +31,18 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
       queryClient.invalidateQueries(['myApplications']);
     },
   });
+  const { data: jobPostFile } = useQuery(
+    ['jobPosts', searchData?.jobpostId],
+    () => {
+      if (searchData) return getCompanyJobPostFile(searchData.jobpostId);
+    },
+    {
+      enabled: !!searchData?.jobpostId,
+    },
+  );
+  console.log('searchData', searchData);
+
+  console.log('jobPostFile', jobPostFile);
 
   const onClickApply = () => {
     ConfirmModal({
@@ -41,10 +53,6 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
         });
       },
     });
-  };
-
-  const openPDF = () => {
-    window.open('https://medimatch.shop/files/applicant/7.pdf', '_blank');
   };
 
   return (
@@ -68,7 +76,7 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
               <DetailWrapper>
                 <div className='flexBox'>
                   <JobPostingBox>
-                    <object data='https://medimatch.shop/files/applicant/7.pdf' type='application/pdf' />
+                    <object data={jobPostFile?.data} type='application/pdf' />
                   </JobPostingBox>
                   <div>
                     <div>
@@ -89,7 +97,13 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
                   </div>
                 </div>
                 <BtnWrapper>
-                  <HomePageBtn>병원홈페이지</HomePageBtn>
+                  <HomePageBtn
+                    onClick={() => {
+                      return window.open(`${jobPostFile?.data}`, '_blank');
+                    }}
+                  >
+                    공고 PDF
+                  </HomePageBtn>
                   <RegistrationButton onClick={onClickApply}>지원하기</RegistrationButton>
                 </BtnWrapper>
               </DetailWrapper>
@@ -144,12 +158,15 @@ const DetailWrapper = styled.div`
 `;
 
 const JobPostingBox = styled.div`
-  width: 200px;
+  width: 195px;
   height: 270px;
   background-color: #ececec;
+  border-radius: 10px;
+  overflow: hidden;
   object {
-    width: 210px;
+    width: 195px;
     height: 270px;
+    border: none;
   }
 `;
 
