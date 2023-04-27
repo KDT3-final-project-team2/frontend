@@ -16,6 +16,8 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
   const [pdfFileList, setPdfFileList] = useState<Array<File>>([]);
   const [pdfUrl, setPdfUrl] = useState<string>();
   const [showModal, setShowModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const getUrl = (file: File) => {
     const blob = new Blob([file]);
@@ -28,6 +30,10 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
     const getAddList = selectedList.map(item => item);
     getUrl(getAddList[0]);
     setPdfFileList(selectedList);
+    if (e.target.files?.[0]) {
+      setSelectedFile(e.target.files[0]);
+      console.log(e.target.files?.[0]);
+    }
   };
 
   const onDeleteTarget = () => {
@@ -64,20 +70,20 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
   const submitResume = async (file: any) => {
     const formData = new FormData();
     console.log(formData);
-    formData.append('resume', file[0]);
+    formData.append('resume', file);
     try {
       dispatch(showLoading());
       const res = await requestResume(formData);
-      console.log(res);
       if (res.stateCode === 200) {
         AlertModal({
           message: '등록됐습니다.',
         });
+        location.reload();
       }
     } catch (error) {
       console.log(error);
       AlertModal({
-        message: '등록이 안됐습니다. 다시 시도해주세요',
+        message: '등록에 실패했습니다. 다시 시도해주세요',
       });
     } finally {
       dispatch(hideLoading());
@@ -104,16 +110,16 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
                 <ViewPDF fileUrl={pdfUrl} />
               </PdfContainer>
             </ModalOverlay>
-            <form>
+            <form className={pdfFileList.length !== 0 ? 'hide' : ''}>
               <label htmlFor='uploadFile'>파일 업로드하기</label>
-              <input type='file' id='uploadFile' accept='application/pdf' onChange={onPdfFileUpload} />
+              <input type='file' id='uploadFile' accept='.pdf' onChange={onPdfFileUpload} ref={fileRef} />
             </form>
             {pdfFileList.length === 0 ? null : <FileResultList />}
           </MainContainer>
         </div>
         <div id='buttons'>
           <button onClick={() => setResumeModal(false)}>취소</button>
-          <button onClick={submitResume}>등록</button>
+          <button onClick={() => submitResume(selectedFile)}>등록</button>
         </div>
       </div>
     </ModalBackground>
@@ -124,6 +130,9 @@ const MainContainer = styled.div`
   height: 120px;
   margin-top: 20px;
   form {
+    &.hide {
+      display: none !important;
+    }
     label {
       display: flex;
       align-items: center;

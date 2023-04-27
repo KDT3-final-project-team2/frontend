@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Close, ModalBackground, ModalContainer, ModalContentsBox, QualificationsTitle } from './PostEditModal';
 import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
 import { useQuery } from '@tanstack/react-query';
-import { getCompanyJobpostSingle } from '@/api/companyApi';
+import { getCompanyJobPostFile, getCompanyJobpostSingle } from '@/api/companyApi';
 import { dateToString } from '@/utils/dateToSTring';
 
 const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
@@ -17,6 +17,21 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
       enabled: !!jobPosts?.postId,
     },
   );
+
+  const { data: jobPostFile } = useQuery(
+    ['jobPostFile', 'jobPosts?.postId'],
+    () => getCompanyJobPostFile(jobPosts?.postId),
+    {
+      enabled: !!jobPosts?.postId,
+    },
+  );
+
+  console.log('jobPostFile', jobPostFile);
+
+  const openPDF = () => {
+    window.open(`${jobPostFile?.data}`, '_blank');
+  };
+
   return (
     <>
       <ModalBackground>
@@ -44,8 +59,9 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
               <ContentsBox>
                 <ContentsTitle>공고 PDF</ContentsTitle>
                 <FileBox>
-                  <File src={'/images/noImage.png'} />
+                  <File data={jobPostFile?.data} type='application/pdf' />
                 </FileBox>
+                <PdfBtn onClick={openPDF}>pdf 열기</PdfBtn>
               </ContentsBox>
             </QualificationsBox>
           </ModalContentsBox>
@@ -65,6 +81,14 @@ export const PostingContents = ({ title, contents }: IPostingContensProps) => {
 };
 
 export default PreviewModal;
+
+const PdfBtn = styled.button`
+  background-color: var(--color-blue);
+  border-radius: 10px;
+  color: #fff;
+  padding: 7px 14px;
+  font-size: 15px;
+`;
 
 const PreviewModalHeader = styled.div`
   display: flex;
@@ -137,7 +161,9 @@ const FileBox = styled.div`
   align-items: center;
 `;
 
-const File = styled.img`
+const File = styled.object`
   width: 100px;
   height: 100px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
