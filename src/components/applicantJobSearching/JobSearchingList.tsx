@@ -16,6 +16,8 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
+  // console.log('searchData', searchData);
+
   const onClickSearchListOpen = () => {
     setOpen(!open);
   };
@@ -40,9 +42,6 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
       enabled: !!searchData?.jobpostId,
     },
   );
-  console.log('searchData', searchData);
-
-  console.log('jobPostFile', jobPostFile);
 
   const onClickApply = () => {
     ConfirmModal({
@@ -57,7 +56,7 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
 
   return (
     <>
-      {searchData?.jobpostStatus === '모집중' && Number(getDday(dateToString(searchData?.jobpostDueDate))) < 0 && (
+      {
         <PostingListContainer open={open}>
           <div className='termBox' onClick={onClickSearchListOpen}>
             <FlexBox>
@@ -110,7 +109,7 @@ const JobSearchingList = ({ index, searchData }: { index: number; searchData: Jo
             </>
           )}
         </PostingListContainer>
-      )}
+      }
     </>
   );
 };
