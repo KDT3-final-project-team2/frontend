@@ -64,7 +64,6 @@ export const getCompanyJobpostSingle = async (jobpostId: number) => {
 export const getCompanyJobPostFile = async (jobpostId: number) => {
   try {
     const res = await authInstance(`/company/file/${jobpostId}`);
-    console.log('res', res.data);
     return res.data;
   } catch (error) {
     console.log(error);

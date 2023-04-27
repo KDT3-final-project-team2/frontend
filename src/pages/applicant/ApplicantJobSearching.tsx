@@ -1,43 +1,54 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
-import { searchingOptions, sectorOptions } from '@/constants/jobPostingOptions';
+import { searchingOptions } from '@/constants/jobPostingOptions';
 import { useAppSelector } from '@/hooks/useDispatchHooks';
-import { useQuery } from '@tanstack/react-query';
-import { getJobPostsSearch } from '@/api/applicantApi';
-import axios from 'axios';
+import { useJobPosts } from '@/hooks/useJobPostsHooks';
+import { debounce } from 'lodash';
 
 const ApplicantJobSearching = () => {
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('전체');
   const [searchingData, setSearchingData] = useState('');
-  const [searchKey, setSearchKey] = useState('');
   const applicantUser = useAppSelector(state => state.applicantUser);
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSearchingData('');
     setSelectedOption(event.target.value);
   };
 
-  const onChangeSearchData = (event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
+  const onChangeSearchData = debounce((event: ChangeEvent<HTMLInputElement>) => {
+    setSearchingData(event.target.value);
+  }, 500);
+
+  const onChangeSearchOption = (event: ChangeEvent<HTMLSelectElement>) => {
     setSearchingData(event.target.value);
   };
 
-  const { data: searchData } = useQuery(
-    ['jobPosts', selectedOption, searchingData, searchKey],
-    () => getJobPostsSearch(selectedOption, searchingData),
-    {
-      enabled: !!selectedOption && !!searchingData,
-    },
-  );
+  const {
+    data: jobPostsList,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useJobPosts(selectedOption, searchingData);
 
-  console.log('searchData', searchData);
+  console.log('jobPostsList', jobPostsList);
+  console.log('selectedOption', selectedOption);
+  console.log('searchingData', searchingData);
 
-  const onSubmitSearch = (event: FormEvent<HTMLFormElement>) => {
-    event?.preventDefault();
-    console.log(selectedOption);
-    console.log(searchingData);
-    setSearchKey(Date.now().toString());
-  };
+  useEffect(() => {
+    const handleScroll = async () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      const isBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      if (isBottom && !isFetchingNextPage && hasNextPage) {
+        await fetchNextPage();
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <MainContainer>
@@ -61,7 +72,7 @@ const ApplicantJobSearching = () => {
         <SearchTab>공고 탐색</SearchTab>
         <SearchBox>
           <SelectBox value={selectedOption} onChange={handleOptionChange}>
-            <option value=''>선택하세요</option>
+            <option value='전체'>전체</option>
             <option value='직무'>직무</option>
             <option value='학력'>학력</option>
             <option value='경력'>경력</option>
@@ -69,35 +80,41 @@ const ApplicantJobSearching = () => {
             <option value='회사'>회사</option>
           </SelectBox>
           {(selectedOption === '직무' || selectedOption === '학력' || selectedOption === '경력') && (
-            <Form onSubmit={onSubmitSearch}>
-              <SelectBox onChange={onChangeSearchData}>
-                <option value=''>선택하세요</option>
-                {searchingOptions?.[selectedOption].map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </SelectBox>
-            </Form>
+            <SelectBox onChange={onChangeSearchOption}>
+              <option value=''>선택하세요</option>
+              {searchingOptions?.[selectedOption].map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </SelectBox>
           )}
           {(selectedOption === '공고제목' || selectedOption === '회사') && (
-            <form onSubmit={onSubmitSearch}>
-              <SearchInputWrapper>
-                <img src='/icons/search.png' />
-                <SearchInput placeholder='검색어를 입력해주세요.' onChange={onChangeSearchData}></SearchInput>
-              </SearchInputWrapper>
-              <button style={{ display: 'none' }}></button>
-            </form>
+            <SearchInputWrapper>
+              <img src='/icons/search.png' />
+              <SearchInput placeholder='검색어를 입력해주세요.' onChange={onChangeSearchData}></SearchInput>
+            </SearchInputWrapper>
           )}
         </SearchBox>
         <ListHeader>공고 리스트</ListHeader>
       </div>
-      {searchData?.content?.map((data: JobPostsSearchData, index: number) => (
+      {/* {searchData?.content?.map((data: JobPostsSearchData, index: number) => (
         <JobSearchingList key={data.jobpostId} index={index} searchData={data} />
       ))}
       {(searchData?.content?.length === 0 || !searchData || searchData?.errorMessage) && (
         <Nothing>리스트가 없습니다.</Nothing>
-      )}
+      )} */}
+      <div>
+        {jobPostsList?.pages[0]?.content?.length === 0 || !jobPostsList?.pages[0]?.content ? (
+          <Nothing>리스트가 없습니다.</Nothing>
+        ) : (
+          jobPostsList?.pages.map(page =>
+            page?.content?.map((data: any, index: number) => (
+              <JobSearchingList key={data.jobpostId} index={index} searchData={data} />
+            )),
+          )
+        )}
+      </div>
     </MainContainer>
   );
 };
