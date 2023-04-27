@@ -24,7 +24,7 @@ const CompanyJobPosting = () => {
       queryClient.invalidateQueries(['jobPosts']);
     },
   });
-
+  console.log(jobPosts);
   return (
     <MainContainer>
       <div className='headerBox'>

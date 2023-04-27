@@ -12,6 +12,7 @@ const ApplicantList = ({ index, step, applicant }: { index: number; step: string
   const [open, setOpen] = useState(index === 0 ? true : false);
   const [emailModal, setEmailModal] = useState(false);
   const [mailType, setMailType] = useState<mailTypeCase>('서류합격');
+  const [memoInput, setMemoInput] = useState('');
   const {
     applicantId,
     name,
