@@ -42,7 +42,6 @@ const ApplicantJobSearching = () => {
           handleSearchOptionChange={handleSearchOptionChange}
           handleSearchInputChange={handleSearchInputChange}
         />
-
         <ListHeader>공고 리스트</ListHeader>
       </div>
       <div>
