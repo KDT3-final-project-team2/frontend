@@ -3,14 +3,13 @@ import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
 import { searchingOptions } from '@/constants/jobPostingOptions';
-import { useAppSelector } from '@/hooks/useDispatchHooks';
 import { useJobPosts } from '@/hooks/useJobPostsHooks';
 import { debounce } from 'lodash';
+import BannerBox from '@/components/applicantJobSearching/BannerBox';
 
 const ApplicantJobSearching = () => {
   const [selectedOption, setSelectedOption] = useState('전체');
   const [searchingData, setSearchingData] = useState('');
-  const applicantUser = useAppSelector(state => state.applicantUser);
 
   const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSearchingData('');
@@ -53,22 +52,7 @@ const ApplicantJobSearching = () => {
   return (
     <MainContainer>
       <div className='headerBox'>
-        <BannerBox>
-          <BlueBox>
-            <Content>
-              {applicantUser?.applicantName}님의 <br /> 맞춤 병원탐색
-            </Content>
-            <img src='/icons/people.png' />
-          </BlueBox>
-          <YellowBox>
-            <Content>
-              나를 가장 잘 표현한
-              <br />
-              이력서 만들기 전략
-            </Content>
-            <img src='/icons/resumeImg.png' />
-          </YellowBox>
-        </BannerBox>
+        <BannerBox />
         <SearchTab>공고 탐색</SearchTab>
         <SearchBox>
           <SelectBox value={selectedOption} onChange={handleOptionChange}>
@@ -98,12 +82,6 @@ const ApplicantJobSearching = () => {
         </SearchBox>
         <ListHeader>공고 리스트</ListHeader>
       </div>
-      {/* {searchData?.content?.map((data: JobPostsSearchData, index: number) => (
-        <JobSearchingList key={data.jobpostId} index={index} searchData={data} />
-      ))}
-      {(searchData?.content?.length === 0 || !searchData || searchData?.errorMessage) && (
-        <Nothing>리스트가 없습니다.</Nothing>
-      )} */}
       <div>
         {jobPostsList?.pages[0]?.content?.length === 0 || !jobPostsList?.pages[0]?.content ? (
           <Nothing>리스트가 없습니다.</Nothing>
@@ -127,53 +105,6 @@ const Nothing = styled.p`
   margin-top: 50px;
   font-size: 18px;
   font-weight: bold;
-`;
-
-const Form = styled.form`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const BannerBox = styled.div`
-  display: flex;
-  gap: 19px;
-`;
-const BlueBox = styled.div`
-  background: var(--color-primary-100);
-  border-radius: 19px;
-  width: 60%;
-  height: 171px;
-  padding-top: 28px;
-  padding-left: 38px;
-  display: flex;
-  justify-content: space-between;
-  img {
-    width: 60%;
-  }
-`;
-
-const Content = styled.p`
-  font-weight: 700;
-  font-size: 18px;
-  color: #ffffff;
-  line-height: 22px;
-`;
-
-const YellowBox = styled.div`
-  background: #ffc847;
-  border-radius: 19px;
-  width: 40%;
-  height: 171px;
-  padding-top: 28px;
-  padding-left: 38px;
-  display: flex;
-  justify-content: space-between;
-  img {
-    margin-right: 20px;
-    width: 35%;
-    margin-top: 50px;
-  }
 `;
 
 const SearchTab = styled.h2`
@@ -232,12 +163,4 @@ const ListHeader = styled.p`
   font-size: 18px;
   margin-top: 36px;
   margin-bottom: 20px;
-`;
-
-const SearchBtn = styled.button`
-  background: var(--color-primary-100);
-  border-radius: 20px;
-  color: #ffffff;
-  width: 90px;
-  height: 30px;
 `;
