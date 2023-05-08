@@ -5,7 +5,7 @@ import JobSearchingList from './../../components/applicantJobSearching/JobSearch
 import { useJobPosts } from '@/hooks/useJobPostsHooks';
 import BannerBox from '@/components/applicantJobSearching/BannerBox';
 import useSearchFilter from '@/hooks/useSearchFilter';
-import SearchFilter from '@/components/applicantJobSearching/SearchFilter';
+import SearchFilter from '@/components/applicantJobSearching/SearchFilter/SearchFilter';
 
 const ApplicantJobSearching = () => {
   const { selectedOption, searchingData, handleCategoryChange, handleSearchOptionChange, handleSearchInputChange } =

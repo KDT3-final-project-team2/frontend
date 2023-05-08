@@ -185,3 +185,8 @@ export interface ISearchFilterProps {
   handleSearchOptionChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface ISearchOptionDropdown {
+  selectedOption: '직무' | '학력' | '경력';
+  handleSearchOptionChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}

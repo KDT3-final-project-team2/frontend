@@ -1,6 +1,6 @@
 import { ISearchFilterProps } from '@/@types/props';
-import { searchingOptions } from '@/constants/jobPostingOptions';
 import styled from 'styled-components';
+import SearchOptionDropdown from './SearchOptionDropdown';
 
 const SearchFilter = ({
   selectedOption,
@@ -21,14 +21,7 @@ const SearchFilter = ({
           <option value='회사'>회사</option>
         </SelectBox>
         {(selectedOption === '직무' || selectedOption === '학력' || selectedOption === '경력') && (
-          <SelectBox onChange={handleSearchOptionChange}>
-            <option value=''>선택하세요</option>
-            {searchingOptions?.[selectedOption].map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </SelectBox>
+          <SearchOptionDropdown selectedOption={selectedOption} handleSearchOptionChange={handleSearchOptionChange} />
         )}
         {(selectedOption === '공고제목' || selectedOption === '회사') && (
           <SearchInputWrapper>
@@ -59,7 +52,7 @@ const SearchBox = styled.div`
   align-items: center;
 `;
 
-const SelectBox = styled.select`
+export const SelectBox = styled.select`
   border: 1px solid var(--color-primary-100);
   border-radius: 20px;
   padding: 6px 10px 4px;
