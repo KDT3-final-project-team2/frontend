@@ -178,3 +178,10 @@ export interface ICompanyStepBoxProps {
   setStep: React.Dispatch<React.SetStateAction<employStepType>>;
   num: number;
 }
+
+export interface ISearchFilterProps {
+  selectedOption: string;
+  handleCategoryChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleSearchOptionChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}

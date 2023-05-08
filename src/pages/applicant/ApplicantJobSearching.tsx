@@ -1,28 +1,15 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { MainContainer } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import JobSearchingList from './../../components/applicantJobSearching/JobSearchingList';
-import { searchingOptions } from '@/constants/jobPostingOptions';
 import { useJobPosts } from '@/hooks/useJobPostsHooks';
-import { debounce } from 'lodash';
 import BannerBox from '@/components/applicantJobSearching/BannerBox';
+import useSearchFilter from '@/hooks/useSearchFilter';
+import SearchFilter from '@/components/applicantJobSearching/SearchFilter';
 
 const ApplicantJobSearching = () => {
-  const [selectedOption, setSelectedOption] = useState('전체');
-  const [searchingData, setSearchingData] = useState('');
-
-  const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSearchingData('');
-    setSelectedOption(event.target.value);
-  };
-
-  const onChangeSearchData = debounce((event: ChangeEvent<HTMLInputElement>) => {
-    setSearchingData(event.target.value);
-  }, 500);
-
-  const onChangeSearchOption = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSearchingData(event.target.value);
-  };
+  const { selectedOption, searchingData, handleCategoryChange, handleSearchOptionChange, handleSearchInputChange } =
+    useSearchFilter();
 
   const {
     data: jobPostsList,
@@ -30,10 +17,6 @@ const ApplicantJobSearching = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = useJobPosts(selectedOption, searchingData);
-
-  console.log('jobPostsList', jobPostsList);
-  console.log('selectedOption', selectedOption);
-  console.log('searchingData', searchingData);
 
   useEffect(() => {
     const handleScroll = async () => {
@@ -53,33 +36,13 @@ const ApplicantJobSearching = () => {
     <MainContainer>
       <div className='headerBox'>
         <BannerBox />
-        <SearchTab>공고 탐색</SearchTab>
-        <SearchBox>
-          <SelectBox value={selectedOption} onChange={handleOptionChange}>
-            <option value='전체'>전체</option>
-            <option value='직무'>직무</option>
-            <option value='학력'>학력</option>
-            <option value='경력'>경력</option>
-            <option value='공고제목'>공고제목</option>
-            <option value='회사'>회사</option>
-          </SelectBox>
-          {(selectedOption === '직무' || selectedOption === '학력' || selectedOption === '경력') && (
-            <SelectBox onChange={onChangeSearchOption}>
-              <option value=''>선택하세요</option>
-              {searchingOptions?.[selectedOption].map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </SelectBox>
-          )}
-          {(selectedOption === '공고제목' || selectedOption === '회사') && (
-            <SearchInputWrapper>
-              <img src='/icons/search.png' />
-              <SearchInput placeholder='검색어를 입력해주세요.' onChange={onChangeSearchData}></SearchInput>
-            </SearchInputWrapper>
-          )}
-        </SearchBox>
+        <SearchFilter
+          selectedOption={selectedOption}
+          handleCategoryChange={handleCategoryChange}
+          handleSearchOptionChange={handleSearchOptionChange}
+          handleSearchInputChange={handleSearchInputChange}
+        />
+
         <ListHeader>공고 리스트</ListHeader>
       </div>
       <div>
