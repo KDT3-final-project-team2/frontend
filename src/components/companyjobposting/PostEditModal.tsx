@@ -205,7 +205,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
                 ) : (
                   <p
                     onClick={() => {
-                      if (!selectedFile) window.open(`${jobPostFile?.data}`, '_blank');
+                      if (!selectedFile) window.open(`${jobPostFile?.data}`);
                     }}
                     className='file'
                   >

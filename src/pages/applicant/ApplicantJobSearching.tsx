@@ -1,9 +1,9 @@
-import { MainContainer } from '../company/CompanyJobPosting';
+import { HeaderBox, MainContainer } from '../company/CompanyJobPosting';
 import { useJobPosts } from '@/hooks/useJobPosts';
 import BannerBox from '@/components/applicantJobSearching/BannerBox';
 import useSearchFilter from '@/hooks/useSearchFilter';
 import SearchFilter from '@/components/applicantJobSearching/SearchFilter/SearchFilter';
-import JobPostsDisplay from '@/components/applicantJobSearching/JobPostsDisplay';
+import JobPostsDisplay from '@/components/applicantJobSearching/JobPostsDisplay/JobPostsDisplay';
 
 const ApplicantJobSearching = () => {
   const { selectedOption, searchingData, handleCategoryChange, handleSearchOptionChange, handleSearchInputChange } =
@@ -12,7 +12,7 @@ const ApplicantJobSearching = () => {
 
   return (
     <MainContainer>
-      <div className='headerBox'>
+      <HeaderBox>
         <BannerBox />
         <SearchFilter
           selectedOption={selectedOption}
@@ -20,7 +20,7 @@ const ApplicantJobSearching = () => {
           handleSearchOptionChange={handleSearchOptionChange}
           handleSearchInputChange={handleSearchInputChange}
         />
-      </div>
+      </HeaderBox>
       <JobPostsDisplay jobPostsList={jobPostsList} />
     </MainContainer>
   );

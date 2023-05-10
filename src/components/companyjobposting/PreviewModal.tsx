@@ -29,7 +29,7 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
   console.log('jobPostFile', jobPostFile);
 
   const openPDF = () => {
-    window.open(`${jobPostFile?.data}`, '_blank');
+    window.open(`${jobPostFile?.data}`);
   };
 
   return (

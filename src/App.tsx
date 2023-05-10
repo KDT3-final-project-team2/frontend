@@ -26,8 +26,8 @@ import NotFound from './pages/NotFound';
 function App() {
   const token = getCookie('accessToken');
   const refreshtoken = getCookie('accessToken');
-  console.log(token);
-  console.log(refreshtoken);
+  // console.log(token);
+  // console.log(refreshtoken);
 
   return (
     <BrowserRouter>

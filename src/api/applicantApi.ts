@@ -137,7 +137,6 @@ export const getJobPostsSearch = async (type: string, keyword: string, page: num
 export const getJobPostsList = async (page: number) => {
   try {
     const res = await authInstance.get('/jobposts/posts', { params: { page } });
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);

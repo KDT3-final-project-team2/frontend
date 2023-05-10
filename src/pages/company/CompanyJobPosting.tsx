@@ -27,10 +27,10 @@ const CompanyJobPosting = () => {
   console.log(jobPosts);
   return (
     <MainContainer>
-      <div className='headerBox'>
+      <HeaderBox>
         <RecruitmentNotice>채용 공고</RecruitmentNotice>
         <RecruitmentManagement>공고 등록 관리</RecruitmentManagement>
-      </div>
+      </HeaderBox>
       <RegistrationButton onClick={showRegistrationModal}>등록하기</RegistrationButton>
       {jobPosts?.data.map((data: IGetCompanyJobPosts) => (
         <JobPostingList
@@ -60,10 +60,11 @@ const EmptyBox = styled.div`
 export const MainContainer = styled.div`
   margin: 0 auto;
   margin-top: 36px;
-  .headerBox {
-    width: 93%;
-    padding: 0 70px;
-  }
+`;
+
+export const HeaderBox = styled.div`
+  width: 93%;
+  padding: 0 70px;
 `;
 
 export const RecruitmentNotice = styled.h1``;

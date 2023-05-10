@@ -9,9 +9,7 @@ const JobPostsDisplay = ({ jobPostsList }: any) => {
         <Nothing>리스트가 없습니다.</Nothing>
       ) : (
         jobPostsList?.pages.map((page: Page) =>
-          page?.content?.map((data: Content, index: number) => (
-            <JobSearchingList key={data.jobpostId} index={index} searchData={data} />
-          )),
+          page?.content?.map((data: Content) => <JobSearchingList key={data.jobpostId} searchData={data} />),
         )
       )}
     </>
