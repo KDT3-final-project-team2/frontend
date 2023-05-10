@@ -194,3 +194,7 @@ export interface ISearchOptionDropdownProps {
 export interface ISearchInputFieldProps {
   handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface IJobPostsDisplayProps {
+  jobPostsList;
+}

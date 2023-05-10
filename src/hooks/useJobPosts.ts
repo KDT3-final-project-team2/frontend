@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getJobPostsList, getJobPostsSearch } from '@/api/applicantApi';
+import { useEffect } from 'react';
 
 export const useJobPosts = (type: string, keyword: string | null) => {
   const fetchJobPosts = async ({ pageParam = 0 }) => {
@@ -23,10 +24,19 @@ export const useJobPosts = (type: string, keyword: string | null) => {
     },
   );
 
-  return {
-    data,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  };
+  useEffect(() => {
+    const handleScroll = async () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      const isBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      if (isBottom && !isFetchingNextPage && hasNextPage) {
+        await fetchNextPage();
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  return [data];
 };
