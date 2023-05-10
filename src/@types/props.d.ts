@@ -195,6 +195,13 @@ export interface ISearchInputFieldProps {
   handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface IJobPostsDisplayProps {
-  jobPostsList;
+export interface IJobPostSummaryProps {
+  onClickSearchContentsOpen: () => void;
+  searchData: JobPostsSearchData;
+}
+
+export interface IJobPostDetailProps {
+  searchData: JobPostsSearchData;
+  onClickApply: () => void;
+  onClickPdfOpen: () => Window | null;
 }

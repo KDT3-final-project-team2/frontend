@@ -1,10 +1,11 @@
+import { IJobPostSummaryProps } from '@/@types/props';
 import { CreateDate, TermType } from '@/components/term.tsx/TermList';
 import { dateToString } from '@/utils/dateToSTring';
 import { getDday } from '@/utils/getDday';
 import Avvvatars from 'avvvatars-react';
 import styled from 'styled-components';
 
-const JobPostSummary = ({ onClickSearchContentsOpen, searchData }: any) => {
+const JobPostSummary = ({ onClickSearchContentsOpen, searchData }: IJobPostSummaryProps) => {
   return (
     <JobPostsBox onClick={onClickSearchContentsOpen}>
       <FlexBox>

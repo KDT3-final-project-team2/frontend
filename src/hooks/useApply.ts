@@ -3,7 +3,7 @@ import ConfirmModal from '@/components/common/ConfirmModal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-const useApply = (searchData: JobPostsSearchData): [() => void] => {
+const useApply = (searchData: JobPostsSearchData) => {
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -30,7 +30,7 @@ const useApply = (searchData: JobPostsSearchData): [() => void] => {
     });
   };
 
-  return [apply];
+  return apply;
 };
 
 export default useApply;
