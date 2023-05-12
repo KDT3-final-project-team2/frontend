@@ -60,6 +60,17 @@ export const getCompanyJobpostSingle = async (jobpostId: number) => {
   }
 };
 
+// 채용공고 파일 가져오기
+export const getCompanyJobPostFile = async (jobpostId: number) => {
+  try {
+    const res = await authInstance(`/company/file/${jobpostId}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const postJobPosts = async (jobPostData: FormData) => {
   try {
     const res = await authInstance.post('/company/jobposts', jobPostData, {

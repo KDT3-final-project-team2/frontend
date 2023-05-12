@@ -329,3 +329,57 @@ interface AdminStaticsData {
   NURSE: number;
   MEDICAL_RECORDS_PROFESSIONAL: number;
 }
+
+interface JobPostsListsData {
+  pages: Page[];
+  pageParams: number | undefined[];
+}
+
+interface Page {
+  content: Content[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: Sort2;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+}
+
+interface Content {
+  jobpostId: number;
+  jobpostTitle: string;
+  jobpostSector: string;
+  jobpostEducation: string;
+  jobpostWorkExperience: string;
+  jobpostRecruitNum: number;
+  jobpostDueDate: string;
+  jobpostStatus: string;
+  jobpostFilePath: string;
+  companyName: string;
+  companyAddress: string;
+}
+
+interface Pageable {
+  sort: Sort;
+  offset: number;
+  pageNumber: number;
+  pageSize: number;
+  paged: boolean;
+  unpaged: boolean;
+}
+
+interface Sort {
+  empty: boolean;
+  unsorted: boolean;
+  sorted: boolean;
+}
+
+interface Sort2 {
+  empty: boolean;
+  unsorted: boolean;
+  sorted: boolean;
+}

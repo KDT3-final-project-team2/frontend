@@ -1,12 +1,12 @@
 import Avvvatars from 'avvvatars-react';
-import React, { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import EmailModal from './EmailModal';
 import ConfirmModal from '../common/ConfirmModal';
 import { getDday } from '@/utils/getDday';
-import AlertModal from '../common/AlertModal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { EditApplication } from '@/api/companyApi';
+import { debounce } from 'lodash';
 
 const ApplicantList = ({ index, step, applicant }: { index: number; step: string; applicant: ApplicationData }) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
@@ -33,13 +33,16 @@ const ApplicantList = ({ index, step, applicant }: { index: number; step: string
     interviewDate,
     applicationId,
   } = applicant;
-
   const queryClient = useQueryClient();
   const { mutate: PostApplication } = useMutation(EditApplication, {
     onSuccess: () => {
       queryClient.invalidateQueries(['applications']);
     },
   });
+
+  const onChangeMemo = debounce(e => {
+    PostApplication({ applicationId, memo: e.target.value });
+  }, 500);
 
   return (
     <ListComponent>
@@ -118,7 +121,7 @@ const ApplicantList = ({ index, step, applicant }: { index: number; step: string
                   cols={30}
                   rows={10}
                   defaultValue={memo}
-                  onChange={event => PostApplication({ applicationId, memo: event.currentTarget.value })}
+                  onChange={onChangeMemo}
                 ></textarea>
                 <div className='buttons'>
                   {step === '최종합격' || step === '전체' ? (

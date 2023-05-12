@@ -1,4 +1,4 @@
-import { MainContainer, RecruitmentNotice, RegistrationButton } from '../company/CompanyJobPosting';
+import { HeaderBox, MainContainer, RecruitmentNotice, RegistrationButton } from '../company/CompanyJobPosting';
 import styled from 'styled-components';
 import TermList from '../../components/term.tsx/TermList';
 import TermPostEditModal from '../../components/term.tsx/TermPostEditModal';
@@ -32,11 +32,11 @@ export const AdminTerm = () => {
 
   return (
     <MainContainer>
-      <div className='headerBox'>
+      <HeaderBox>
         <RecruitmentNotice>약관 관리</RecruitmentNotice>
         <ViewTerms>약관 조회</ViewTerms>
         <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
-      </div>
+      </HeaderBox>
       {term?.data.map((data: adminTermSingleData, index: number) => (
         <TermList
           term={data}

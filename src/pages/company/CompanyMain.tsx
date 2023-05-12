@@ -6,7 +6,6 @@ import CompanyStepBox from '@components/mainhome/CompanyStepBox';
 import { CompanySteps, companyStepType } from '../../constants/steps';
 import { useQuery } from '@tanstack/react-query';
 import { getApplications } from '@/api/companyApi';
-import Loading from '@components/common/Loading';
 import { useAppDispatch } from '@/hooks/useDispatchHooks';
 import { hideLoading, showLoading } from '@/store/loadingSlice';
 

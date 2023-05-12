@@ -129,13 +129,24 @@ export const getJobpostDetail = async (jobpostId: number) => {
 };
 
 // 공고검색
-export const getJobPostsSearch = async (type: string, keyword: string) => {
+export const getJobPostsSearch = async (type: string, keyword: string, page: number) => {
   try {
-    const res = await authInstance.get(`/jobposts/search/${type}`, { params: { keyword } });
+    const res = await authInstance.get(`/jobposts/search/${type}`, { params: { keyword, page } });
     console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+// 공고전체조회
+export const getJobPostsList = async (page: number) => {
+  try {
+    const res = await authInstance.get('/jobposts/posts', { params: { page } });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };
 
