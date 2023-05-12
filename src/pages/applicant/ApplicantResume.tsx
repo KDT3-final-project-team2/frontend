@@ -12,6 +12,7 @@ const ApplicantResume = () => {
   const dispatch = useAppDispatch();
   const [resume, setResume] = useState<string>('');
   const [resumeModal, setResumeModal] = useState(false);
+  const [submitTitle, setSubmitTitle] = useState(false);
 
   const getResume = async () => {
     try {
@@ -24,6 +25,7 @@ const ApplicantResume = () => {
         setResume('');
       } else {
         setResume(res.data);
+        setSubmitTitle(true);
         console.log(res);
       }
     } catch (error) {
@@ -45,7 +47,15 @@ const ApplicantResume = () => {
       <button
         className='button'
         onClick={() => {
-          setResumeModal(true);
+          if (resume.length > 0) {
+            AlertModal({
+              message: '이력서는 1개까지 등록 가능합니다.',
+            });
+            setSubmitTitle(true);
+          } else {
+            setResumeModal(true);
+            setSubmitTitle(false);
+          }
         }}
       >
         등록하기
@@ -57,7 +67,9 @@ const ApplicantResume = () => {
           <ResumeList resume={resume} setResume={setResume} setResumeModal={setResumeModal} />
         )}
       </Inner>
-      {resumeModal ? <ResumeModal setResumeModal={setResumeModal} resume={resume} getResume={getResume} /> : null}
+      {resumeModal ? (
+        <ResumeModal setResumeModal={setResumeModal} resume={resume} getResume={getResume} submitTitle={submitTitle} />
+      ) : null}
     </ContainerInner>
   );
 };

@@ -6,7 +6,7 @@ import { pdfjs } from 'react-pdf';
 import AlertModal from '../common/AlertModal';
 import { useAppDispatch } from '@/hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '@/store/loadingSlice';
-import { requestResume } from '@/api/applicantApi';
+import { requestPutResume, requestResume } from '@/api/applicantApi';
 
 // workerSrc 정의 하지 않으면 pdf 보여지지 않습니다.
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -14,10 +14,13 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const ResumeModal = ({
   setResumeModal,
   getResume,
+  resume,
+  submitTitle,
 }: {
   setResumeModal: React.Dispatch<React.SetStateAction<boolean>>;
   resume: string;
   getResume: any;
+  submitTitle: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const [pdfFileList, setPdfFileList] = useState<Array<File>>([]);
@@ -79,13 +82,25 @@ const ResumeModal = ({
     formData.append('resume', file);
     try {
       dispatch(showLoading());
-      const res = await requestResume(formData);
-      if (res.stateCode === 200) {
-        AlertModal({
-          message: '등록됐습니다.',
-        });
-        setResumeModal(false);
-        getResume();
+      let res;
+      submitTitle ? (res = await requestPutResume(formData)) : (res = await requestResume(formData));
+      console.log(resume);
+      if (resume === '') {
+        if (res.stateCode === 200) {
+          AlertModal({
+            message: '등록됐습니다.',
+          });
+          setResumeModal(false);
+          getResume();
+        }
+      } else {
+        if (res.stateCode === 200) {
+          AlertModal({
+            message: '수정되었습니다.',
+          });
+          setResumeModal(false);
+          getResume();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -101,7 +116,7 @@ const ResumeModal = ({
     <ModalBackground>
       <div id='container'>
         <header>
-          <h3>이력서 등록</h3>
+          {submitTitle ? <h3>이력서 수정</h3> : <h3>이력서 등록</h3>}
           <img src='/icons/close.png' alt='닫기' onClick={() => setResumeModal(false)} />
         </header>
         <div id='content'>

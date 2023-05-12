@@ -74,6 +74,12 @@ export const requestResume = async (formData: FormData) => {
   return res.data;
 };
 
+// 이력서 수정
+export const requestPutResume = async (formData: FormData) => {
+  const res = await authInstance.put('/applicant/resume', formData);
+  return res.data;
+};
+
 // 이력서 삭제
 export const deleteResume = async () => {
   const res = await authInstance.delete('/applicant/resume');

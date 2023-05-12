@@ -26,11 +26,14 @@ const ResumeList = ({
     setOpen(!open);
   };
 
-  const handleEditResume = () => {};
+  const handleEditResume = () => {
+    setResumeModal(true);
+  };
 
   const onUrlClick = () => {
     setShowModal(true);
   };
+
   const onPdfClose = () => {
     setShowModal(false);
   };
@@ -45,10 +48,6 @@ const ResumeList = ({
         });
         setResume('');
         setResumeModal(false);
-      } else {
-        AlertModal({
-          message: '삭제할 이력서가 없습니다.',
-        });
       }
     } catch (error) {
       AlertModal({
