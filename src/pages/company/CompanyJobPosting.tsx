@@ -7,7 +7,7 @@ import useJobPostManagement from '@/hooks/useJobPostManagement';
 const CompanyJobPosting = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [saveBtnText, setSaveBtnText] = useState('저장');
-  const {data: jobPosts, mutate: JobDeleteMutate} = useJobPostManagement()
+  const { data: jobPosts, mutate: JobDeleteMutate } = useJobPostManagement();
 
   const showRegistrationModal = () => {
     setIsModalOpen(true);
@@ -30,7 +30,9 @@ const CompanyJobPosting = () => {
           JobDeleteMutate={JobDeleteMutate}
         />
       ))}
-      {jobPosts?.data.length === 0 && <EmptyBox>채용공고를 등록해주세요</EmptyBox>}
+      {jobPosts?.data.find((data: IGetCompanyJobPosts) => data.status === '모집중') ? null : (
+        <EmptyBox>채용공고를 등록해주세요</EmptyBox>
+      )}
       {isModalOpen && <PostEditModal setIsModalOpen={setIsModalOpen} saveBtnText={saveBtnText} />}
     </MainContainer>
   );

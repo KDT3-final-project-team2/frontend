@@ -1,73 +1,53 @@
 import styled from 'styled-components';
 import { Close, ModalBackground, ModalContainer, ModalContentsBox, QualificationsTitle } from './PostEditModal';
 import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
-import { useQuery } from '@tanstack/react-query';
-import { getCompanyJobPostFile, getCompanyJobpostSingle } from '@/api/companyApi';
 import { dateToString } from '@/utils/dateToSTring';
+import useJobPostFile from '@/hooks/useJobPostFile';
+import useJobPostManagement from '@/hooks/useJobPostManagement';
 
 const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
+  const { onClickPdfOpen, jobPostFile } = useJobPostFile(jobPosts?.postId);
+  const { getjobPostSingle } = useJobPostManagement();
+  const jobPostSingle = getjobPostSingle(jobPosts?.postId);
+
   const onClickClose = () => {
     setPreviewModalOpen(false);
   };
 
-  const { data: jobPostSingle } = useQuery(
-    ['jobPostSingle', jobPosts?.postId],
-    () => getCompanyJobpostSingle(jobPosts?.postId),
-    {
-      enabled: !!jobPosts?.postId,
-    },
-  );
-
-  const { data: jobPostFile } = useQuery(
-    ['jobPostFile', 'jobPosts?.postId'],
-    () => getCompanyJobPostFile(jobPosts?.postId),
-    {
-      enabled: !!jobPosts?.postId,
-    },
-  );
-
-  console.log('jobPostFile', jobPostFile);
-
-  const openPDF = () => {
-    window.open(`${jobPostFile?.data}`);
-  };
-
   return (
-    <>
-      <ModalBackground>
-        <ModalContainer>
-          <PreviewModalHeader>
-            <TitleBox>
-              <SiteTitle>{jobPostSingle?.data.companyNm}</SiteTitle>
-              <PostingTitle>{jobPostSingle?.data.title}</PostingTitle>
-            </TitleBox>
-            <Close src={'/icons/close.png'} onClick={onClickClose} />
-          </PreviewModalHeader>
-          <ApplyBtn>지원하기</ApplyBtn>
-          <ModalContentsBox>
-            <QualificationsTitle>모집분야 및 지원자격</QualificationsTitle>
-            <QualificationsBox>
-              <PostingContents title='직종' contents={jobPostSingle?.data.sector} />
-              <PostingContents title='경력' contents={jobPostSingle?.data.workExperience} />
-              <PostingContents title='학력' contents={jobPostSingle?.data.education} />
-            </QualificationsBox>
-            <QualificationsBox>
-              <PostingContents title='모집인원' contents={jobPostSingle?.data.maxApplicants} />
-              <PostingContents title='마감일' contents={dateToString(jobPostSingle?.data.dueDate)} />
-            </QualificationsBox>
-            <QualificationsBox>
-              <ContentsBox>
-                <ContentsTitle>공고 PDF</ContentsTitle>
-                <FileBox>
-                  <File data={jobPostFile?.data} type='application/pdf' />
-                </FileBox>
-                <PdfBtn onClick={openPDF}>pdf 열기</PdfBtn>
-              </ContentsBox>
-            </QualificationsBox>
-          </ModalContentsBox>
-        </ModalContainer>
-      </ModalBackground>
-    </>
+    <ModalBackground>
+      <ModalContainer>
+        <PreviewModalHeader>
+          <TitleBox>
+            <SiteTitle>{jobPostSingle?.data.companyNm}</SiteTitle>
+            <PostingTitle>{jobPostSingle?.data.title}</PostingTitle>
+          </TitleBox>
+          <Close src={'/icons/close.png'} onClick={onClickClose} />
+        </PreviewModalHeader>
+        <ApplyBtn>지원하기</ApplyBtn>
+        <ModalContentsBox>
+          <QualificationsTitle>모집분야 및 지원자격</QualificationsTitle>
+          <QualificationsBox>
+            <PostingContents title='직종' contents={jobPostSingle?.data.sector} />
+            <PostingContents title='경력' contents={jobPostSingle?.data.workExperience} />
+            <PostingContents title='학력' contents={jobPostSingle?.data.education} />
+          </QualificationsBox>
+          <QualificationsBox>
+            <PostingContents title='모집인원' contents={jobPostSingle?.data.maxApplicants} />
+            <PostingContents title='마감일' contents={dateToString(jobPostSingle?.data.dueDate)} />
+          </QualificationsBox>
+          <QualificationsBox>
+            <ContentsBox>
+              <ContentsTitle>공고 PDF</ContentsTitle>
+              <FileBox>
+                <File data={jobPostFile?.data} type='application/pdf' />
+              </FileBox>
+              <PdfBtn onClick={onClickPdfOpen}>pdf 열기</PdfBtn>
+            </ContentsBox>
+          </QualificationsBox>
+        </ModalContentsBox>
+      </ModalContainer>
+    </ModalBackground>
   );
 };
 
