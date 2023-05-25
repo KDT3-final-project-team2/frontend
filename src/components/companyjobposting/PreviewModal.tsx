@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { Close, ModalBackground, ModalContainer, ModalContentsBox, QualificationsTitle } from './PostEditModal';
-import { IPostingContensProps, IPreviewModalProps } from '../../@types/props';
+import { IPreviewModalProps } from '../../@types/props';
 import { dateToString } from '@/utils/dateToSTring';
 import useJobPostFile from '@/hooks/useJobPostFile';
 import useJobPostManagement from '@/hooks/useJobPostManagement';
+import PostingContents from './PostingContents';
 
 const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
   const { onClickPdfOpen, jobPostFile } = useJobPostFile(jobPosts?.postId);
@@ -48,15 +49,6 @@ const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => 
         </ModalContentsBox>
       </ModalContainer>
     </ModalBackground>
-  );
-};
-
-export const PostingContents = ({ title, contents }: IPostingContensProps) => {
-  return (
-    <ContentsBox>
-      <ContentsTitle>{title}</ContentsTitle>
-      <Contents>{contents}</Contents>
-    </ContentsBox>
   );
 };
 
@@ -116,19 +108,19 @@ const QualificationsBox = styled.div`
   margin-bottom: 50px;
 `;
 
-const ContentsBox = styled.div`
+export const ContentsBox = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
 `;
 
-const ContentsTitle = styled.h3`
+export const ContentsTitle = styled.h3`
   font-weight: 700;
   font-size: 16px;
   color: #374151;
 `;
 
-const Contents = styled.p``;
+export const Contents = styled.p``;
 
 const FileBox = styled.div`
   background: #d2d5da;
