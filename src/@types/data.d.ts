@@ -383,3 +383,42 @@ interface Sort2 {
   unsorted: boolean;
   sorted: boolean;
 }
+
+interface IJobPostSingleData {
+  stateCode: number;
+  success: boolean;
+  message: string;
+  data: {
+    postId: number;
+    title: string;
+    sector: string;
+    education: string;
+    workExperience: string;
+    companyNm: string;
+    companyTel: string;
+    startDate: string;
+    dueDate: string;
+    createDate: any;
+    editDate: any;
+    maxApplicants: number;
+    filePath: string;
+    status: string;
+  };
+}
+
+interface SigleData {
+  postId: number;
+  title: string;
+  sector: string;
+  education: string;
+  workExperience: string;
+  companyNm: string;
+  companyTel: string;
+  startDate: string;
+  dueDate: string;
+  createDate: any;
+  editDate: any;
+  maxApplicants: number;
+  filePath: string;
+  status: string;
+}

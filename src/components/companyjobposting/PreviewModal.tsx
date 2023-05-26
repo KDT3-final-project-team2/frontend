@@ -8,8 +8,7 @@ import PostingContents from './PostingContents';
 
 const PreviewModal = ({ setPreviewModalOpen, jobPosts }: IPreviewModalProps) => {
   const { onClickPdfOpen, jobPostFile } = useJobPostFile(jobPosts?.postId);
-  const { getjobPostSingle } = useJobPostManagement();
-  const jobPostSingle = getjobPostSingle(jobPosts?.postId);
+  const { jobPostSingle } = useJobPostManagement(jobPosts?.postId);
 
   const onClickClose = () => {
     setPreviewModalOpen(false);
