@@ -7,47 +7,21 @@ import { jobPostSchema } from '../../utils/validationSchema';
 import { educationOptions, sectorOptions, workExperiencerOptions } from '@/constants/jobPostingOptions';
 import { InputBox } from './InputBox';
 import { SelectBox } from './SelectBox';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCompanyJobPostFile, getCompanyJobpostSingle, postJobPosts, putJobPosts } from '@/api/companyApi';
 import { optionChangeToEnglish } from '@/utils/optionChangeToEnglish';
+import useJobPostManagement from '@/hooks/useJobPostManagement';
+import useJobPostFile from '@/hooks/useJobPostFile';
 
 const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }: IModalProps) => {
+  const onClickModalClose = () => {
+    if (setIsEditModal) setIsEditModal(false);
+    if (setIsModalOpen) setIsModalOpen(false);
+  };
+
   const [selectedFile, setSelectedFile] = useState<File>();
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const queryClient = useQueryClient();
-  const { mutate: jobPostMutate } = useMutation(postJobPosts, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['jobPosts']);
-    },
-  });
-  const { mutate: jobPutMutate } = useMutation(putJobPosts, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['jobPosts']);
-    },
-  });
-  const { data: jobPostSingle } = useQuery(
-    ['jobPostSingle', jobPosts?.postId],
-    () => {
-      if (jobPosts) {
-        return getCompanyJobpostSingle(jobPosts.postId);
-      }
-    },
-    {
-      enabled: !!jobPosts?.postId,
-    },
-  );
-  const { data: jobPostFile } = useQuery(
-    ['jobPostFile', 'jobPosts?.postId'],
-    () => {
-      if (jobPosts) return getCompanyJobPostFile(jobPosts.postId);
-    },
-    {
-      enabled: !!jobPosts?.postId,
-    },
-  );
-
-  console.log('jobPostFile', jobPostFile);
+  const { jobPostSingle, jobPostMutate, jobPutMutate } = useJobPostManagement(jobPosts?.postId);
+  const { jobPostFile } = useJobPostFile(jobPosts?.postId);
 
   const { register, handleSubmit, formState, setValue, trigger } = useForm<IPostingInput>({
     resolver: yupResolver(jobPostSchema),
@@ -59,7 +33,7 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
       education: optionChangeToEnglish(jobPostSingle?.data.education),
       recruitNum: jobPostSingle?.data.maxApplicants,
       dueDate: jobPostSingle?.data.dueDate,
-      file: jobPostFile?.data,
+      file: jobPostFile?.data.file,
       startDate: jobPostSingle?.data.startDate,
     },
   });
@@ -80,10 +54,6 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     const formData = new FormData();
     formData.append('requestDTO', JSON.stringify(postData));
     if (data.file) formData.append('jobpostFile', data.file);
-    console.log('dd');
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
     if (saveBtnText === '등록하기') {
       jobPostMutate(formData);
       if (setIsModalOpen) setIsModalOpen(false);
@@ -102,16 +72,10 @@ const PostEditModal = ({ setIsModalOpen, setIsEditModal, jobPosts, saveBtnText }
     fileRef.current?.click();
   };
 
-  const onClickModalClose = () => {
-    if (setIsEditModal) setIsEditModal(false);
-    if (setIsModalOpen) setIsModalOpen(false);
-  };
-
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files?.[0]) {
       setSelectedFile(event.target.files[0]);
       setValue('file', event.target.files[0]);
-      console.log(event.target.files?.[0]);
     }
   };
 

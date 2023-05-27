@@ -1,5 +1,5 @@
 import { HeaderBox, MainContainer } from '../company/CompanyJobPosting';
-import { useJobPosts } from '@/hooks/useJobPosts';
+import { useJobSearchInfinite } from '@/hooks/useJobSearchInfinite';
 import BannerBox from '@/components/applicantJobSearching/BannerBox';
 import useSearchFilter from '@/hooks/useSearchFilter';
 import SearchFilter from '@/components/applicantJobSearching/SearchFilter/SearchFilter';
@@ -8,7 +8,7 @@ import JobPostsDisplay from '@/components/applicantJobSearching/JobPostsDisplay/
 const ApplicantJobSearching = () => {
   const { selectedOption, searchingData, handleCategoryChange, handleSearchOptionChange, handleSearchInputChange } =
     useSearchFilter();
-  const [jobPostsList] = useJobPosts(selectedOption, searchingData);
+  const [jobPostsList] = useJobSearchInfinite(selectedOption, searchingData);
 
   return (
     <MainContainer>

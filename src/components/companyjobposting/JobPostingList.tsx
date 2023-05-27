@@ -4,17 +4,13 @@ import { IJobPostingListProps } from '../../@types/props';
 import PreviewModal from './PreviewModal';
 import PostEditModal from './PostEditModal';
 import ConfirmModal from '../common/ConfirmModal';
+import DropDown from './DropDown';
+import useOpenToggle from '@/hooks/useOpenToggle';
 
 const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText, JobDeleteMutate }: IJobPostingListProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, toggleOpen, setIsOpen } = useOpenToggle();
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-
-  console.log(jobPosts);
-
-  const onClickToggle = () => {
-    setIsOpen(!isOpen);
-  };
 
   const onClickClose = () => {
     if (isOpen) setIsOpen(false);
@@ -46,19 +42,12 @@ const JobPostingList = ({ jobPosts, setSaveBtnText, saveBtnText, JobDeleteMutate
           <IconContainer>
             <Preview onClick={PreviewModalOpen}>미리보기</Preview>
             <Link src='/icons/link.png' />
-            <DropDown>
-              <Vertical src='/icons/more_vertical.png' onClick={onClickToggle} />
-              {isOpen && (
-                <DropDownBox>
-                  <Edit onClick={EditModalOpen}>
-                    <p>수정</p>
-                  </Edit>
-                  <Delete onClick={onClickDisCard}>
-                    <p>폐기</p>
-                  </Delete>
-                </DropDownBox>
-              )}
-            </DropDown>
+            <DropDown
+              isOpen={isOpen}
+              onClickToggle={toggleOpen}
+              EditModalOpen={EditModalOpen}
+              onClickDisCard={onClickDisCard}
+            />
           </IconContainer>
         </NoticeContainer>
       )}
@@ -110,37 +99,3 @@ export const IconContainer = styled.div`
 const Link = styled.img`
   cursor: pointer;
 `;
-
-const Vertical = styled(Link)``;
-
-const DropDown = styled.div`
-  position: relative;
-`;
-
-const DropDownBox = styled.div`
-  margin-top: 10px;
-  position: absolute;
-  width: 140px;
-  height: 99px;
-  left: -120px;
-  background-color: #fff;
-  box-shadow: 2px 2px 10px 2px rgba(67, 87, 172, 0.15);
-  border-radius: 10px;
-  padding: 16px 0;
-  z-index: 1;
-`;
-
-const Edit = styled.div`
-  width: 140px;
-  height: 34px;
-  &:hover {
-    background: #b3c2e7;
-    color: #fff;
-    cursor: pointer;
-  }
-  display: flex;
-  align-items: center;
-  padding: 9px 20px 8px 20px;
-`;
-
-const Delete = styled(Edit)``;

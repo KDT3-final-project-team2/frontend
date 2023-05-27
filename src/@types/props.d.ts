@@ -205,3 +205,7 @@ export interface IJobPostDetailProps {
   onClickApply: () => void;
   onClickPdfOpen: () => Window | null;
 }
+
+export interface IJobPostsDisplayProps {
+  jobPostsList: any;
+}
