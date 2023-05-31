@@ -28,14 +28,12 @@ export const AdminTerm = () => {
     term = data;
   }
 
-  console.log(term);
-
   return (
     <MainContainer>
       <HeaderBox>
         <RecruitmentNotice>약관 관리</RecruitmentNotice>
         <ViewTerms>약관 조회</ViewTerms>
-        <RegistrationButton onClick={onClickTermPost}>작성하기</RegistrationButton>
+        <RegistBtn onClick={onClickTermPost}>작성하기</RegistBtn>
       </HeaderBox>
       {term?.data.map((data: adminTermSingleData, index: number) => (
         <TermList
@@ -62,4 +60,7 @@ const ViewTerms = styled.h2`
   margin-top: 50px;
   width: 100px;
   border-bottom: 5px solid;
+`;
+const RegistBtn = styled(RegistrationButton)`
+  margin-right: 0px;
 `;

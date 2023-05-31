@@ -22,6 +22,7 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
     setValue(value);
   };
 
+  // 모든 등록된 달력 일정 중, 선택 된 날짜에 등록된 일정이 있는지 찾습니다.
   const filterSchedule = schedule?.filter(
     (selectDate: GetCalendarData) => selectDate.calendarDate === dateToString(value),
   );
@@ -31,6 +32,7 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
   if (schedule) {
     for (const data of schedule) {
       const arr = [];
+      // ex) "calendarDate": "2023-04-09"
       const selectyear = parseInt(data.calendarDate.substring(0, 4));
       arr.push(selectyear);
       const selectmonth = parseInt(data.calendarDate.substring(5, 7));
@@ -93,14 +95,15 @@ const CalendarUI = ({ schedule, schedulePostMutate, scheduleDeleteMutate, schedu
   return (
     <div>
       <StyledCalendar
-        value={value}
-        showNeighboringMonth={false}
-        navigationLabel={({ date }: { date: Date }) => `${date.getFullYear()}. ${date.getMonth() + 1}`}
+        value={value} // 현재 선택된 날짜
+        showNeighboringMonth={false} // false : 현재 달력에 표시된 달의 이전 달과 다음 달의 날짜는 표시되지 않는다.
+        navigationLabel={({ date }: { date: Date }) => `${date.getFullYear()}. ${date.getMonth() + 1}`} // 달력 네비게이션 옆에 년, 월이 표시되는데 어떤 방식으로 표시할 지 커스터마이징
         onChange={onChangeDate}
-        tileClassName={tileClassName}
-        formatDay={formatDay}
+        tileClassName={tileClassName} // 해당 날짜가 특정 조건을 만족하면 해당 날짜에 css 클래스 이름을 붙여줍니다.('highlighted', 'selected') .highlighted, .selected를 사용해 css코드를 작성해두었습니다.
+        formatDay={formatDay} // 원래는 달력에 날짜에 '1일', '2일' 이렇게 적혀있었는데 그냥 숫자만 적히게 하기 위해서
       />
       <DayWrapper>
+        {/* 날짜에 그냥 +1, -1을 해주면 1일을 클릭 시 옆에 -1, -2, -3이라고 나와서 이렇게 getPreviousDayString, getAfterDayString 함수를 만들어 처리했습니다. */}
         {[3, 2, 1].map(numDays => (
           <DayGrayBox key={numDays}>
             <p>{getPreviousDayString(numDays)}</p>

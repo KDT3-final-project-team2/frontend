@@ -54,7 +54,6 @@ export const MainContainer = styled.div`
 `;
 
 export const HeaderBox = styled.div`
-  width: 93%;
   padding: 0 70px;
 `;
 
