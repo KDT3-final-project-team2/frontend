@@ -19,7 +19,6 @@ const ScheduleElement = ({ schedule, scheduleDeleteMutate, schedulePutMutate }: 
   };
 
   const onSubmitEditSchedule = (data: IScheduleData) => {
-    console.log(data);
     schedulePutMutate({
       todoId: schedule?.calendarId,
       schedule: {
