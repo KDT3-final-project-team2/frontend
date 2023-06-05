@@ -7,9 +7,9 @@ import useApply from '@/hooks/useApply';
 import useJobPostFile from '@/hooks/useJobPostFile';
 
 const JobSearchingList = ({ searchData }: { searchData: JobPostsSearchData }) => {
-  const [open, onClickSearchContentsOpen] = useOpenToggle();
+  const { isOpen: open, toggleOpen: onClickSearchContentsOpen } = useOpenToggle();
   const onClickApply = useApply(searchData);
-  const onClickPdfOpen = useJobPostFile(searchData);
+  const { onClickPdfOpen } = useJobPostFile(searchData?.jobpostId);
 
   return (
     <PostingListContainer open={open}>

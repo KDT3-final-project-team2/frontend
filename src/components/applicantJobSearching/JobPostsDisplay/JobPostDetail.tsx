@@ -1,5 +1,5 @@
 import { IJobPostDetailProps } from '@/@types/props';
-import { PostingContents } from '@/components/companyjobposting/PreviewModal';
+import PostingContents from '@/components/companyjobposting/PostingContents';
 import { Border } from '@/components/term.tsx/TermList';
 import { RegistrationButton } from '@/pages/company/CompanyJobPosting';
 import { dateToString } from '@/utils/dateToSTring';

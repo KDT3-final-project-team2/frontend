@@ -2,29 +2,18 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import JobPostingList from '../../components/companyjobposting/JobPostingList';
 import PostEditModal from '../../components/companyjobposting/PostEditModal';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteJobPost, getCompanyJobposts } from '@/api/companyApi';
-import { useAppDispatch } from '@/hooks/useDispatchHooks';
-import { hideLoading, showLoading } from '@/store/loadingSlice';
+import useJobPostManagement from '@/hooks/useJobPostManagement';
 
 const CompanyJobPosting = () => {
-  const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [saveBtnText, setSaveBtnText] = useState('저장');
+  const { data: jobPosts, mutate: JobDeleteMutate } = useJobPostManagement();
 
   const showRegistrationModal = () => {
     setIsModalOpen(true);
     setSaveBtnText('등록하기');
   };
 
-  const { data: jobPosts, isLoading } = useQuery(['jobPosts'], getCompanyJobposts);
-  const queryClient = useQueryClient();
-  const { mutate: JobDeleteMutate } = useMutation(deleteJobPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['jobPosts']);
-    },
-  });
-  console.log(jobPosts);
   return (
     <MainContainer>
       <HeaderBox>
@@ -41,7 +30,9 @@ const CompanyJobPosting = () => {
           JobDeleteMutate={JobDeleteMutate}
         />
       ))}
-      {jobPosts?.data.length === 0 && <EmptyBox>채용공고를 등록해주세요</EmptyBox>}
+      {jobPosts?.data.find((data: IGetCompanyJobPosts) => data.status === '모집중') ? null : (
+        <EmptyBox>채용공고를 등록해주세요</EmptyBox>
+      )}
       {isModalOpen && <PostEditModal setIsModalOpen={setIsModalOpen} saveBtnText={saveBtnText} />}
     </MainContainer>
   );
@@ -63,7 +54,6 @@ export const MainContainer = styled.div`
 `;
 
 export const HeaderBox = styled.div`
-  width: 93%;
   padding: 0 70px;
 `;
 

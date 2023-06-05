@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import JobSearchingList from './JobSearchingList';
+import { IJobPostsDisplayProps } from '@/@types/props';
 
-const JobPostsDisplay = ({ jobPostsList }: any) => {
+const JobPostsDisplay = ({ jobPostsList }: IJobPostsDisplayProps) => {
   return (
     <>
       <ListHeader>공고 리스트</ListHeader>

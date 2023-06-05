@@ -1,13 +1,12 @@
 import { ITermListProps } from '@/@types/props';
 import { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
-import { IconContainer, NoticeContainer } from '../companyjobposting/JobPostingList';
+import { IconContainer } from '../companyjobposting/JobPostingList';
 import { NoticeTitle } from './../companyjobposting/JobPostingList';
 import TermPostEditModal from './TermPostEditModal';
 import ConfirmModal from '../common/ConfirmModal';
 import { getAdminTermSingle, updateAdminTerm } from '@/api/adminApi';
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
 import { getCompanyTermSingle, updateCompanyTerm } from '@/api/companyApi';
 import { dateToString } from '@/utils/dateToSTring';
 import { termChangeToEnglish } from '@/utils/termChangeToEnglish';

@@ -1,14 +1,14 @@
 import { getCompanyJobPostFile } from '@/api/companyApi';
 import { useQuery } from '@tanstack/react-query';
 
-const useJobPostFile = (searchData: JobPostsSearchData) => {
+const useJobPostFile = (id?: number) => {
   const { data: jobPostFile } = useQuery(
-    ['jobPosts', searchData?.jobpostId],
+    ['jobPosts', id],
     () => {
-      if (searchData) return getCompanyJobPostFile(searchData.jobpostId);
+      if (id) return getCompanyJobPostFile(id);
     },
     {
-      enabled: !!searchData?.jobpostId,
+      enabled: !!id,
     },
   );
 
@@ -16,7 +16,7 @@ const useJobPostFile = (searchData: JobPostsSearchData) => {
     return window.open(`${jobPostFile?.data}`);
   };
 
-  return onClickPdfOpen;
+  return { onClickPdfOpen, jobPostFile };
 };
 
 export default useJobPostFile;
