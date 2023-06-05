@@ -12,7 +12,7 @@ export const ViewPDF = ({ fileUrl }: Props) => {
 
   const Inner = styled.div`
     width: 1200px;
-    height: 700px;
+    height: 680px;
     overflow: auto;
     position: relative;
     .react-pdf__Page__textContent {
@@ -24,8 +24,8 @@ export const ViewPDF = ({ fileUrl }: Props) => {
   `;
 
   const Content = styled.div`
-    position: absolute;
-    bottom: 20px;
+    position: fixed;
+    bottom: 50px;
     left: 50%;
     margin-left: -100px;
     width: 200px;
@@ -51,7 +51,12 @@ export const ViewPDF = ({ fileUrl }: Props) => {
 
   return (
     <Inner>
-      <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+      <Document
+        file={{
+          url: fileUrl,
+        }}
+        onLoadSuccess={onDocumentLoadSuccess}
+      >
         <Page width={1280} height={720} pageNumber={pageNumber} />
       </Document>
       <Content>

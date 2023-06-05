@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ModalBackground } from '@components/mainhome/EmailModal';
 import { ViewPDF } from './pdf/ViewPDF';
@@ -6,12 +6,22 @@ import { pdfjs } from 'react-pdf';
 import AlertModal from '../common/AlertModal';
 import { useAppDispatch } from '@/hooks/useDispatchHooks';
 import { showLoading, hideLoading } from '@/store/loadingSlice';
-import { requestResume } from '@/api/applicantApi';
+import { requestPutResume, requestResume } from '@/api/applicantApi';
 
 // workerSrc 정의 하지 않으면 pdf 보여지지 않습니다.
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const ResumeModal = ({
+  setResumeModal,
+  getResume,
+  resume,
+  submitTitle,
+}: {
+  setResumeModal: React.Dispatch<React.SetStateAction<boolean>>;
+  resume: string;
+  getResume: any;
+  submitTitle: boolean;
+}) => {
   const dispatch = useAppDispatch();
   const [pdfFileList, setPdfFileList] = useState<Array<File>>([]);
   const [pdfUrl, setPdfUrl] = useState<string>();
@@ -32,7 +42,6 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
     setPdfFileList(selectedList);
     if (e.target.files?.[0]) {
       setSelectedFile(e.target.files[0]);
-      console.log(e.target.files?.[0]);
     }
   };
 
@@ -43,6 +52,7 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
   const onUrlClick = (e: any) => {
     setShowModal(true);
   };
+
   const onPdfClose = (e: any) => {
     setShowModal(false);
   };
@@ -69,16 +79,28 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
 
   const submitResume = async (file: any) => {
     const formData = new FormData();
-    console.log(formData);
     formData.append('resume', file);
     try {
       dispatch(showLoading());
-      const res = await requestResume(formData);
-      if (res.stateCode === 200) {
-        AlertModal({
-          message: '등록됐습니다.',
-        });
-        location.reload();
+      let res;
+      submitTitle ? (res = await requestPutResume(formData)) : (res = await requestResume(formData));
+      console.log(resume);
+      if (resume === '') {
+        if (res.stateCode === 200) {
+          AlertModal({
+            message: '등록됐습니다.',
+          });
+          setResumeModal(false);
+          getResume();
+        }
+      } else {
+        if (res.stateCode === 200) {
+          AlertModal({
+            message: '수정되었습니다.',
+          });
+          setResumeModal(false);
+          getResume();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -94,7 +116,7 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
     <ModalBackground>
       <div id='container'>
         <header>
-          <h3>이력서 등록</h3>
+          {submitTitle ? <h3>이력서 수정</h3> : <h3>이력서 등록</h3>}
           <img src='/icons/close.png' alt='닫기' onClick={() => setResumeModal(false)} />
         </header>
         <div id='content'>
@@ -110,11 +132,21 @@ const ResumeModal = ({ setResumeModal }: { setResumeModal: React.Dispatch<React.
                 <ViewPDF fileUrl={pdfUrl} />
               </PdfContainer>
             </ModalOverlay>
-            <form className={pdfFileList.length !== 0 ? 'hide' : ''}>
-              <label htmlFor='uploadFile'>파일 업로드하기</label>
-              <input type='file' id='uploadFile' accept='.pdf' onChange={onPdfFileUpload} ref={fileRef} />
-            </form>
-            {pdfFileList.length === 0 ? null : <FileResultList />}
+            {pdfFileList.length === 0 ? (
+              <form>
+                <label htmlFor='uploadFile'>파일 업로드하기</label>
+                <input
+                  type='file'
+                  id='uploadFile'
+                  accept='.pdf'
+                  multiple={true}
+                  onChange={onPdfFileUpload}
+                  ref={fileRef}
+                />
+              </form>
+            ) : (
+              <FileResultList />
+            )}
           </MainContainer>
         </div>
         <div id='buttons'>
@@ -195,11 +227,10 @@ const FileResultRow = styled.div`
   }
 `;
 
-const ModalOverlay = styled.div`
+export const ModalOverlay = styled.div`
   box-sizing: border-box;
   display: ${({ showModal }: { showModal: boolean }) => (showModal ? 'flex' : 'none')};
   justify-content: center;
-  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -207,14 +238,15 @@ const ModalOverlay = styled.div`
   right: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
+  padding-top: 4%;
 `;
 
-const PdfContainer = styled.div`
+export const PdfContainer = styled.div`
   display: flex;
   position: relative;
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;

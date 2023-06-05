@@ -10,20 +10,23 @@ import { Inner, NoList } from '@/components/companyApplicant/ApplicantsInfo';
 
 const ApplicantResume = () => {
   const dispatch = useAppDispatch();
-  const [resume, setResume] = useState([]);
+  const [resume, setResume] = useState<string>('');
   const [resumeModal, setResumeModal] = useState(false);
+  const [submitTitle, setSubmitTitle] = useState(false);
 
   const getResume = async () => {
     try {
       dispatch(showLoading());
       const res = await getApplicantResume();
-      if (res.stateCode === 401) {
+      if (res.stateCode === 401 || res.stateCode === 404) {
         AlertModal({
           message: '등록된 이력서가 없습니다.',
         });
-        setResume([]);
+        setResume('');
       } else {
         setResume(res.data);
+        setSubmitTitle(true);
+        console.log(res);
       }
     } catch (error) {
       AlertModal({
@@ -36,7 +39,7 @@ const ApplicantResume = () => {
 
   useEffect(() => {
     getResume();
-  }, []);
+  }, [resume]);
 
   return (
     <ContainerInner>
@@ -44,13 +47,29 @@ const ApplicantResume = () => {
       <button
         className='button'
         onClick={() => {
-          setResumeModal(true);
+          if (resume.length > 0) {
+            AlertModal({
+              message: '이력서는 1개까지 등록 가능합니다.',
+            });
+            setSubmitTitle(true);
+          } else {
+            setResumeModal(true);
+            setSubmitTitle(false);
+          }
         }}
       >
         등록하기
       </button>
-      <Inner>{resume.length === 0 ? <NoList>등록한 이력서가 없습니다.</NoList> : <ResumeList resume={resume} />}</Inner>
-      {resumeModal ? <ResumeModal setResumeModal={setResumeModal} /> : null}
+      <Inner>
+        {resume.length === 0 ? (
+          <NoList>등록한 이력서가 없습니다.</NoList>
+        ) : (
+          <ResumeList resume={resume} setResume={setResume} setResumeModal={setResumeModal} />
+        )}
+      </Inner>
+      {resumeModal ? (
+        <ResumeModal setResumeModal={setResumeModal} resume={resume} getResume={getResume} submitTitle={submitTitle} />
+      ) : null}
     </ContainerInner>
   );
 };
