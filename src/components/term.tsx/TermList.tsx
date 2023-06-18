@@ -10,6 +10,7 @@ import { UseMutateFunction, useMutation, useQuery, useQueryClient } from '@tanst
 import { getCompanyTermSingle, updateCompanyTerm } from '@/api/companyApi';
 import { dateToString } from '@/utils/dateToSTring';
 import { termChangeToEnglish } from '@/utils/termChangeToEnglish';
+import DOMPurify from 'dompurify';
 
 const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }: ITermListProps) => {
   const [open, setOpen] = useState(index === 0 ? true : false);
@@ -115,7 +116,7 @@ const TermList = ({ index, term, setSaveBtnText, setTermModalOpen, saveBtnText }
                 <div className='contentsborder'>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: termSingle?.data.content,
+                      __html: DOMPurify.sanitize(termSingle?.data.content),
                     }}
                   ></p>
                 </div>
